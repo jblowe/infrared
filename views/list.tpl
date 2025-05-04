@@ -19,9 +19,11 @@
                     % end
                 </dl>
             </div>
-            <div class="col-sm-4">
-                <img class="thumbnail" src="{{r[data['image_field']]}}">
-            </div>
+            % if data['image_field'] in r:
+                <div class="col-sm-4">
+                    <img class="thumbnail" src="{{r[data['image_field']]}}">
+                </div>
+            % end
         </div>
         % end
     </div>
