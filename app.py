@@ -14,7 +14,7 @@ import utils
 dirname = os.path.dirname(os.path.abspath(__file__))
 
 # add version and start timestamp to footer
-BaseTemplate.defaults['footer_info'] = utils.add_time_and_version()
+BaseTemplate.defaults['FOOTER_INFO'] = utils.add_time_and_version()
 
 x = list(vars(parmz).keys())
 
@@ -49,13 +49,16 @@ def index(data=None):
     parameters = request.forms
     if parameters == {}:
         parameters = {'terms': {'*': '*'},
+                      'controls': {},
                       'result_fields': [p[1] for p in FIELD_DEFINITIONS['LIST']],
                       'facet_fields': [p[1] for p in FIELD_DEFINITIONS['FACETS']]
                       }
     data['selected_field'] = ''
-    data['query_string'] = 'facet/?'
+    data['query_string'] = ''
     data['results'] = utils.query(parameters)
-    del parameters['terms']['*']
+    data['terms'] = parameters['terms']
+    del data['terms']['*']
+    data['controls'] = parameters['controls']
     data['content'] = data['results']['results']
     return utils.check_template('index', data, request.forms)
 
@@ -72,29 +75,42 @@ def facet():
     terms = {}
     r = request
     query = dict(request.query.decode())
-    parameters = {
-        'result_fields': [p[1] for p in parmz.LIST],
-        'facet_fields': [p[1] for p in parmz.FACETS]
-    }
-    control_names = 'display start_page per_page'.split(' ')
-    to_remove = set()
+    control_names = 'display start_page per_page view'.split(' ')
     controls = {}
+
+    base_query = dict(request.query)
+    current_view = query.get('view', 'FULL').upper()  # Default to 'FULL' if not set
+    query['view'] = current_view
+    base_query.pop('view', None)
+
+    if 'search' in query:
+        terms[query['search_field']] = query['search_value']
+        del query['search']
+        del query['search_field']
+        del query['search_value']
     for f in query:
         if f in control_names:
-            controls[c] = query[f]
-        elif f == 'remove':
-            to_remove.add(query[f])
+            controls[f] = query[f]
         else:
             terms[f] = query[f]
-    for s in to_remove:
-        del terms[s]
-    parameters['terms'] = terms
+
+    parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS[current_view]],
+                  'facet_fields': [p[1] for p in parmz.FACETS],
+                  'terms': terms,
+                  'controls': controls
+                  }
     data = {}
-    data['selected_field'] = ''
-    data['query_string'] = '?' + urlencode(terms) + '&' + urlencode(controls)
     data['results'] = utils.query(parameters)
+    data['selected_field'] = ''
+    data['result_fields'] = FIELD_DEFINITIONS[current_view]
+    data['terms'] = terms
+    data['controls'] = controls
+    x = terms | controls
+    data['query_string'] = urlencode(terms | controls)
+    data['base_string'] = urlencode(base_query)
+    # data['query_string'] = '?' + '&'.join([urlencode(terms), urlencode(controls)])
     data['content'] = data['results']['results']
-    return utils.check_template('index', data, request.forms)
+    return utils.check_template('index', data, request)
 
 
 @route('/remove/<term:re:.*>')

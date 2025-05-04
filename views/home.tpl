@@ -3,5 +3,5 @@
 home
 </p>
 <p>
-The code and data are available in <a href="https://github.com/jblowe/RE">GitHub</a>.
+The code and data are available in <a href="https://github.com/jblowe/infrared">GitHub</a>.
 </p>

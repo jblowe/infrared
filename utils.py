@@ -1,7 +1,8 @@
 import os, time, sys
 import lxml.etree as ET
+from urllib.parse import urlencode
 
-from bottle import template
+from bottle import template, redirect
 
 from config import *
 import solr_query
@@ -28,22 +29,25 @@ def add_time_and_version():
         get_version(), time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()))
 
 
-def check_template(tpl, data, parameters):
+def check_template(tpl, data, request):
     if 'back' not in data:
         data['back'] = '/'
+    # redirect('/facet/' + data['query_string'])
+
     return template(tpl, data=data)
 
 
 def query(parameters):
-    query_terms = parameters['terms']
-    for q in query_terms:
+    query_terms = {}
+    for q in parameters['terms']:
         if q != '*':
-            query_terms[q] = f'"{query_terms[q]}"'
+            query_terms[q] = f"\"{parameters['terms'][q]}\""
+        else:
+            query_terms[q] = parameters['terms'][q]
     result_fields = parameters['result_fields']
     facet_fields = parameters['facet_fields']
-    row_limit = 10
-    facet_limit = 5
-    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, row_limit, facet_limit)
+    ROW_LIMIT = 10
+    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT)
     return results
 
 

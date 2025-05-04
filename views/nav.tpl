@@ -1,9 +1,9 @@
 <!-- Static navbar -->
-<nav class="navbar navbar-expand-md navbar-dark" style="background-color: {{ banner_color }};">
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: {{ BANNER_COLOR }};">
   <div class="container">
     <div class="row">
-        <div class="col-md-8">
-          <a class="navbar-brand" href="/">{{ banner }}</a>
+        <div class="col-md-9">
+          <a class="navbar-brand" href="/">{{ BANNER }}</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>

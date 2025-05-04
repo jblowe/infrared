@@ -9,7 +9,7 @@
                 <h5>{{ i+1 }}</h5>
             </header>
             <dl class="row lh-sm">
-                % for x in FULL:
+                % for x in data['result_fields']:
                     % if x[1] in r:
                         <dt class="col-sm-3 lh-sm">
                             {{ x[0] }}

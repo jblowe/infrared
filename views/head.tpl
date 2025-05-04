@@ -2,9 +2,9 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="{{ title }}">
+	<meta name="description" content="{{ TITLE }}">
 	<link rel="icon" href="/static/favicon.ico">
-	<title>{{ title }}</title>
+	<title>{{ TITLE }}</title>
 
     <script type="text/javascript" src="/static/jquery.min.js"></script>
     <script type="text/javascript" src="/static/popper.min.js"></script>
