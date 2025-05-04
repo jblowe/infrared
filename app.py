@@ -42,6 +42,11 @@ def send_font(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'webfonts'))
 
 
+@route('/images/<filename:re:.*>')
+def send_image(filename):
+    return static_file(filename, root=dirname + os.sep + os.path.join('images'))
+
+
 @route('/')
 def index(data=None):
     if data is None:
@@ -108,6 +113,7 @@ def facet():
     x = terms | controls
     data['query_string'] = urlencode(terms | controls)
     data['base_string'] = urlencode(base_query)
+    data['image_field'] = parmz.IMAGE_FIELD
     # data['query_string'] = '?' + '&'.join([urlencode(terms), urlencode(controls)])
     data['content'] = data['results']['results']
     return utils.check_template('index', data, request)

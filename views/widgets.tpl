@@ -1,18 +1,18 @@
 <div id="widgets" class="col-sm-8">
+    % base_string = data['base_string']
+    % current_view = data['controls']['view']
     <section class="paginate-section">
         <div class="page-links">
-            « Previous |
+            <a rel="next" href="/facet/?{{!base_string}}&page=2">« Previous »</a>
             <span class="page-entries">
                     <strong>1</strong> - <strong>10</strong> of <strong>{{ data['results']['numfound'] }}</strong>
                 </span> |
-            <a rel="next" href="&page=2">Next »</a>
+            <a rel="next" href="/facet/?{{!base_string}}&page=2">Next »</a>
         </div>
     </section>
 </div>
 <div id="displays" class="col-sm-4" style="float: right;">
     <nav class="nav">
-        % base_string = data['base_string']
-        % current_view = data['controls']['view']
         <a class="nav-link {{'active' if current_view == 'TABLE' else ''}}" href="/facet/?{{!base_string}}&view=TABLE">
             <span class="fas fa-table fa-2x"></span>
         </a>

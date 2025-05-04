@@ -16,3 +16,8 @@
     text-align: right;
     width: 5em;
 }
+
+img.thumbnail {
+    margin-bottom: 3rem;
+    padding-left: 3rem;
+}
