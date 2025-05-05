@@ -108,4 +108,10 @@ parmz.FULL = [
 ]
 FIELD_DEFINITIONS['FULL'] = parmz.FULL
 
-parmz.LAYOUTS = 'SEARCH FACETS LIST TABLE FULL'.split(' ')
+parmz.GALLERY = [
+    ('T no', 'T_s'),
+    ('Title', 'TITLE_s'),
+]
+FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
+
+parmz.LAYOUTS = 'SEARCH FACETS LIST TABLE GALLERY FULL'.split(' ')
