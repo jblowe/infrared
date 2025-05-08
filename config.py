@@ -141,7 +141,7 @@ parmz.TABLE = [
     ('Id', 'id'),
     ('Mmap Artifact Id', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
-    ('Bag Id', 'bag_id_s'),
+    # ('Bag Id', 'bag_id_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
     ('Weight', 'weight_s'),

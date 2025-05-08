@@ -2,17 +2,26 @@
 <div id="facets">
     % for facet in FACETS:
         % if facet[1] in data['results']['facets']:
-        <div class="dropdown facet-values pb-1">
-            <button type="button" class="btn w-100 btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-             {{ facet[0] }}
+        <div class="card facet-limit">
+            <h3 class="card-header">
+            <button
+                class="btn text-left"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#facet-{{ facet[1] }}"
+                aria-expanded="false"
+                aria-controls="facet-{{ facet[1] }}"
+            >
+                {{ facet[0] }}
             </button>
-            <ul class="dropdown-menu w-100 overflow-auto">
+            </h3>
+            <ul id="facet-{{ facet[1] }}" class="card-body collapse">
                 % for f in data['results']['facets'][facet[1]]:
-                <li>
-                    <span class="facet-label">
-                        <a class="dropdown-item" href="/facet/?{{ data['query_string'] }}&{{ facet[1] }}={{ f }}">{{ f }}</a>
-                    </span>
-                    <span class="facet-count">
+                <li class="d-flex justify-content-between align-items-top">
+                    <a class="text-decoration-none" href="/facet/?{{ data['query_string'] }}&{{ facet[1] }}={{ f }}">
+                        {{ f }}
+                    </a>
+                    <span>
                         {{ data['results']['facets'][facet[1]][f] }}
                     </span>
                 </li>

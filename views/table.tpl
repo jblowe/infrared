@@ -1,6 +1,6 @@
 <div id="documents" class="card">
     <div class="card-body">
-        <table class="table table-striped">
+        <table class="table table-striped table-responsive-sm">
             <thead class="table-dark">
             <th>Row</th>
             % for x in data['result_fields']:
