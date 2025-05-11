@@ -1,24 +1,27 @@
-<div id="documents" class="card-group">
+<div id="documents" class="row row-cols-1 row-cols-md-5 g-4">
+    <!-- div id="documents" class="card-group" -->
     % for i,r in enumerate(data['content']):
-    <div class="card">
-        % if data['image_field'] in r:
-        <img class="card-img-top" style="max-width: 300px" src="{{r[data['image_field']]}}">
-        % end
-        <div class="card-body">
-            <h5 class="card-title">{{ i+1 }}</h5>
-            <div class="card-body">
-            <dl class="row lh-sm">
-                % for x in data['result_fields']:
-                    % if x[1] in r:
-                    <dt class="col-sm-3 lh-sm">
-                        {{ x[0] }}
-                    </dt>
-                    <dd class="col-sm-9 lh-sm">
+    <div class="col">
+        <!-- div class="card" style="width: 10rem;" -->
+        <div class="card">
+            % if data['image_field'] in r:
+            <img src="{{r[data['image_field']]}}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+            % else:
+            <img src="https://placehold.co/200x200/orange/white" class="card-img-top" alt="placeholder image">
+            % end
+            <div class="card-body" style="padding: 3px;">
+                <!-- h5 class="bg-info">{{ i+1 }}. {{ r[TITLE_FIELD] }}</h5 -->
+                <h6 class="">{{ r[TITLE_FIELD] }}</h6>
+                <!-- h5 class="card-title">{{ i+1 }}</h5 -->
+                <ul class="list-unstyled">
+                    % for x in data['result_fields']:
+                    % if x[1] in r and x[1] != TITLE_FIELD:
+                    <li>
                         {{ r[x[1]] }}
-                    </dd>
+                    </li>
                     % end
-                % end
-            </dl>
+                    % end
+                </ul>
             </div>
         </div>
     </div>

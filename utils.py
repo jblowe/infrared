@@ -47,7 +47,7 @@ def query(parameters):
     result_fields = parameters['result_fields'] + [parmz.IMAGE_FIELD]
     facet_fields = parameters['facet_fields']
     ROW_LIMIT = 10
-    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT)
+    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT, parmz.FACET_MINCOUNT)
     full_facets = {}
     for f in results['facets']:
         if results['facets'][f] != {}:

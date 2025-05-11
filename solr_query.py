@@ -66,13 +66,13 @@ def solr_autosuggest(solr_field, solr_term, limit):
         return None
 
 
-def solr_main_query(query_terms, result_fields, facet_fields, row_limit, facet_limit):
+def solr_main_query(query_terms, result_fields, facet_fields, row_limit, facet_limit, facet_mincount):
     query_string = ' AND '.join(f'{q}:{query_terms[q]}' for q in query_terms)
     response = s.query(query_string, facet='true', facet_field=[f.replace('_txt', '_s') for f in facet_fields],
                        fq={},
                        fields=result_fields,
                        rows=row_limit, facet_limit=facet_limit,
-                       facet_mincount=1)
+                       facet_mincount=facet_mincount)
 
     facets = response.facet_counts['facet_fields']
     result = {'facets': facets, 'results': response.results, 'query': query_string, 'terms': query_terms,

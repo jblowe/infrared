@@ -12,7 +12,10 @@ parmz.BANNER_COLOR = '#EC5800'
 parmz.SOLR_CORE = 'ggm'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 10
+parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
+parmz.IMAGE_FIELD = 'path_s'
+parmz.TITLE_FIELD = 'title_s'
 
 parmz.title = 'Title'
 parmz.citation = 'Lowe, et al. 2024'
@@ -29,6 +32,7 @@ parmz.SEARCH = [
     ('Year', 'year_s'),
     ('Locke Number', 'lockenumber_s'),
     ('Location', 'location_s'),
+    ('Title', 'title_s')
 ]
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 
@@ -48,6 +52,7 @@ parmz.LIST = [
     ('Year', 'year_s'),
     ('Locke Number', 'lockenumber_s'),
     ('Location', 'location_s'),
+    ('Title', 'title_s'),
 ]
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
@@ -56,14 +61,22 @@ parmz.TABLE = [
     ('Year', 'year_s'),
     ('Locke Number', 'lockenumber_s'),
     ('Location', 'location_s'),
+    ('Title', 'title_s'),
 ]
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
+
+parmz.GALLERY = [
+    ('Title', 'title_s'),
+]
+
+FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
 
 parmz.FULL = [
     ('City', 'city_s'),
     ('Year', 'year_s'),
     ('Locke Number', 'lockenumber_s'),
     ('Location', 'location_s'),
+    ('Title', 'title_s'),
 ]
 FIELD_DEFINITIONS['FULL'] = parmz.FULL
 

@@ -11,14 +11,16 @@ parmz.BANNER = 'MMAP banner'
 parmz.BANNER_COLOR = '#EC5800'
 parmz.SOLR_CORE = 'mmap-public'
 parmz.SOLR_SERVER = 'http://localhost:8983'
-parmz.FACET_LIMIT = 10
+parmz.FACET_LIMIT = 100
+parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.IMAGE_FIELD = 'IMAGENAME_s'
+parmz.TITLE_FIELD = 'mmap_artifact_id_s'
 
 FIELD_DEFINITIONS = {}
 
 parmz.SEARCH = [
-    ('Mmap Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact Id', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
     ('Bag Id', 'bag_id_s'),
@@ -86,10 +88,10 @@ parmz.FACETS = [
 ]
 
 parmz.LIST = [
-    ('Mmap Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact Id', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
-    # ('Bag Id', 'bag_id_s'),
+    ('Bag Id', 'bag_id_s'),
     ('Artifact Condition', 'artifact_condition_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
@@ -139,9 +141,9 @@ FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
     ('Id', 'id'),
-    ('Mmap Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact Id', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
-    ('Bag Id', 'bag_id_s'),
+    # ('Bag Id', 'bag_id_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
     ('Weight', 'weight_s'),
@@ -158,17 +160,14 @@ parmz.TABLE = [
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
 parmz.GALLERY = [
-    ('Mmap Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact Id', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
-    ('Bag Id', 'bag_id_s'),
     ('Artifact Class', 'artifact_class_s'),
 ]
 FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
 
 parmz.FULL = [
-    ('Column', 'column'),
-    ('Id', 'id'),
-    ('Mmap Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact Id', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
     ('Bag Id', 'bag_id_s'),
@@ -225,3 +224,4 @@ for f in parmz.FACETS:
     parmz.FACET_LABELS[f[1]] = f[0]
 
 parmz.LAYOUTS = 'SEARCH FACETS LIST TABLE GALLERY FULL'.split(' ')
+
