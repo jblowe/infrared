@@ -11,8 +11,10 @@ parmz.BANNER = 'Thailand Archaeometallurgy Project'
 parmz.BANNER_COLOR = '#EC5800'
 parmz.SOLR_CORE = 'tap'
 parmz.SOLR_SERVER = 'http://localhost:8983'
-parmz.FACET_LIMIT = 10
+parmz.FACET_LIMIT = 40
+parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
+parmz.TITLE_FIELD = 'TITLE_s'
 parmz.IMAGE_FIELD = 'IMAGENAME_s'
 
 FIELD_DEFINITIONS = {}
@@ -71,6 +73,7 @@ parmz.LIST = [
     ('Lot', 'LOT_s'),
     ('T no', 'T_s'),
     ('Key', 'KEY_s'),
+    ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
@@ -84,6 +87,7 @@ parmz.TABLE = [
     ('Area', 'AREA_s'),
     ('T no', 'T_s'),
     ('Key', 'KEY_s'),
+    ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
