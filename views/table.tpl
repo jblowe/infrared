@@ -25,7 +25,7 @@
         % end
         % if data['image_field'] in r:
             <td>
-                <a target="_blank" href="{{r[data['image_field']]}}"><span class="fas fa-image fa-2x"></span></a>
+                <a target="_blank" href="{{r[data['image_field']][0]}}"><span class="fas fa-image fa-2x"></span></a>
             </td>
         % else:
           <td/>

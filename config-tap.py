@@ -15,12 +15,12 @@ parmz.FACET_LIMIT = 40
 parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.TITLE_FIELD = 'TITLE_s'
-parmz.IMAGE_FIELD = 'IMAGENAME_s'
+parmz.IMAGE_FIELD = 'IMAGES_ss'
 parmz.PORT = 3012
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
-    ('Document type', 'DTYPE_s'),
+    ('Document types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
@@ -42,7 +42,7 @@ parmz.SEARCH = [
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 
 parmz.FACETS = [
-    ('Document type', 'DTYPE_s'),
+    ('Document types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
@@ -67,7 +67,7 @@ for f in parmz.FACETS:
     parmz.FACET_LABELS[f[1]] = f[0]
 
 parmz.LIST = [
-    ('Document type', 'DTYPE_s'),
+    ('Document types', 'DTYPES_ss'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     ('Op', 'OP_s'),
@@ -79,7 +79,7 @@ parmz.LIST = [
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
-    ('Document type', 'DTYPE_s'),
+    ('Document types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     ('Op', 'OP_s'),
@@ -93,7 +93,7 @@ parmz.TABLE = [
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
 parmz.FULL = [
-    ('Document type', 'DTYPE_s'),
+    ('Document types', 'DTYPES_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),

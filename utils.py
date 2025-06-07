@@ -46,13 +46,17 @@ def query(parameters):
             query_terms[q] = parameters['terms'][q]
     result_fields = parameters['result_fields'] + [parmz.IMAGE_FIELD]
     facet_fields = parameters['facet_fields']
-    ROW_LIMIT = 10
+    ROW_LIMIT = 80
     results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT, parmz.FACET_MINCOUNT)
     full_facets = {}
     for f in results['facets']:
         if results['facets'][f] != {}:
             full_facets[f] = results['facets'][f]
     results['facets'] = full_facets
+    # for r in results['results']:
+    #     for f in r:
+    #         if type(r[f]) == type([]):
+    #             r[f] = ', '.join(r[f])
     return results
 
 
