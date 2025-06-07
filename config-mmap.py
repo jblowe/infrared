@@ -16,6 +16,7 @@ parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.IMAGE_FIELD = 'IMAGENAME_s'
 parmz.TITLE_FIELD = 'mmap_artifact_id_s'
+parmz.PORT = 3011
 
 FIELD_DEFINITIONS = {}
 

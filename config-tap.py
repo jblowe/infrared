@@ -16,6 +16,7 @@ parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.TITLE_FIELD = 'TITLE_s'
 parmz.IMAGE_FIELD = 'IMAGENAME_s'
+parmz.PORT = 3012
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [

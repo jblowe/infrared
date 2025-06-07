@@ -136,4 +136,4 @@ def download(full_path, filename):
 
 
 # application = default_app()
-run()
+run(host='0.0.0.0', port=parmz.PORT)

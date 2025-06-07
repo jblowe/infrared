@@ -16,6 +16,7 @@ parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.IMAGE_FIELD = 'path_s'
 parmz.TITLE_FIELD = 'title_s'
+parmz.PORT = 3010
 
 parmz.title = 'Title'
 parmz.citation = 'Lowe, et al. 2024'
