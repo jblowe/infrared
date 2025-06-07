@@ -25,7 +25,7 @@
                 </div>
             % else:
                 <div class="col-sm-4">
-                    <img class="thumbnail" src="placeholder.svg">
+                    <img class="thumbnail" src="/static/unavailable.png">
                 </div>
             % end
         </div>
