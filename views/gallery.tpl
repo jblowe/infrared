@@ -5,9 +5,11 @@
         <!-- div class="card" style="width: 10rem;" -->
         <div class="card">
             % if data['image_field'] in r:
-            <img src="{{r[data['image_field']]}}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                % for image in r[data['image_field']]:
+                    <img src="{{image}}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                % end
             % else:
-            <img src="https://placehold.co/200x200/orange/white" class="card-img-top" alt="placeholder image">
+                <img src="https://placehold.co/200x200/orange/white" class="card-img-top" alt="placeholder image">
             % end
             <div class="card-body" style="padding: 3px;">
                 <!-- h5 class="bg-info">{{ i+1 }}. {{ r[TITLE_FIELD] }}</h5 -->
