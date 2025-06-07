@@ -22,22 +22,22 @@ for f in [v for v in list(vars(parmz).keys()) if not v.startswith('__')]:
     BaseTemplate.defaults[f] = getattr(parmz, f)
 
 
-@route('/static/<filename:re:.*\.(ico|jpg|png|gif)>')
+@route(r'/static/<filename:re:.*\.(ico|jpg|png|gif)>')
 def send_ico(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'images'))
 
 
-@route('/static/<filename:re:.*\.css(.map)?>')
+@route(r'/static/<filename:re:.*\.css(.map)?>')
 def send_css(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'css'))
 
 
-@route('/static/<filename:re:.*\.js(.map)?>')
+@route(r'/static/<filename:re:.*\.js(.map)?>')
 def send_js(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'js'))
 
 
-@route('/webfonts/<filename:re:.*\.(woff2?|ttf|svg)>')
+@route(r'/webfonts/<filename:re:.*\.(woff2?|ttf|svg)>')
 def send_font(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'webfonts'))
 
