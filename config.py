@@ -16,7 +16,7 @@ parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.TITLE_FIELD = 'TITLE_s'
 parmz.IMAGE_FIELD = 'IMAGES_ss'
-parmz.PORT = 3012
+parmz.PORT = 3002
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
@@ -49,6 +49,7 @@ parmz.FACETS = [
     ('Level', 'LEVEL_s'),
     ('Area', 'AREA_s'),
     ('T no', 'T_s'),
+    ('Burial', 'Burial_s'),
     ('Year', 'YEAR_s'),
     ('Title', 'TITLE_s'),
     ('Key', 'KEY_s'),
@@ -73,13 +74,14 @@ parmz.LIST = [
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
     ('T no', 'T_s'),
+    ('Burial', 'Burial_s'),
     ('Key', 'KEY_s'),
     ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
-    ('Document types', 'DTYPES_ONLY_ss'),
+    # ('Document types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     ('Op', 'OP_s'),
@@ -87,7 +89,8 @@ parmz.TABLE = [
     ('Level', 'LEVEL_s'),
     ('Area', 'AREA_s'),
     ('T no', 'T_s'),
-    ('Key', 'KEY_s'),
+    ('Burial', 'Burial_s'),
+    # ('Key', 'KEY_s'),
     ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
@@ -100,6 +103,7 @@ parmz.FULL = [
     ('Level', 'LEVEL_s'),
     ('Area', 'AREA_s'),
     ('T no', 'T_s'),
+    ('Burial', 'Burial_s'),
     ('Year', 'YEAR_s'),
     ('Title', 'TITLE_s'),
     ('Key', 'KEY_s'),
