@@ -5,42 +5,61 @@ class parmz:
 
 # TODO: this needs a good deal of cleanup
 
-parmz.TITLE = 'Title'
+parmz.TITLE = 'TAP'
 parmz.CITATION = 'Lowe, et al. 2024'
-parmz.BANNER = 'Infrared Search Engine'
+parmz.BANNER = 'Thailand Archaeometallurgy Project'
 parmz.BANNER_COLOR = '#EC5800'
-parmz.SOLR_CORE = 'ggm'
+parmz.SOLR_CORE = 'tap'
 parmz.SOLR_SERVER = 'http://localhost:8983'
-parmz.FACET_LIMIT = 10
+parmz.FACET_LIMIT = 40
 parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
-parmz.IMAGE_FIELD = 'path_s'
-parmz.TITLE_FIELD = 'title_s'
-
-parmz.title = 'Title'
-parmz.citation = 'Lowe, et al. 2024'
-parmz.banner = 'Infrared Search Engine'
-parmz.banner_color = '#EC5800'
-parmz.solr_core = 'ggm'
-parmz.solr_server = 'http://localhost:8983'
-parmz.facet_limits = 10
-parmz.row_limits = [10, 20, 30]
+parmz.TITLE_FIELD = 'TITLE_s'
+parmz.IMAGE_FIELD = 'IMAGES_ss'
+parmz.PORT = 3012
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
-    ('City', 'city_s'),
-    ('Year', 'year_s'),
-    ('Locke Number', 'lockenumber_s'),
-    ('Location', 'location_s'),
-    ('Title', 'title_s')
+    ('Document types', 'DTYPES_ONLY_ss'),
+    ('Site', 'SITE_s'),
+    ('Op', 'OP_s'),
+    ('Lot', 'LOT_s'),
+    ('Level', 'LEVEL_s'),
+    ('Area', 'AREA_s'),
+    ('T no', 'T_s'),
+    ('Year', 'YEAR_s'),
+    ('Title', 'TITLE_s'),
+    ('Key', 'KEY_s'),
+    ('Entry date', 'ENTRY_DATE_s'),
+    ('Registrar', 'REGISTRAR_s'),
+    ('Excavator', 'EXCAVATOR_s'),
+    ('Excavation date', 'EXCAVATION_DATE_s'),
+    ('Count', 'COUNT_s'),
+    ('Weight', 'WEIGHT_s'),
+    ('Lab tray', 'LAB_TRAY_s'),
+    ('Keyword', 'text'),
 ]
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 
 parmz.FACETS = [
-    ('City', 'city_s'),
-    ('Year', 'year_s'),
-    ('Locke Number', 'lockenumber_s'),
-    ('Location', 'location_s'),
+    ('Document types', 'DTYPES_ONLY_ss'),
+    ('Site', 'SITE_s'),
+    ('Op', 'OP_s'),
+    ('Lot', 'LOT_s'),
+    ('Level', 'LEVEL_s'),
+    ('Area', 'AREA_s'),
+    ('T no', 'T_s'),
+    ('Year', 'YEAR_s'),
+    ('Title', 'TITLE_s'),
+    ('Key', 'KEY_s'),
+    ('Entry date', 'ENTRY_DATE_s'),
+    ('Registrar', 'REGISTRAR_s'),
+    ('Excavator', 'EXCAVATOR_s'),
+    ('Excavation date', 'EXCAVATION_DATE_s'),
+    ('Count', 'COUNT_s'),
+    ('Weight', 'WEIGHT_s'),
+    ('Lab tray', 'LAB_TRAY_s'),
+    ('Keyword', 'text'),
 ]
 FIELD_DEFINITIONS['FACETS'] = parmz.FACETS
 parmz.FACET_LABELS = {}
@@ -48,36 +67,56 @@ for f in parmz.FACETS:
     parmz.FACET_LABELS[f[1]] = f[0]
 
 parmz.LIST = [
-    ('City', 'city_s'),
-    ('Year', 'year_s'),
-    ('Locke Number', 'lockenumber_s'),
-    ('Location', 'location_s'),
-    ('Title', 'title_s'),
+    ('Document types', 'DTYPES_ss'),
+    ('Site', 'SITE_s'),
+    ('Year', 'YEAR_s'),
+    ('Op', 'OP_s'),
+    ('Lot', 'LOT_s'),
+    ('T no', 'T_s'),
+    ('Key', 'KEY_s'),
+    ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
-    ('City', 'city_s'),
-    ('Year', 'year_s'),
-    ('Locke Number', 'lockenumber_s'),
-    ('Location', 'location_s'),
-    ('Title', 'title_s'),
+    ('Document types', 'DTYPES_ONLY_ss'),
+    ('Site', 'SITE_s'),
+    ('Year', 'YEAR_s'),
+    ('Op', 'OP_s'),
+    ('Lot', 'LOT_s'),
+    ('Level', 'LEVEL_s'),
+    ('Area', 'AREA_s'),
+    ('T no', 'T_s'),
+    ('Key', 'KEY_s'),
+    ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
-parmz.GALLERY = [
-    ('Title', 'title_s'),
-]
-
-FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
-
 parmz.FULL = [
-    ('City', 'city_s'),
-    ('Year', 'year_s'),
-    ('Locke Number', 'lockenumber_s'),
-    ('Location', 'location_s'),
-    ('Title', 'title_s'),
+    ('Document types', 'DTYPES_ss'),
+    ('Site', 'SITE_s'),
+    ('Op', 'OP_s'),
+    ('Lot', 'LOT_s'),
+    ('Level', 'LEVEL_s'),
+    ('Area', 'AREA_s'),
+    ('T no', 'T_s'),
+    ('Year', 'YEAR_s'),
+    ('Title', 'TITLE_s'),
+    ('Key', 'KEY_s'),
+    ('Entry date', 'ENTRY_DATE_s'),
+    ('Registrar', 'REGISTRAR_s'),
+    ('Excavator', 'EXCAVATOR_s'),
+    ('Excavation date', 'EXCAVATION_DATE_s'),
+    ('Count', 'COUNT_s'),
+    ('Weight', 'WEIGHT_s'),
+    ('Lab tray', 'LAB_TRAY_s'),
 ]
 FIELD_DEFINITIONS['FULL'] = parmz.FULL
 
-parmz.LAYOUTS = 'SEARCH FACETS LIST TABLE FULL'.split(' ')
+parmz.GALLERY = [
+    ('T no', 'T_s'),
+    ('Title', 'TITLE_s'),
+]
+FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
+
+parmz.LAYOUTS = 'SEARCH FACETS LIST TABLE GALLERY FULL'.split(' ')
