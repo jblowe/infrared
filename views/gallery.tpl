@@ -2,13 +2,14 @@
     <!-- div id="documents" class="card-group" -->
     % for i,r in enumerate(data['content']):
     <div class="col">
-        <!-- div class="card" style="width: 10rem;" -->
+        <!-- div class="card" style="width: 20rem;" -->
         <div class="card">
+        <!-- div class="card" -->
             % if data['image_field'] in r:
                 <img src="{{ r[data['image_field']][0] }}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
                 <div>
                 % for image in r[data['image_field']][1:]:
-                    <img src="{{image}}" style="max-width: 100px; padding: 3px" alt="{{ r[TITLE_FIELD] }}">
+                    <img src="{{image}}" style="max-width: 90px; padding: 2px" alt="{{ r[TITLE_FIELD] }}">
                 % end
                 </div>
             % else:

@@ -6,8 +6,9 @@ class parmz:
 # TODO: this needs a good deal of cleanup
 
 parmz.TITLE = 'TAP'
-parmz.CITATION = 'Lowe, et al. 2024'
+parmz.CITATION = 'Lowe, et al. 2025'
 parmz.BANNER = 'Thailand Archaeometallurgy Project'
+parmz.LOGO = 'tap-logo-small.png'
 parmz.BANNER_COLOR = '#EC5800'
 parmz.SOLR_CORE = 'tap'
 parmz.SOLR_SERVER = 'http://localhost:8983'
@@ -118,7 +119,7 @@ parmz.FULL = [
 FIELD_DEFINITIONS['FULL'] = parmz.FULL
 
 parmz.GALLERY = [
-    ('T no', 'T_s'),
+    # ('T no', 'T_s'),
     ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY

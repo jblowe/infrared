@@ -4,15 +4,15 @@
 <body>
 % include ('nav.tpl')
 % include('input_field.tpl')
-<div role="main" class="container">
+<div role="main" class="container-fluid w-100 px-5">
     <div class="row">
         % include('breadcrumbs.tpl')
     </div>
     <div class="row">
-        <div id="leftpane" class="col-sm-3">
+        <div id="leftpane" class="col-sm-2">
             % include('leftpane.tpl')
         </div>
-        <div id="content" class="col-sm-9" class="container-fluid">
+        <div id="content" class="col-sm-10" class="container-fluid">
         % if 'home' in data:
             % include('home.tpl')
         % elif 'about' in data:

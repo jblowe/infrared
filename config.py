@@ -119,7 +119,7 @@ parmz.FULL = [
 FIELD_DEFINITIONS['FULL'] = parmz.FULL
 
 parmz.GALLERY = [
-    ('T no', 'T_s'),
+    # ('T no', 'T_s'),
     ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
