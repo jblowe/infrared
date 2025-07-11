@@ -1,0 +1,31 @@
+CHANGELOG for infrared
+
+OK, it is not a *real* change log, but a list of changes resulting from git log
+sometimes with some human annotation after the fact.
+
+This is version 0.9.0-rc1
+Thu Jul 10 21:30:53 PDT 2025
+
+bc1b705 (HEAD -> main, origin/main, origin/HEAD) fix 'version detection', spacing in rendered templates
+f45465b render multiple images in a more compact way
+f267e91 incremental refactoring and improvements
+b2a44de fix typo in config for BURIAL_s
+db74394 a startup script for dev server
+6e02501 incremental improvements to TAP config
+4bdfd81 make TAP the default config for now
+90a0709 also refine image handling for gallery display
+7dafcb4 refine image handling a bit
+8db1429 add placeholder image to list display
+acb2fd1 set http port in config
+f0aad43 tidy up a few raw regex strings, add lxml to requirements.txt
+3732664 revisions for TAP configuration
+131ae4c incremental improvements to front end and config
+34a0bb3 get rid of an unneeded file
+0052032 enhance and refactor facets, other look-and-feel stuff
+6572eaf further frontend revisions, plus mmap config
+051ca2f revisions to full and gallery displays
+10d9bc0 incremental improvements and refactoring
+02b9bd1 initial implementation of display formats (table, list, etc.)
+bbff6cf next iteration of improvements
+1b26acf initial commit of this very experimental code. caveat lector.
+bc3bee9 Initial commit
