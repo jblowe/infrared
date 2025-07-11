@@ -48,7 +48,7 @@ def query(parameters):
             query_terms[q] = f"\"{parameters['terms'][q]}\""
         else:
             query_terms[q] = parameters['terms'][q]
-    result_fields = parameters['result_fields'] + [parmz.IMAGE_FIELD]
+    result_fields = parameters['result_fields'] + [parmz.IMAGE_FIELD] + [parmz.TITLE_FIELD]
     facet_fields = parameters['facet_fields']
     ROW_LIMIT = 80
     results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT,

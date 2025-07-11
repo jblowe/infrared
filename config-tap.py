@@ -21,7 +21,7 @@ parmz.PORT = 3002
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
-    ('Document types', 'DTYPES_ONLY_ss'),
+    ('Record types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
@@ -43,7 +43,7 @@ parmz.SEARCH = [
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 
 parmz.FACETS = [
-    ('Document types', 'DTYPES_ONLY_ss'),
+    ('Record types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
@@ -69,7 +69,7 @@ for f in parmz.FACETS:
     parmz.FACET_LABELS[f[1]] = f[0]
 
 parmz.LIST = [
-    ('Document types', 'DTYPES_ss'),
+    ('Record types', 'DTYPES_ss'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     ('Op', 'OP_s'),
@@ -77,12 +77,12 @@ parmz.LIST = [
     ('T no', 'T_s'),
     ('Burial', 'BURIAL_s'),
     ('Key', 'KEY_s'),
-    ('Title', 'TITLE_s'),
+    # ('Title', 'TITLE_s'),
 ]
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
-    # ('Document types', 'DTYPES_ONLY_ss'),
+    # ('Record types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     ('Op', 'OP_s'),
@@ -97,7 +97,7 @@ parmz.TABLE = [
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
 parmz.FULL = [
-    ('Document types', 'DTYPES_ss'),
+    ('Record types', 'DTYPES_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
@@ -106,7 +106,7 @@ parmz.FULL = [
     ('T no', 'T_s'),
     ('Burial', 'BURIAL_s'),
     ('Year', 'YEAR_s'),
-    ('Title', 'TITLE_s'),
+    # ('Title', 'TITLE_s'),
     ('Key', 'KEY_s'),
     ('Entry date', 'ENTRY_DATE_s'),
     ('Registrar', 'REGISTRAR_s'),

@@ -21,15 +21,15 @@
                 <!-- h5 class="card-title">{{ i+1 }}</h5 -->
                 <ul class="list-unstyled">
                     % for x in data['result_fields']:
-                    % if x[1] in r and x[1] != TITLE_FIELD:
-                    <li>
-                        % cell = r[x[1]]
-                        % if type(cell) == type([]):
-                        %     cell = ', '.join(cell)
+                        % if x[1] in r and x[1] != TITLE_FIELD:
+                        <li>
+                            % cell = r[x[1]]
+                            % if type(cell) == type([]):
+                            %     cell = ', '.join(cell)
+                            % end
+                            {{ cell }}
+                        </li>
                         % end
-                        {{ cell }}
-                    </li>
-                    % end
                     % end
                 </ul>
             </div>

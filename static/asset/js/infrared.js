@@ -5,7 +5,7 @@ $(document).ready(function () {
     });
     $("#toggle_sidebar").click(function () {
         $("#leftpane").toggle();
-        $("#content").toggleClass("col-sm-9", "col-sm-12");
+        $("#content").toggleClass("col-sm-10", "col-sm-12");
     });
     $("#toggle_parameters").click(function () {
         $("#upstream").toggle();
