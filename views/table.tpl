@@ -2,7 +2,7 @@
     <thead class="bg-info">
         <th>Row</th>
         % for x in data['result_fields']:
-        <th data-field="{{ x[1] }}"
+        <th style="max-width: 300px;" data-field="{{ x[1] }}"
             data-sortable="true"
         >
             {{ x[0] }}
@@ -18,7 +18,11 @@
         <td>{{ i+1 }}</td>
         % for x in data['result_fields']:
             % if x[1] in r:
-                <td style="white-space: nowrap;">{{ r[x[1]] }}</td>
+                % cell = r[x[1]]
+                % if type(cell) == type([]):
+                %     cell = ', '.join(cell)
+                % end
+                <td>{{ cell }}</td>
             % else:
                 <td/>
             % end

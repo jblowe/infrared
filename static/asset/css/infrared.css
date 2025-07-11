@@ -1,7 +1,7 @@
 .facet-values li {
-  display: flex;
-  align-items: flex-start;
-  padding: 3px 0;
+    display: flex;
+    align-items: flex-start;
+    padding: 3px 0;
 }
 
 .facet-values .facet-label {
@@ -16,75 +16,101 @@
     margin-left: auto;
 }
 
-thumbnail {
-    margin-bottom: 3rem;
-    padding-left: 3rem;
+.thumbnail-small {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    max-width: 400px;
 }
 
+.thumbnail-medium {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    max-width: 400px;
+}
 
 .facets-header {
-  display:flex;
-  justify-content:space-between;
-  padding-bottom:0.5rem;
-  padding-top:0.5rem
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem
 }
+
 .facets-heading {
-  line-height:inherit
+    line-height: inherit
 }
+
 .facet-limit {
-  margin-bottom:0.5rem
+    margin-bottom: 0.5rem
 }
+
 .facet-limit .card-body {
-  padding:1rem
+    padding: 1rem
 }
+
 .facet-limit-active {
-  border-color:#198754 !important
+    border-color: #198754 !important
 }
+
 .facet-limit-active .card-header {
-  background-color:#198754 !important
+    background-color: #198754 !important
 }
+
 .facet-limit-active .card-header .btn {
-  color:#fff
+    color: #fff
 }
+
 .facet-values {
-  margin-bottom:0;
+    margin-bottom: 0;
 }
+
 .facet-values a {
-  text-decoration:none
+    text-decoration: none
 }
+
 .facet-values li {
-  display:flex;
-  align-items:flex-start;
-  /*! padding:3px 0; */
+    display: flex;
+    align-items: flex-start;
+    /*! padding:3px 0; */
 }
+
 .facet-values li[role="treeitem"] {
-  display:block
+    display: block
 }
+
 .facet-values li .selected {
-  color:#198754 !important
+    color: #198754 !important
 }
+
 .facet-values .remove {
-  color:var(--bs-secondary-color);
-  font-weight:bold;
-  padding-left:0.5rem;
-  text-decoration:none
+    color: var(--bs-secondary-color);
+    font-weight: bold;
+    padding-left: 0.5rem;
+    text-decoration: none
 }
+
 .facet-values .remove:hover {
-  color:theme-color("danger");
-  text-decoration:none
+    color: theme-color("danger");
+    text-decoration: none
 }
+
 .facet-values .facet-label {
-  padding-right:1em;
-  text-indent:-15px;
-  padding-left:15px;
-  overflow-wrap:break-word;
-  -webkit-hyphens:auto;
-  -o-hyphens:auto;
-  hyphens:auto
+    padding-right: 1em;
+    text-indent: -15px;
+    padding-left: 15px;
+    overflow-wrap: break-word;
+    -webkit-hyphens: auto;
+    -o-hyphens: auto;
+    hyphens: auto
 }
+
 .facet-values .facet-count {
-  margin-left:auto
+    margin-left: auto
 }
+
 .facet-values .facet-checkbox {
-  width:1.25rem
+    width: 1.25rem
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: none;
 }

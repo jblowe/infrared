@@ -19,7 +19,11 @@
                     % for x in data['result_fields']:
                     % if x[1] in r and x[1] != TITLE_FIELD:
                     <li>
-                        {{ r[x[1]] }}
+                        % cell = r[x[1]]
+                        % if type(cell) == type([]):
+                        %     cell = ', '.join(cell)
+                        % end
+                        {{ cell }}
                     </li>
                     % end
                     % end
