@@ -5,9 +5,12 @@
         <!-- div class="card" style="width: 10rem;" -->
         <div class="card">
             % if data['image_field'] in r:
-                % for image in r[data['image_field']]:
-                    <img src="{{image}}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                <img src="{{ r[data['image_field']][0] }}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                <div>
+                % for image in r[data['image_field']][1:]:
+                    <img src="{{image}}" style="max-width: 100px; padding: 3px" alt="{{ r[TITLE_FIELD] }}">
                 % end
+                </div>
             % else:
                 <img src="https://placehold.co/200x200/orange/white" class="card-img-top" alt="placeholder image">
             % end
