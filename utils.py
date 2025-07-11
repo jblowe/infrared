@@ -1,4 +1,4 @@
-import os, time, sys
+import os, time, sys, re
 import lxml.etree as ET
 from urllib.parse import urlencode
 
@@ -6,22 +6,26 @@ from bottle import template, redirect
 
 from config import *
 import solr_query
+import subprocess
 
 # nb: we are trying to get the directory above the directory this file is in
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def get_version():
-    return ''
     try:
-        with os.popen("/usr/bin/git describe --always") as f:
-            version = f.read().strip()
-        if version == '':  # try alternate location for git (this is the usual Mac location)
-            with os.popen("/usr/local/bin/git describe --always") as f:
-                version = f.read().strip()
-    except:
-        version = 'Unknown'
-    return version
+        tag = subprocess.check_output(
+            ['git', 'describe', '--tags', '--abbrev=0'],
+            stderr=subprocess.DEVNULL
+        ).decode().strip()
+        return tag
+    except subprocess.CalledProcessError:
+        return "no-tag"
+    except FileNotFoundError:
+        return "git-not-found"
+
+def spaceless(rendered_html):
+    return re.sub(r'>\s+<', '><', rendered_html.strip())
 
 
 def add_time_and_version():
@@ -34,7 +38,7 @@ def check_template(tpl, data, request):
         data['back'] = '/'
     # redirect('/facet/' + data['query_string'])
 
-    return template(tpl, data=data)
+    return template(spaceless(tpl), data=data)
 
 
 def query(parameters):
@@ -47,7 +51,8 @@ def query(parameters):
     result_fields = parameters['result_fields'] + [parmz.IMAGE_FIELD]
     facet_fields = parameters['facet_fields']
     ROW_LIMIT = 80
-    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT, parmz.FACET_MINCOUNT)
+    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT,
+                                         parmz.FACET_MINCOUNT)
     full_facets = {}
     for f in results['facets']:
         if results['facets'][f] != {}:
