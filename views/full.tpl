@@ -22,23 +22,7 @@
                     % end
                 </dl>
             </div>
-            <div id="images" class="row row-cols-1 row-cols-md-4 g-4">
-                % if data['image_field'] in r:
-                    % for image in r[data['image_field']]:
-                    <div class="card">
-                        <img class="card-img-top" src="{{image}}"/>
-                        <div class="card-body" style="padding: 2px;">
-                            % card_title = image.replace('.thumb.jpg','').replace('/images/','')
-                            <h6 class="card-title">{{card_title}}</h6>
-                        </div>
-                    </div>
-                    % end
-                % else:
-                    <div class="col-sm-5">
-                        <img class="thumbnail" src="/static/unavailable.png">
-                    </div>
-                % end
-            </div>
+            % include('images.tpl')
         % end
     </div>
 </div>

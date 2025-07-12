@@ -28,8 +28,15 @@
             % end
         % end
         % if data['image_field'] in r:
-            <td>
-                <a target="_blank" href="{{r[data['image_field']][0]}}"><span class="fas fa-image fa-2x"></span></a>
+          <td>
+            <div class="image-hover-preview flip-left">
+              <a target="_blank" href="{{r[data['image_field']][0]}}">
+                <span class="fas fa-image fa-2x"></span>
+              </a>
+              <div class="preview-popup">
+                <img src="{{r[data['image_field']][0]}}" style="width: 100%;">
+              </div>
+              </div>
             </td>
         % else:
           <td/>

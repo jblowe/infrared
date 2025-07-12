@@ -114,3 +114,32 @@
 .breadcrumb-item + .breadcrumb-item::before {
   content: none;
 }
+
+.image-hover-preview {
+  position: relative;
+  display: inline-block;
+}
+
+.preview-popup {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 30px;
+  width: 400px;
+  padding: 4px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+
+.image-hover-preview:hover .preview-popup {
+  display: block;
+}
+
+/* Flip popup to the left if the container is aligned right */
+.image-hover-preview.flip-left .preview-popup {
+  left: auto;
+  right: 30px;
+}
