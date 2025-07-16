@@ -3,11 +3,21 @@
     % current_view = data['controls']['view']
     <section class="paginate-section">
         <div class="page-links">
-            <a rel="next" href="/facet/?{{!base_string}}&page=2">« Previous »</a>
+            % previous = controls['page'] - 1 if controls['page'] > 0 else 1
+            % previous = controls['page'] - 1 if controls['page'] > 0 else 1
+            % if controls['page'] > 1:
+                <a rel="next" href="/facet/?{{!base_string}}&page={{ controls['page'] - 1 }}">« Previous </a>
+            % end
             <span class="page-entries">
-                    <strong>1</strong> - <strong>10</strong> of <strong>{{ data['results']['numfound'] }}</strong>
-                </span> |
-            <a rel="next" href="/facet/?{{!base_string}}&page=2">Next »</a>
+                % if data['results']['start_row'] + len(data['results']['results']) < data['results']['numfound']:
+                    <strong>{{ data['results']['start_row']+1 }}</strong> - <strong>{{ data['results']['start_row']+len(data['results']['results']) }}</strong> of <strong>{{ data['results']['numfound'] }}</strong>
+                % else:
+                    <strong>{{ data['results']['start_row']+1 }}</strong> - <strong>{{ data['results']['numfound'] }}</strong>
+                % end
+                </span>
+            % if (data['controls']['per_page'] * data['controls']['page']) < data['results']['numfound']:
+                <a rel="next" href="/facet/?{{!base_string}}&page={{ controls['page'] + 1}}"> Next »</a>
+            % end
         </div>
     </section>
 </div>

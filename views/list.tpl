@@ -4,7 +4,7 @@
         <div class="row">
             <header>
                 <a href="/catalog/{{ r['id'] }}">
-                    <h5 class="bg-info">{{ i+1 }}. {{ r[TITLE_FIELD] }}</h5>
+                    <h5 class="bg-info">{{ i+1+data['results']['start_row'] }}. {{ r[TITLE_FIELD] }}</h5>
                 </a>
             </header>
             % if data['image_field'] in r:

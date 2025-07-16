@@ -3,7 +3,9 @@
     % for image in r[data['image_field']]:
       <div class="col">
         <div class="card h-100">
-          <img class="card-img-top" src="{{image}}" style="margin: 0; padding: 0; border: none;" />
+          <a href="{{image}}" target="image">
+            <img class="card-img-top" src="{{image}}" style="margin: 0; padding: 0; border: none;" />
+          </a>
           <div class="card-body">
             % card_title = image.replace('.thumb.jpg','').replace('/images/','')
             <h6 class="card-title">{{card_title}}</h6>

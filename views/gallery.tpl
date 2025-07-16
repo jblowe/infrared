@@ -6,14 +6,18 @@
         <div class="card">
         <!-- div class="card" -->
             % if data['image_field'] in r:
-                <img src="{{ r[data['image_field']][0] }}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                <a href="{{ r[data['image_field']][0] }}" target="image">
+                  <img src="{{ r[data['image_field']][0] }}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                </a>
                 <div>
                 % for image in r[data['image_field']][1:]:
+                  <a href="{{image}}" target="image">
                     <img src="{{image}}" style="max-width: 90px; padding: 2px" alt="{{ r[TITLE_FIELD] }}">
+                  </a>
                 % end
                 </div>
             % else:
-                <img src="https://placehold.co/200x200/orange/white" class="card-img-top" alt="placeholder image">
+                <img src="/static/unavailable.png" class="card-img-top" alt="placeholder image">
             % end
             <div class="card-body" style="padding: 3px;">
                 <!-- h5 class="bg-info">{{ i+1 }}. {{ r[TITLE_FIELD] }}</h5 -->

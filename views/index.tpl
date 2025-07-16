@@ -19,6 +19,8 @@
             % include('about.tpl')
         % elif 'content' in data:
             % include('content.tpl')
+        % elif 'single' in data:
+            % include('single.tpl')
         % else:
             % include('alerts.tpl')
             % if command in data:

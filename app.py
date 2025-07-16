@@ -63,9 +63,9 @@ def index(data=None):
     data['results'] = utils.query(parameters)
     data['terms'] = parameters['terms']
     del data['terms']['*']
-    data['controls'] = parameters['controls']
+    controls = parameters['controls']
     data['content'] = data['results']['results']
-    return utils.check_template('index', data, request.forms)
+    return utils.check_template('index', data, controls, request.forms)
 
 
 @route('/about')
@@ -80,13 +80,8 @@ def facet():
     terms = {}
     r = request
     query = dict(request.query.decode())
-    control_names = 'display start_page per_page view'.split(' ')
+    control_names = 'display page per_page view'.split(' ')
     controls = {}
-
-    base_query = dict(request.query)
-    current_view = query.get('view', 'FULL').upper()  # Default to 'FULL' if not set
-    query['view'] = current_view
-    base_query.pop('view', None)
 
     if 'search' in query:
         terms[query['search_field']] = query['search_value']
@@ -95,9 +90,18 @@ def facet():
         del query['search_value']
     for f in query:
         if f in control_names:
-            controls[f] = query[f]
+            try:
+                controls[f] = int(query[f])
+            except:
+                controls[f] = query[f]
         else:
             terms[f] = query[f]
+
+    # assign defaults if necessary
+    if not 'page' in controls: controls['page'] = 1
+    if not 'per_page' in controls: controls['per_page'] = 80
+    if not 'view' in controls: controls['view'] = 'FULL' # Default to 'FULL' if not set
+    current_view = controls['view']
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS[current_view]],
                   'facet_fields': [p[1] for p in parmz.FACETS],
@@ -112,12 +116,34 @@ def facet():
     data['controls'] = controls
     x = terms | controls
     data['query_string'] = urlencode(terms | controls)
-    data['base_string'] = urlencode(base_query)
+    data['base_string'] = urlencode(terms)
     data['image_field'] = parmz.IMAGE_FIELD
     # data['query_string'] = '?' + '&'.join([urlencode(terms), urlencode(controls)])
     data['content'] = data['results']['results']
-    return utils.check_template('index', data, request)
+    return utils.check_template('index', data, controls, request)
 
+
+@route('/single/<term:re:.*>')
+def single(term):
+    term = {'TITLE_s': term}
+    controls = {}
+
+    parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS['FULL']],
+                  'facet_fields': [p[1] for p in parmz.FACETS],
+                  'terms': term,
+                  'controls': controls
+                  }
+    data = {}
+    data['results'] = utils.query(parameters)
+    data['selected_field'] = ''
+    data['result_fields'] = FIELD_DEFINITIONS['FULL']
+    data['terms'] = term
+    data['controls'] = controls
+    data['query_string'] = urlencode(term | controls)
+    data['base_string'] = urlencode(term)
+    data['image_field'] = parmz.IMAGE_FIELD
+    data['single'] = data['results']['results']
+    return utils.check_template('index', data, controls, request)
 
 @route('/remove/<term:re:.*>')
 def remove(term):

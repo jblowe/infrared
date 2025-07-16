@@ -3,7 +3,7 @@
         % for i,r in enumerate(data['content']):
             <div class="row">
                 <header>
-                    <h5 class="bg-info">{{ i+1 }}. {{ r[TITLE_FIELD] }}</h5>
+                    <h5 class="bg-info">{{ i+1+data['results']['start_row'] }}. {{ r[TITLE_FIELD] }}</h5>
                 </header>
                 <dl class="row lh-sm">
                     % for x in data['result_fields']:

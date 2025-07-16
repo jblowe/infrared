@@ -15,7 +15,7 @@
     <tbody>
     % for i,r in enumerate(data['content']):
     <tr>
-        <td>{{ i+1 }}</td>
+        <td>{{ i+1+data['results']['start_row'] }}</td>
         % for x in data['result_fields']:
             % if x[1] in r:
                 % cell = r[x[1]]

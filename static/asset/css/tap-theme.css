@@ -1,0 +1,38 @@
+
+/* TAP Bootstrap 5 Theme - Plain CSS */
+/* Inspired by pottery, copper, and Thailand archaeology */
+
+body {
+  background-color: #FAF4E3;
+  color: #333333;
+}
+
+a {
+  color: #679289;
+}
+a:hover {
+  color: #D6A756;
+}
+
+.navbar {
+  background-color: #EC5800;
+}
+
+.card {
+  background-color: #fff9f0;
+  border-color: #836953;
+}
+
+.card-header {
+  background-color: #8A4B2C;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #EC5800;
+  border-color: #8A4B2C;
+}
+
+.btn-primary:hover {
+  background-color: #cc4a00;
+}

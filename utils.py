@@ -33,31 +33,37 @@ def add_time_and_version():
         get_version(), time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()))
 
 
-def check_template(tpl, data, request):
+def check_template(tpl, data, controls, request):
     if 'back' not in data:
         data['back'] = '/'
     # redirect('/facet/' + data['query_string'])
 
-    return template(spaceless(tpl), data=data)
+    return template(spaceless(tpl), controls=controls, data=data)
 
 
 def query(parameters):
     query_terms = {}
+    ROW_LIMIT = 80
     for q in parameters['terms']:
         if q != '*':
             query_terms[q] = f"\"{parameters['terms'][q]}\""
         else:
             query_terms[q] = parameters['terms'][q]
+    try:
+        start_row = ROW_LIMIT * (int(parameters['controls']['page']) - 1)
+    except:
+        start_row = 0
     result_fields = parameters['result_fields'] + [parmz.IMAGE_FIELD] + [parmz.TITLE_FIELD] + ['id']
     facet_fields = parameters['facet_fields']
-    ROW_LIMIT = 80
-    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, parmz.FACET_LIMIT,
-                                         parmz.FACET_MINCOUNT)
+    results = solr_query.solr_main_query(query_terms, result_fields, facet_fields, ROW_LIMIT, start_row,
+                                         parmz.FACET_LIMIT,
+                                         parmz.FACET_MINCOUNT )
     full_facets = {}
     for f in results['facets']:
         if results['facets'][f] != {}:
             full_facets[f] = results['facets'][f]
     results['facets'] = full_facets
+    results['start_row'] = start_row
     # for r in results['results']:
     #     for f in r:
     #         if type(r[f]) == type([]):
