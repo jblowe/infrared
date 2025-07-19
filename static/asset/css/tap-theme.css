@@ -1,38 +1,45 @@
 
-/* TAP Bootstrap 5 Theme - Plain CSS */
-/* Inspired by pottery, copper, and Thailand archaeology */
+/* TAP Theme */
 
-body {
-  background-color: #FAF4E3;
-  color: #333333;
+.extra-small {
+    font-size: 0.5em; /* or 0.6em, 0.5em, etc. */
 }
 
+/* Link colors - warmer, less blue */
 a {
-  color: #679289;
+  text-decoration: none;
+  /* color: #ffffff; */
 }
 a:hover {
-  color: #D6A756;
+  /* color: #d88f4f; */
 }
 
-.navbar {
-  background-color: #EC5800;
-}
-
-.card {
-  background-color: #fff9f0;
-  border-color: #836953;
-}
-
-.card-header {
-  background-color: #8A4B2C;
-  color: white;
-}
-
+/* Primary buttons - warm copper tones */
 .btn-primary {
-  background-color: #EC5800;
-  border-color: #8A4B2C;
+  background-color: #A51931;
+  border-color: #b34700;
 }
-
 .btn-primary:hover {
   background-color: #cc4a00;
+  border-color: #993800;
+}
+
+/* Info background - warm teal-green */
+.bg-info {
+  background-color: lightgray !important;
+  color: #1c2b29 !important;
+}
+
+/* Limit icon color override to FontAwesome icons inside .nav-link */
+.nav-link .fas {
+  color: #cc5c2e;
+}
+
+/* Override Bootstrap .text-primary utility class */
+.text-primary {
+  color: #cc5c2e !important;
+}
+
+.special {
+  color: white !important;
 }

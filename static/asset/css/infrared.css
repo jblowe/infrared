@@ -1,3 +1,5 @@
+/* facet css inspired by Blacklight */
+
 .facet-values li {
     display: flex;
     align-items: flex-start;
@@ -14,18 +16,6 @@
     text-align: right;
     width: 5em;
     margin-left: auto;
-}
-
-.thumbnail-small {
-    margin-bottom: 2rem;
-    padding-left: 1rem;
-    max-width: 400px;
-}
-
-.thumbnail-medium {
-    margin-bottom: 2rem;
-    padding-left: 1rem;
-    max-width: 400px;
 }
 
 .facets-header {
@@ -107,35 +97,47 @@
     width: 1.25rem
 }
 
+.thumbnail-small {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    max-width: 400px;
+}
+
+.thumbnail-medium {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    max-width: 400px;
+}
+
 .breadcrumb-item + .breadcrumb-item::before {
-  content: none;
+    content: none;
 }
 
 .image-hover-preview {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .preview-popup {
-  display: none;
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  left: 30px;
-  width: 400px;
-  padding: 4px;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  white-space: nowrap;
+    display: none;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 30px;
+    width: 400px;
+    padding: 4px;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
 }
 
 .image-hover-preview:hover .preview-popup {
-  display: block;
+    display: block;
 }
 
 /* Flip popup to the left if the container is aligned right */
 .image-hover-preview.flip-left .preview-popup {
-  left: auto;
-  right: 30px;
+    left: auto;
+    right: 30px;
 }
