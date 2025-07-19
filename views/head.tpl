@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/static/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/static/all.min.css"/>
     <link rel="stylesheet" type="text/css" href="/static/infrared.css"/>
+    <!-- link rel="stylesheet" type="text/css" href="/static/tap-theme.css" -->
     <link rel="stylesheet" type="text/css" href="/static/tap-theme.css">
 
     <script type="text/javascript" src="/static/bootstrap.min.js"></script>

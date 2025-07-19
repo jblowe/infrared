@@ -1,3 +1,4 @@
+
 <h6 class="">Facets</h6>
 <div id="facets">
     % for facet in FACETS:
@@ -33,7 +34,9 @@
                       {{ f }}
                     </a>
                   % end
-                  <span>{{ data['results']['facets'][facet[1]][f] }}</span>
+                    % cell = int(data['results']['facets'][facet[1]][f])
+                    % cell = f'{cell:,}'
+                  <span>{{ cell }}</span>
                 </li>
               % end
             </ul>
@@ -41,3 +44,4 @@
         % end
     % end
 </div>
+% end

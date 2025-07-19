@@ -3,8 +3,10 @@
         % for i,r in enumerate(data['content']):
         <div class="row">
             <header>
-                <a href="/catalog/{{ r['id'] }}">
-                    <h5 class="bg-info">{{ i+1+data['results']['start_row'] }}. {{ r[TITLE_FIELD] }}</h5>
+                <a href="/single/{{ r['id'] }}">
+                    <h5 class="bg-info">
+                        <span class="extra-small">{{ i+1+data['results']['start_row'] }}.</span>
+                        {{ r[TITLE_FIELD] }}</h5>
                 </a>
             </header>
             % if data['image_field'] in r:

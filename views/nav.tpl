@@ -8,8 +8,8 @@
           <a style="padding-left: 30px;" class="navbar-brand" href="/">{{ BANNER }}</a>
         </div>
       <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/"><span class="fas fa-home" /></a>
-          <a class="nav-item nav-link" href="/about"><span class="fas fa-info-circle" /></a>
+          <a class="nav-item nav-link" href="/"><span class="fas fa-home special" /></a>
+          <a class="nav-item nav-link" href="/about"><span class="fas fa-info-circle special" /></a>
       </div>
       % include('buttons.tpl')
     </div>

@@ -1,23 +1,27 @@
+% if data['results']['results'] != []:
 <div id="widgets" class="col-sm-8">
     % base_string = data['base_string']
     % current_view = data['controls']['view']
     <section class="paginate-section">
         <div class="page-links">
             % previous = controls['page'] - 1 if controls['page'] > 0 else 1
-            % previous = controls['page'] - 1 if controls['page'] > 0 else 1
             % if controls['page'] > 1:
-                <a rel="next" href="/facet/?{{!base_string}}&page={{ controls['page'] - 1 }}">« Previous </a>
+                <a rel="next" href="/facet/?{{!base_string}}&page={{ controls['page'] - 1 }}">« Previous | </a>
             % end
             <span class="page-entries">
+                % numfound = f"{data['results']['numfound']:,}"
                 % if data['results']['start_row'] + len(data['results']['results']) < data['results']['numfound']:
-                    <strong>{{ data['results']['start_row']+1 }}</strong> - <strong>{{ data['results']['start_row']+len(data['results']['results']) }}</strong> of <strong>{{ data['results']['numfound'] }}</strong>
+                    % cell = data['results']['start_row']+len(data['results']['results'])
+                    % cell = f'{cell:,}'
+                    <strong>{{ data['results']['start_row']+1 }}</strong> - <strong>{{ cell }}</strong> of <strong>{{ numfound }}</strong>
                 % else:
-                    <strong>{{ data['results']['start_row']+1 }}</strong> - <strong>{{ data['results']['numfound'] }}</strong>
+                    <strong>{{ data['results']['start_row']+1 }}</strong> - <strong>{{ numfound }}</strong>
                 % end
-                </span>
+            </span>
             % if (data['controls']['per_page'] * data['controls']['page']) < data['results']['numfound']:
-                <a rel="next" href="/facet/?{{!base_string}}&page={{ controls['page'] + 1}}"> Next »</a>
+                <a rel="next" href="/facet/?{{!base_string}}&page={{ controls['page'] + 1}}"> | Next »</a>
             % end
+            <small>Page {{ controls['page'] }}</small>
         </div>
     </section>
 </div>
@@ -37,3 +41,4 @@
         </a>
     </nav>
 </div>
+% end
