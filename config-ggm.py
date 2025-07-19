@@ -9,6 +9,7 @@ parmz.TITLE = 'Title'
 parmz.CITATION = 'Lowe, et al. 2024'
 parmz.BANNER = 'Infrared Search Engine'
 parmz.BANNER_COLOR = '#EC5800'
+parmz.LOGO = 'vajra.png'
 parmz.SOLR_CORE = 'ggm'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 10

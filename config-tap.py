@@ -9,11 +9,11 @@ parmz.TITLE = 'TAP'
 parmz.CITATION = 'Lowe, et al. 2025'
 parmz.BANNER = 'Thailand Archaeometallurgy Project'
 parmz.LOGO = 'tap-logo-small.png'
-parmz.BANNER_COLOR = '#EC5800'
+parmz.BANNER_COLOR = '#A51931'
 parmz.SOLR_CORE = 'tap'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 40
-parmz.FACET_MINCOUNT = 2
+parmz.FACET_MINCOUNT = 1
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.TITLE_FIELD = 'TITLE_s'
 parmz.IMAGE_FIELD = 'IMAGES_ss'
@@ -100,14 +100,16 @@ parmz.FULL = [
     ('Record types', 'DTYPES_ss'),
     ('Site', 'SITE_s'),
     ('Op', 'OP_s'),
+    ('Sq', 'SQ_s'),
     ('Lot', 'LOT_s'),
     ('Level', 'LEVEL_s'),
     ('Area', 'AREA_s'),
     ('T no', 'T_s'),
     ('Burial', 'BURIAL_s'),
     ('Year', 'YEAR_s'),
+    ('Season', 'SEASON_s'),
     # ('Title', 'TITLE_s'),
-    ('Key', 'KEY_s'),
+    # ('Key', 'KEY_s'),
     ('Entry date', 'ENTRY_DATE_s'),
     ('Registrar', 'REGISTRAR_s'),
     ('Excavator', 'EXCAVATOR_s'),
@@ -115,6 +117,34 @@ parmz.FULL = [
     ('Count', 'COUNT_s'),
     ('Weight', 'WEIGHT_s'),
     ('Lab tray', 'LAB_TRAY_s'),
+    # ('Dtypes', 'DTYPES_ONLY_ss'),
+    # ('Records', 'RECORDS_ss'),
+    # ('Images', 'IMAGES_ss'),
+    # ('Filenames', 'FILENAMES_ss'),
+    ('Roll', 'ROLL_s'),
+    ('Exp', 'EXP_s'),
+    ('Material', 'MATERIAL_s'),
+    ('Notes', 'NOTES_s'),
+    ('Stratum', 'STRATUM_s'),
+    ('Class', 'CLASS_s'),
+    # ('Image name', 'IMAGENAME_s'),
+    # ('Filename', 'FILENAME_s'),
+    ('Count', 'COUNT_s'),
+    ('Directory', 'DIRECTORY_s'),
+    # ('Dtypes', 'DTYPES_ONLY_ss'),
+    ('Doc2', 'DOC2_ss'),
+    ('Entry', 'ENTRY_DATE_s'),
+    ('Etc', 'ETC_s'),
+    ('Fea', 'FEA_s'),
+    # ('Filenames', 'FILENAMES_ss'),
+    # ('Images', 'IMAGES_ss'),
+    ('Keyterms', 'KEYTERMS_ss'),
+    # ('Records', 'RECORDS_ss'),
+    ('Reg no', 'REG_s'),
+    ('Unknown', 'UNKNOWN_s'),
+    ('Weight', 'WEIGHT_s'),
+    ('Title', 'TITLE_s'),
+    ('Doc', 'DOC_ss'),
 ]
 FIELD_DEFINITIONS['FULL'] = parmz.FULL
 

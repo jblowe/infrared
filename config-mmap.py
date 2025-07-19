@@ -9,6 +9,7 @@ parmz.TITLE = 'MMAP'
 parmz.CITATION = 'mmap project'
 parmz.BANNER = 'MMAP banner'
 parmz.BANNER_COLOR = '#EC5800'
+parmz.LOGO = 'mmap-logo.png'
 parmz.SOLR_CORE = 'mmap-public'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 100
