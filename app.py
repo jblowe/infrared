@@ -42,9 +42,9 @@ def send_font(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'webfonts'))
 
 
-@route('/images/<filename:re:.*>')
+@route('/' + parmz.IMAGE_DIRECTORY + '/<filename:re:.*>')
 def send_image(filename):
-    return static_file(filename, root=dirname + os.sep + os.path.join('images'))
+    return static_file(filename, root=dirname + os.sep + os.path.join(parmz.IMAGE_DIRECTORY))
 
 
 @route('/')
@@ -101,7 +101,7 @@ def facet():
     # assign defaults if necessary
     if not 'page' in controls: controls['page'] = 1
     if not 'per_page' in controls: controls['per_page'] = 80
-    if not 'view' in controls: controls['view'] = 'LIST' # Default to 'LIST' if not set
+    if not 'view' in controls: controls['view'] = 'LIST'  # Default to 'LIST' if not set
     current_view = controls['view']
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS[current_view]],
@@ -145,6 +145,7 @@ def single(term):
     data['image_field'] = parmz.IMAGE_FIELD
     data['single'] = data['results']['results'][0]
     return utils.check_template('index', data, controls, request)
+
 
 @route('/remove/<term:re:.*>')
 def remove(term):
