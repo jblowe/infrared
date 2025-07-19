@@ -10,6 +10,7 @@ parmz.CITATION = 'Lowe, et al. 2025'
 parmz.BANNER = 'Thailand Archaeometallurgy Project'
 parmz.LOGO = 'tap-logo-small.png'
 parmz.BANNER_COLOR = '#A51931'
+parmz.SECONDARY_COLOR = '#002868'
 parmz.SOLR_CORE = 'tap'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 40
@@ -17,6 +18,7 @@ parmz.FACET_MINCOUNT = 1
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.TITLE_FIELD = 'TITLE_s'
 parmz.IMAGE_FIELD = 'IMAGES_ss'
+parmz.IMAGE_DIRECTORY = 'images'
 parmz.PORT = 3002
 
 FIELD_DEFINITIONS = {}

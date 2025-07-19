@@ -18,6 +18,7 @@ parmz.FACET_MINCOUNT = 1
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.TITLE_FIELD = 'TITLE_s'
 parmz.IMAGE_FIELD = 'IMAGES_ss'
+parmz.IMAGE_DIRECTORY = 'images'
 parmz.PORT = 3002
 
 FIELD_DEFINITIONS = {}
