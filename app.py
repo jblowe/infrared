@@ -1,7 +1,7 @@
 from bottle import Bottle, HTTPResponse, default_app, post, request, run, route, template, debug, static_file, \
     BaseTemplate
 from html import escape
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse, parse_qs
 from config import *
 
 import os
@@ -75,7 +75,7 @@ def about():
 
 
 @route('/facet/')
-@route('/search/')
+@route('/search/', method=['GET', 'POST'])
 def facet():
     terms = {}
     r = request
@@ -83,11 +83,12 @@ def facet():
     control_names = 'display page per_page view'.split(' ')
     controls = {}
 
-    if 'search' in query:
-        terms[query['search_field']] = query['search_value']
-        del query['search']
-        del query['search_field']
-        del query['search_value']
+    if request.POST != {}:
+        parsed_url = urlparse(request.POST['query_string'])
+        query = dict(parse_qs(parsed_url.path))
+        for q in query:
+            query[q] = query[q][0]
+        terms[request.POST['search_field']] = request.POST['search_value']
     for f in query:
         if f in control_names:
             try:
@@ -100,7 +101,7 @@ def facet():
     # assign defaults if necessary
     if not 'page' in controls: controls['page'] = 1
     if not 'per_page' in controls: controls['per_page'] = 80
-    if not 'view' in controls: controls['view'] = 'FULL' # Default to 'FULL' if not set
+    if not 'view' in controls: controls['view'] = 'LIST' # Default to 'LIST' if not set
     current_view = controls['view']
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS[current_view]],
@@ -125,7 +126,7 @@ def facet():
 
 @route('/single/<term:re:.*>')
 def single(term):
-    term = {'TITLE_s': term}
+    term = {'KEY_s': term.replace('_', ' ')}
     controls = {}
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS['FULL']],
@@ -142,7 +143,7 @@ def single(term):
     data['query_string'] = urlencode(term | controls)
     data['base_string'] = urlencode(term)
     data['image_field'] = parmz.IMAGE_FIELD
-    data['single'] = data['results']['results']
+    data['single'] = data['results']['results'][0]
     return utils.check_template('index', data, controls, request)
 
 @route('/remove/<term:re:.*>')
