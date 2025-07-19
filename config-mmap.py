@@ -7,9 +7,10 @@ class parmz:
 
 parmz.TITLE = 'MMAP'
 parmz.CITATION = 'mmap project'
-parmz.BANNER = 'MMAP banner'
-parmz.BANNER_COLOR = '#EC5800'
-parmz.LOGO = 'mmap-logo.png'
+parmz.BANNER = 'Middle Mekong Archaeology Project'
+parmz.BANNER_COLOR = '#CE1126'
+parmz.SECONDARY_COLOR = '#002868'
+parmz.LOGO = 'mmap-logo-pot-and-river.png'
 parmz.SOLR_CORE = 'mmap-public'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 100
@@ -22,10 +23,10 @@ parmz.PORT = 3011
 FIELD_DEFINITIONS = {}
 
 parmz.SEARCH = [
-    ('Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact ID', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
-    ('Bag Id', 'bag_id_s'),
+    ('Bag ID', 'bag_id_s'),
     ('Artifact Condition', 'artifact_condition_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
@@ -75,7 +76,7 @@ FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 parmz.FACETS = [
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
-    ('Bag Id', 'bag_id_s'),
+    ('Bag ID', 'bag_id_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Period', 'period_s'),
     ('Material', 'material_s'),
@@ -90,10 +91,10 @@ parmz.FACETS = [
 ]
 
 parmz.LIST = [
-    ('Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact ID', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
-    ('Bag Id', 'bag_id_s'),
+    ('Bag ID', 'bag_id_s'),
     ('Artifact Condition', 'artifact_condition_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
@@ -142,10 +143,9 @@ parmz.LIST = [
 FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
-    ('Id', 'id'),
-    ('Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact ID', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
-    # ('Bag Id', 'bag_id_s'),
+    # ('Bag ID', 'bag_id_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
     ('Weight', 'weight_s'),
@@ -162,17 +162,17 @@ parmz.TABLE = [
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
 parmz.GALLERY = [
-    ('Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact ID', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Artifact Class', 'artifact_class_s'),
 ]
 FIELD_DEFINITIONS['GALLERY'] = parmz.GALLERY
 
 parmz.FULL = [
-    ('Artifact Id', 'mmap_artifact_id_s'),
+    ('Artifact ID', 'mmap_artifact_id_s'),
     ('Site Name', 'site_name_s'),
     ('Date Discovered', 'date_discovered_s'),
-    ('Bag Id', 'bag_id_s'),
+    ('Bag ID', 'bag_id_s'),
     ('Artifact Condition', 'artifact_condition_s'),
     ('Artifact Class', 'artifact_class_s'),
     ('Maximum Dimension', 'maximum_dimension_s'),
