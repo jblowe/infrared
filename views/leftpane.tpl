@@ -1,4 +1,4 @@
-
+% if data['results']['results'] != []:
 <h6 class="">Facets</h6>
 <div id="facets">
     % for facet in FACETS:
