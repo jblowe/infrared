@@ -148,7 +148,7 @@ parmz.TABLE = [
     ('Site Name', 'site_name_s'),
     # ('Bag ID', 'bag_id_s'),
     ('Artifact Class', 'artifact_class_s'),
-    ('Maximum Dimension', 'maximum_dimension_s'),
+    ('Max. Dim', 'maximum_dimension_s'),
     ('Weight', 'weight_s'),
     ('Count', 'count_s'),
     ('Burial No', 'burial_no_s'),
@@ -158,7 +158,6 @@ parmz.TABLE = [
     ('Square', 'square_s'),
     ('Quad', 'quad_s'),
     ('Layer', 'layer_s'),
-    ('Feano', 'feano_s'),
 ]
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
