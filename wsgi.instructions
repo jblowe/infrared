@@ -1,0 +1,50 @@
+# to get wsgi set up with apache on ubuntu 24.02 running on aws ec2
+
+1. set up a CNAME for the vhost (in Route 53), etc.
+
+# as ubuntu user on ec2 instance
+
+2. git clone the infrared repo into the ubuntu user home dir
+   (you'll need one clone for each deployment of the app)
+
+git clone https://github.com/jblowe/infrared.git xxx-infrared
+
+3. create a venv the usual way (in this case, in the home dir of user ubuntu)
+
+4. install gunicorn and mod_wsgi as python modules in the venv
+
+pip install gunicorn
+pip install mod_wsgi
+
+5. check that the wsgi module works
+
+mod_wsgi-express start-server app.wsgi
+
+6. create the needed wsgi config
+
+
+./venv/bin/mod_wsgi-express module-config
+
+(copy the result into the clipboard)
+
+# as root
+sudo su -
+
+7. update the wsgi config: edit this file, replace with clipboard
+
+vi /etc/apache2/mods-available/wsgi.load
+
+8. create a vhost for this app; copy the example config to sites-available
+
+cp ~ubuntu/infrared/infrared.conf /etc/apache2/sites-available/xxx-infrared.conf
+
+9. edit it so that it points to the correct deployment directory
+
+vi /etc/apache2/sites-available/xxx-infrared.conf
+
+10. restart apache
+
+systemctl restart apache2
+systemctl status apache2.service
+
+... perhaps it will work?

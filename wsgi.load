@@ -1,0 +1,7 @@
+# what is needed to make wsgi work on aws ec2 ubuntu w apache
+LoadModule wsgi_module "/home/ubuntu/venv/lib/python3.12/site-packages/mod_wsgi/server/mod_wsgi-py312.cpython-312-x86_64-linux-gnu.so"
+WSGIPythonHome "/home/ubuntu/venv"
+
+# what was installed originally
+# LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so
+
