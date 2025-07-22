@@ -163,5 +163,6 @@ def download(full_path, filename):
     return response
 
 
-# application = default_app()
-run(host='0.0.0.0', port=parmz.PORT)
+# run(server='gunicorn', port=parmz.PORT)
+if __name__ == '__main__':
+    run(host='0.0.0.0', port=parmz.PORT)
