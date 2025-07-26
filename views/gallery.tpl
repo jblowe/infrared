@@ -21,7 +21,13 @@
             % end
             <div class="card-body" style="padding: 3px;">
                 <!-- h5 class="bg-info">{{ i+1 }}. {{ r[TITLE_FIELD] }}</h5 -->
-                <h6 class="">{{ r[TITLE_FIELD] }}</h6>
+
+                <h6 class="">
+                        % title = r[TITLE_FIELD]
+                        % if type(title) == type([]):
+                        %     title = ', '.join(title)
+                        % end
+                        {{ title }}</h6>
                 <!-- h5 class="card-title">{{ i+1 }}</h5 -->
                 <ul class="list-unstyled">
                     % for x in data['result_fields']:

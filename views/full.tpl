@@ -6,7 +6,11 @@
                 <a href="/single/{{ r['id'] }}">
                     <h5 class="bg-info">
                         <span class="extra-small">{{ i+1+data['results']['start_row'] }}.</span>
-                        {{ r[TITLE_FIELD] }}</h5>
+                        % title = r[TITLE_FIELD]
+                        % if type(title) == type([]):
+                        %     title = ', '.join(title)
+                        % end
+                        {{ title }}</h5>
                 </a>
             </header>
                 <dl class="row lh-sm">
