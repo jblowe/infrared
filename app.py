@@ -22,7 +22,7 @@ for f in [v for v in list(vars(parmz).keys()) if not v.startswith('__')]:
     BaseTemplate.defaults[f] = getattr(parmz, f)
 
 
-@route(r'/static/<filename:re:.*\.(ico|jpg|png|gif)>')
+@route(r'/static/<filename:re:.*\.(ico|jpg|png|gif|svg)>')
 def send_ico(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'images'))
 
