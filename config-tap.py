@@ -8,7 +8,7 @@ class parmz:
 parmz.TITLE = 'TAP'
 parmz.CITATION = 'Lowe, et al. 2025'
 parmz.BANNER = 'Thailand Archaeometallurgy Project'
-parmz.LOGO = 'tap-logo-small.png'
+parmz.LOGO = 'tap-logo-small.svg'
 parmz.BANNER_COLOR = '#A51931'
 parmz.SECONDARY_COLOR = '#002868'
 parmz.SOLR_CORE = 'tap'
@@ -39,7 +39,7 @@ parmz.SEARCH = [
     ('Excavation date', 'EXCAVATION_DATE_s'),
     ('Count', 'COUNT_s'),
     ('Weight', 'WEIGHT_s'),
-    ('Lab tray', 'LAB_TRAY_s'),
+    ('Inventory', 'TRAY_s'),
     ('Keyword', 'text'),
 ]
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
@@ -54,7 +54,9 @@ parmz.FACETS = [
     ('T no', 'T_s'),
     ('Burial', 'BURIAL_s'),
     ('Year', 'YEAR_s'),
+    ('Season', 'SEASON_s'),
     ('Title', 'TITLE_s'),
+    ('Doc', 'DOC_ss'),
     ('Key', 'KEY_s'),
     ('Entry date', 'ENTRY_DATE_s'),
     ('Registrar', 'REGISTRAR_s'),
@@ -62,7 +64,7 @@ parmz.FACETS = [
     ('Excavation date', 'EXCAVATION_DATE_s'),
     ('Count', 'COUNT_s'),
     ('Weight', 'WEIGHT_s'),
-    ('Lab tray', 'LAB_TRAY_s'),
+    ('Inventory', 'TRAY_s'),
     ('Keyword', 'text'),
 ]
 FIELD_DEFINITIONS['FACETS'] = parmz.FACETS
@@ -87,6 +89,7 @@ parmz.TABLE = [
     # ('Record types', 'DTYPES_ONLY_ss'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
+    ('Season', 'SEASON_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
     ('Level', 'LEVEL_s'),
@@ -118,7 +121,7 @@ parmz.FULL = [
     ('Excavation date', 'EXCAVATION_DATE_s'),
     ('Count', 'COUNT_s'),
     ('Weight', 'WEIGHT_s'),
-    ('Lab tray', 'LAB_TRAY_s'),
+    ('Inventory', 'TRAY_s'),
     # ('Dtypes', 'DTYPES_ONLY_ss'),
     # ('Records', 'RECORDS_ss'),
     # ('Images', 'IMAGES_ss'),
