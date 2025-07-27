@@ -45,58 +45,6 @@
     color: #fff
 }
 
-.facet-values {
-    margin-bottom: 0;
-}
-
-.facet-values a {
-    text-decoration: none
-}
-
-.facet-values li {
-    display: flex;
-    align-items: flex-start;
-    /*! padding:3px 0; */
-}
-
-.facet-values li[role="treeitem"] {
-    display: block
-}
-
-.facet-values li .selected {
-    color: #198754 !important
-}
-
-.facet-values .remove {
-    color: var(--bs-secondary-color);
-    font-weight: bold;
-    padding-left: 0.5rem;
-    text-decoration: none
-}
-
-.facet-values .remove:hover {
-    color: theme-color("danger");
-    text-decoration: none
-}
-
-.facet-values .facet-label {
-    padding-right: 1em;
-    text-indent: -15px;
-    padding-left: 15px;
-    overflow-wrap: break-word;
-    -webkit-hyphens: auto;
-    -o-hyphens: auto;
-    hyphens: auto
-}
-
-.facet-values .facet-count {
-    margin-left: auto
-}
-
-.facet-values .facet-checkbox {
-    width: 1.25rem
-}
-
 .thumbnail-small {
     margin-bottom: 2rem;
     padding-left: 1rem;
@@ -140,4 +88,30 @@
 .image-hover-preview.flip-left .preview-popup {
     left: auto;
     right: 30px;
+}
+
+
+.nav-pills .nav-link.active {
+    background-color: var(--bs-gray-500); /* light gray */
+    color: var(--bs-body-color); /* default text color */
+    border-radius: 0.5rem;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--bs-gray-300); /* slightly lighter gray on hover */
+    color: var(--bs-body-color);
+}
+
+
+.extra-small {
+    font-size: 0.7em;
+}
+
+/* Link colors - warmer, less blue */
+a {
+  text-decoration: none;
+  /* color: #ffffff; */
+}
+a:hover {
+  /* color: #d88f4f; */
 }

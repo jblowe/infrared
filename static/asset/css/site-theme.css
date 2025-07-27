@@ -1,18 +1,5 @@
 
-/* TAP Theme */
-
-.extra-small {
-    font-size: 0.7em;
-}
-
-/* Link colors - warmer, less blue */
-a {
-  text-decoration: none;
-  /* color: #ffffff; */
-}
-a:hover {
-  /* color: #d88f4f; */
-}
+/* site theme (customize here) */
 
 /* Primary buttons - warm copper tones */
 .btn-primary {
@@ -24,7 +11,7 @@ a:hover {
   border-color: #993800;
 }
 
-/* Info background - warm teal-green */
+
 .bg-info {
   background-color: lightgray !important;
   color: #1c2b29 !important;
