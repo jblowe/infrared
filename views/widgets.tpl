@@ -26,17 +26,17 @@
     </section>
 </div>
 <div id="displays" class="col-sm-4" style="float: right;">
-    <nav class="nav">
-        <a title="Table" class="nav-link {{'active' if current_view == 'TABLE' else ''}}" href="/facet/?{{!base_string}}&view=TABLE">
+    <nav class="nav nav-pills">
+        <a title="Table" class="nav-link {{'active' if current_view == 'TABLE' else ''}}" href="/facet/?{{!base_string}}&page={{ controls['page'] }}&view=TABLE">
             <span class="fas fa-table fa-2x"></span>
         </a>
-        <a title="List" class="nav-link {{'active' if current_view == 'LIST' else ''}}" href="/facet/?{{!base_string}}&view=LIST">
+        <a title="List" class="nav-link {{'active' if current_view == 'LIST' else ''}}" href="/facet/?{{!base_string}}&page={{ controls['page'] }}&view=LIST">
             <span class="fas fa-list fa-2x"></span>
         </a>
-        <a title="Gallery" class="nav-link {{'active' if current_view == 'GALLERY' else ''}}" href="/facet/?{{!base_string}}&view=GALLERY">
+        <a title="Gallery" class="nav-link {{'active' if current_view == 'GALLERY' else ''}}" href="/facet/?{{!base_string}}&page={{ controls['page'] }}&view=GALLERY">
             <span class="fas fa-th fa-2x"></span>
         </a>
-        <a title="Full" class="nav-link {{'active' if current_view == 'FULL' else ''}}" href="/facet/?{{!base_string}}&view=FULL">
+        <a title="Full" class="nav-link {{'active' if current_view == 'FULL' else ''}}" href="/facet/?{{!base_string}}&page={{ controls['page'] }}&view=FULL">
             <span class="fas fa-file fa-2x"></span>
         </a>
     </nav>

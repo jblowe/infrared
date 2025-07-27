@@ -1,7 +1,7 @@
 from bottle import Bottle, HTTPResponse, default_app, post, request, run, route, template, debug, static_file, \
     BaseTemplate
 from html import escape
-from urllib.parse import urlencode, urlparse, parse_qs
+from urllib.parse import urlencode, urlparse, parse_qs, parse_qsl
 from config import *
 
 import os
@@ -53,7 +53,7 @@ def index(data=None):
         data = {'home': 'here'}
     parameters = request.forms
     if parameters == {}:
-        parameters = {'terms': {'*': '*'},
+        parameters = {'terms': [('*', '*')],
                       'controls': {},
                       'result_fields': [p[1] for p in FIELD_DEFINITIONS['LIST']],
                       'facet_fields': [p[1] for p in FIELD_DEFINITIONS['FACETS']]
@@ -61,8 +61,7 @@ def index(data=None):
     data['selected_field'] = ''
     data['query_string'] = ''
     data['results'] = utils.query(parameters)
-    data['terms'] = parameters['terms']
-    del data['terms']['*']
+    data['terms'] = []
     controls = parameters['controls']
     data['content'] = data['results']['results']
     return utils.check_template('index', data, controls, request.forms)
@@ -77,26 +76,26 @@ def about():
 @route('/facet/')
 @route('/search/', method=['GET', 'POST'])
 def facet():
-    terms = {}
+    terms = []
     r = request
-    query = dict(request.query.decode())
+    query = parse_qsl(request.query_string)
     control_names = 'display page per_page view'.split(' ')
     controls = {}
 
     if request.POST != {}:
         parsed_url = urlparse(request.POST['query_string'])
-        query = dict(parse_qs(parsed_url.path))
+        query = parse_qs(parsed_url.path)
         for q in query:
             query[q] = query[q][0]
-        terms[request.POST['search_field']] = request.POST['search_value']
+        terms.append((request.POST['search_field'], request.POST['search_value']))
     for f in query:
-        if f in control_names:
+        if f[0] in control_names:
             try:
-                controls[f] = int(query[f])
+                controls[f[0]] = int(f[1])
             except:
-                controls[f] = query[f]
+                controls[f[0]] = f[1]
         else:
-            terms[f] = query[f]
+            terms.append(f)
 
     # assign defaults if necessary
     if not 'page' in controls: controls['page'] = 1
@@ -115,8 +114,7 @@ def facet():
     data['result_fields'] = FIELD_DEFINITIONS[current_view]
     data['terms'] = terms
     data['controls'] = controls
-    x = terms | controls
-    data['query_string'] = urlencode(terms | controls)
+    data['query_string'] = urlencode(terms) + '&' + urlencode(controls)
     data['base_string'] = urlencode(terms)
     data['image_field'] = parmz.IMAGE_FIELD
     # data['query_string'] = '?' + '&'.join([urlencode(terms), urlencode(controls)])
@@ -126,7 +124,7 @@ def facet():
 
 @route('/single/<term:re:.*>')
 def single(term):
-    term = {'KEY_s': term.replace('_', ' ')}
+    term = [('KEY_s', term.replace('_', ' '))]
     controls = {}
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS['FULL']],

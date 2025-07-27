@@ -11,20 +11,24 @@
                     % for b in data['terms']:
                         <li class="breadcrumb-item">
                         % from copy import deepcopy
-                        % this_crumb = deepcopy(data['terms'])
+                        % this_crumb = []
                         % for t in data['terms']:
-                            % if t == b:
-                                % del this_crumb[t]
+                            % if t[0] == b[0] and t[1] == b[1]:
+                                % current = t
+                            % else:
+                                % this_crumb.append(t)
                             % end
                         % end
                         % from urllib.parse import urlencode
-                        % query_string = urlencode(this_crumb | data['controls'])
+                        % query_string = urlencode(this_crumb) + '&' +  urlencode(data['controls'])
                         <a class="btn btn-outline-secondary" href="/facet/?{{query_string}}">
-                              {{ FACET_LABELS[b] }} > {{ data['terms'][b] }}
-                              <span class="remove-icon" aria-hidden="true">✖</span>
-                              <span class="sr-only visually-hidden">
-                                Remove constraint {{ FACET_LABELS[b] }} {{ data['terms'][b] }}
-                              </span>
+                           % if any(k == b[0] and v == b[1] for k, v in data['terms']):
+                               {{ FACET_LABELS[b[0]] }} > {{ b[1] }}
+                               <span class="remove-icon" aria-hidden="true">✖</span>
+                               <span class="sr-only visually-hidden">
+                                   Remove constraint {{ FACET_LABELS[b[0]] }} {{ b[1] }}
+                               </span>
+                            % end
                         </a>
                         </li>
                     % end

@@ -16,10 +16,10 @@
                     {{ facet[0] }}
                 </button>
             </h3>
-            <ul id="facet-{{ facet[1] }}" class="card-body collapse{{ ' show' if facet[1] in data['terms'] else '' }}">
+            <ul id="facet-{{ facet[1] }}" class="card-body {{ 'show' if any(facet[1] == k for k, v in data['terms']) else 'collapse' }}">
               % for f in data['results']['facets'][facet[1]]:
                 <li class="d-flex justify-content-between align-items-start">
-                  % if data['terms'].get(facet[1]) == f:
+                  % if any(k == facet[1] and v == f for k, v in data['terms']):
                     % qstr = data['query_string'].replace(f"{facet[1]}={f}", "")
                     % qstr = qstr.lstrip('&').lstrip('?')
                     <span class="facet-label d-flex align-items-center">
