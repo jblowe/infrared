@@ -44,11 +44,6 @@ def check_template(tpl, data, controls, request):
 def query(parameters):
     query_terms = {}
     ROW_LIMIT = 80
-    for q in parameters['terms']:
-        if q[1] != '*' and q[1] != '':
-            query_terms[q[0]] = f"\"{q[1]}\""
-        else:
-            query_terms[q[0]] = q[1]
     try:
         start_row = ROW_LIMIT * (int(parameters['controls']['page']) - 1)
     except:

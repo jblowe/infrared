@@ -79,15 +79,14 @@ def facet():
     terms = []
     r = request
     query = parse_qsl(request.query_string)
+    query_dict = parse_qs(request.query_string)
     control_names = 'display page per_page view'.split(' ')
     controls = {}
 
-    if request.POST != {}:
-        parsed_url = urlparse(request.POST['query_string'])
-        query = parse_qs(parsed_url.path)
-        for q in query:
-            query[q] = query[q][0]
-        terms.append((request.POST['search_field'], request.POST['search_value']))
+    if 'search_field' in query_dict:
+        parsed_url = urlparse(query_dict['query_string'][0])
+        query = parse_qsl(parsed_url.path)
+        terms.append((query_dict['search_field'][0], query_dict['search_value'][0]))
     for f in query:
         if f[0] in control_names:
             try:
@@ -117,7 +116,6 @@ def facet():
     data['query_string'] = urlencode(terms) + '&' + urlencode(controls)
     data['base_string'] = urlencode(terms)
     data['image_field'] = parmz.IMAGE_FIELD
-    # data['query_string'] = '?' + '&'.join([urlencode(terms), urlencode(controls)])
     data['content'] = data['results']['results']
     return utils.check_template('index', data, controls, request)
 
