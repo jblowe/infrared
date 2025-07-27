@@ -23,11 +23,11 @@ parmz.PORT = 3010
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
-    ('City', 'city_s'),
-    ('Year', 'year_s'),
-    ('Locke Number', 'lockenumber_s'),
-    ('Location', 'location_s'),
-    ('Title', 'title_s')
+    ('City', 'city_txt'),
+    ('Year', 'year_txt'),
+    ('Locke Number', 'lockenumber_txt'),
+    ('Location', 'location_txt'),
+    ('Title', 'title_txt')
 ]
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 

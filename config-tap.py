@@ -24,22 +24,22 @@ parmz.PORT = 3002
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
     ('Record types', 'DTYPES_ONLY_ss'),
-    ('Site', 'SITE_s'),
-    ('Op', 'OP_s'),
-    ('Lot', 'LOT_s'),
-    ('Level', 'LEVEL_s'),
-    ('Area', 'AREA_s'),
-    ('T no', 'T_s'),
-    ('Year', 'YEAR_s'),
-    ('Title', 'TITLE_s'),
-    ('Key', 'KEY_s'),
-    ('Entry date', 'ENTRY_DATE_s'),
-    ('Registrar', 'REGISTRAR_s'),
-    ('Excavator', 'EXCAVATOR_s'),
-    ('Excavation date', 'EXCAVATION_DATE_s'),
-    ('Count', 'COUNT_s'),
-    ('Weight', 'WEIGHT_s'),
-    ('Inventory', 'TRAY_s'),
+    ('Site', 'SITE_txt'),
+    ('Op', 'OP_txt'),
+    ('Lot', 'LOT_txt'),
+    ('Level', 'LEVEL_txt'),
+    ('Area', 'AREA_txt'),
+    ('T no', 'T_txt'),
+    ('Year', 'YEAR_txt'),
+    ('Title', 'TITLE_txt'),
+    ('Key', 'KEY_txt'),
+    ('Entry date', 'ENTRY_DATE_txt'),
+    ('Registrar', 'REGISTRAR_txt'),
+    ('Excavator', 'EXCAVATOR_txt'),
+    ('Excavation date', 'EXCAVATION_DATE_txt'),
+    ('Count', 'COUNT_txt'),
+    ('Weight', 'WEIGHT_txt'),
+    ('Inventory', 'TRAY_txt'),
     ('Keyword', 'text'),
 ]
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
@@ -70,6 +70,10 @@ parmz.FACETS = [
 FIELD_DEFINITIONS['FACETS'] = parmz.FACETS
 parmz.FACET_LABELS = {}
 for f in parmz.FACETS:
+    parmz.FACET_LABELS[f[1]] = f[0]
+
+# add the labels for search, too
+for f in parmz.SEARCH:
     parmz.FACET_LABELS[f[1]] = f[0]
 
 parmz.LIST = [
