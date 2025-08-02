@@ -16,30 +16,28 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 # add version and start timestamp to footer
 BaseTemplate.defaults['FOOTER_INFO'] = utils.add_time_and_version()
 
-x = list(vars(parmz).keys())
-
 for f in [v for v in list(vars(parmz).keys()) if not v.startswith('__')]:
     BaseTemplate.defaults[f] = getattr(parmz, f)
 
 
 @route(r'/static/<filename:re:.*\.(ico|jpg|png|gif|svg)>')
 def send_ico(filename):
-    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'images'))
+    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'images'))
 
 
 @route(r'/static/<filename:re:.*\.css(.map)?>')
 def send_css(filename):
-    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'css'))
+    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'css'))
 
 
 @route(r'/static/<filename:re:.*\.js(.map)?>')
 def send_js(filename):
-    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'js'))
+    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'js'))
 
 
 @route(r'/webfonts/<filename:re:.*\.(woff2?|ttf|svg)>')
 def send_font(filename):
-    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'asset', 'webfonts'))
+    return static_file(filename, root=dirname + os.sep + os.path.join('static', 'webfonts'))
 
 
 @route('/' + parmz.IMAGE_DIRECTORY + '/<filename:re:.*>')
@@ -161,4 +159,15 @@ def download(full_path, filename):
 
 # run(server='gunicorn', port=parmz.PORT)
 if __name__ == '__main__':
-    run(host='0.0.0.0', port=parmz.PORT)
+
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the Bottle app.")
+    parser.add_argument('--host', default='localhost')
+    parser.add_argument('--port', type=int, default=3002)
+    parser.add_argument('--debug', action='store_true')
+    args = parser.parse_args()
+
+    run(host=args.host, port=args.port, debug=args.debug)
+
+# run(host='0.0.0.0', port=parmz.PORT)
