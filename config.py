@@ -78,11 +78,11 @@ for f in parmz.SEARCH:
 
 parmz.LIST = [
     ('Record types', 'DTYPES_ss'),
+    ('T no', 'T_s'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     ('Op', 'OP_s'),
     ('Lot', 'LOT_s'),
-    ('T no', 'T_s'),
     ('Burial', 'BURIAL_s'),
     ('Key', 'KEY_s'),
     # ('Title', 'TITLE_s'),
@@ -91,14 +91,14 @@ FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
     # ('Record types', 'DTYPES_ONLY_ss'),
+    ('T no', 'T_s'),
     ('Site', 'SITE_s'),
     ('Year', 'YEAR_s'),
     # ('Season', 'SEASON_s'),
     ('Op', 'OP_s'),
+    ('Area', 'AREA_s'),
     ('Lot', 'LOT_s'),
     ('Level', 'LEVEL_s'),
-    ('Area', 'AREA_s'),
-    ('T no', 'T_s'),
     ('Burial', 'BURIAL_s'),
     ('Feature', 'FEA_s'),
     # ('Key', 'KEY_s'),
@@ -142,7 +142,6 @@ parmz.FULL = [
     ('Count', 'COUNT_s'),
     ('Directory', 'DIRECTORY_s'),
     # ('Dtypes', 'DTYPES_ONLY_ss'),
-    ('Doc2', 'DOC2_ss'),
     ('Entry', 'ENTRY_DATE_s'),
     ('Etc', 'ETC_s'),
     ('Feature', 'FEA_s'),
