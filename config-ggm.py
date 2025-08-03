@@ -8,9 +8,9 @@ class parmz:
 parmz.TITLE = 'Title'
 parmz.CITATION = 'Lowe, et al. 2024'
 parmz.BANNER = 'Gregory G. Maskarinec: Bāhās & Bahīs of Nepal'
+parmz.LOGO = 'vajra.jpg'
 parmz.BANNER_COLOR = '#EC5800'
 parmz.SECONDARY_COLOR = '#002868'
-parmz.LOGO = 'vajra.jpg'
 parmz.SOLR_CORE = 'ggm'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 10
@@ -38,6 +38,7 @@ parmz.FACETS = [
     ('Locke Number', 'lockenumber_s'),
     ('Location', 'location_s'),
     ('Top Level', 'top_s'),
+    ('Keyword', 'text'),
 ]
 FIELD_DEFINITIONS['FACETS'] = parmz.FACETS
 parmz.FACET_LABELS = {}
