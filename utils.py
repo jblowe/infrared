@@ -24,6 +24,7 @@ def get_version():
     except FileNotFoundError:
         return "git-not-found"
 
+
 def spaceless(rendered_html):
     return re.sub(r'>\s+<', '><', rendered_html.strip())
 
@@ -52,7 +53,7 @@ def query(parameters):
     facet_fields = parameters['facet_fields']
     results = solr_query.solr_main_query(parameters['terms'], result_fields, facet_fields, ROW_LIMIT, start_row,
                                          parmz.FACET_LIMIT,
-                                         parmz.FACET_MINCOUNT )
+                                         parmz.FACET_MINCOUNT)
     full_facets = {}
     for f in results['facets']:
         if results['facets'][f] != {}:
@@ -65,6 +66,7 @@ def query(parameters):
     #             r[f] = ', '.join(r[f])
     return results
 
+
 def set_parameters(parameters, result_fields, terms, controls):
     return {
         'results': query(parameters),
@@ -72,10 +74,15 @@ def set_parameters(parameters, result_fields, terms, controls):
         'result_fields': result_fields,
         'terms': terms,
         'controls': controls,
-        'query_string': urlencode(terms) + '&' + urlencode(controls),
+        'query_string': '&'.join([urlencode(terms), urlencode(controls)]),
         'base_string': urlencode(terms),
         'image_field': parmz.IMAGE_FIELD}
 
 
+def set_controls(controls):
+    if not 'page' in controls: controls['page'] = 1
+    if not 'per_page' in controls: controls['per_page'] = 80
+    if not 'view' in controls: controls['view'] = 'LIST'
+    return controls
 
 VERSION = get_version()

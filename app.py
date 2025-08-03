@@ -47,18 +47,18 @@ def send_image(filename):
 
 @route('/')
 def index(data=None):
-    if data is None:
-        data = {'home': 'here'}
     parameters = request.forms
+    controls = utils.set_controls({})
     if parameters == {}:
         parameters = {'terms': [('*', '*')],
                       'controls': {},
                       'result_fields': [p[1] for p in FIELD_DEFINITIONS['LIST']],
                       'facet_fields': [p[1] for p in FIELD_DEFINITIONS['FACETS']]
                       }
-    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], [], {})
+    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], [], controls)
+    data['home'] = 'here'
     data['content'] = data['results']['results']
-    return utils.check_template('index', data, {}, request.forms)
+    return utils.check_template('index', data, controls, request.forms)
 
 
 @route('/about')
@@ -77,10 +77,14 @@ def facet():
     control_names = 'display page per_page view'.split(' ')
     controls = {}
 
+    # handle injection of keyterm searches
     if 'search_field' in query_dict:
         parsed_url = urlparse(query_dict['query_string'][0])
         query = parse_qsl(parsed_url.path)
-        terms.append((query_dict['search_field'][0], query_dict['search_value'][0]))
+        try:
+            terms.append((query_dict['search_field'][0], query_dict['search_value'][0]))
+        except:
+            terms.append((query_dict['search_field'][0], '*'))
     for f in query:
         if f[0] in control_names:
             try:
@@ -91,9 +95,7 @@ def facet():
             terms.append(f)
 
     # assign defaults if necessary
-    if not 'page' in controls: controls['page'] = 1
-    if not 'per_page' in controls: controls['per_page'] = 80
-    if not 'view' in controls: controls['view'] = 'LIST'  # Default to 'LIST' if not set
+    controls = utils.set_controls(controls)
     current_view = controls['view']
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS[current_view]],
@@ -109,7 +111,8 @@ def facet():
 
 @route('/single/<term:re:.*>')
 def single(term):
-    term = [('KEY_s', term.replace('_', ' '))]
+    # nb: in this case, there is always only a single term: the key to the record
+    term = [('id', term.replace('_', ' '))]
     controls = {}
 
     parameters = {'result_fields': [p[1] for p in FIELD_DEFINITIONS['FULL']],
@@ -118,8 +121,11 @@ def single(term):
                   'controls': controls
                   }
 
-    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], terms, controls)
-    data['single'] = data['results']['results'][0]
+    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], term, controls)
+    if data['results']['numfound'] == 0:
+        data['errors'] = ['record not found, sorry!']
+    else:
+        data['single'] = data['results']['results'][0]
     return utils.check_template('index', data, controls, request)
 
 

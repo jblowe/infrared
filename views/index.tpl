@@ -23,9 +23,6 @@
             % include('single.tpl')
         % else:
             % include('alerts.tpl')
-            % if command in data:
-                % include(f'{data[command]}.tpl')
-            % end
         % end
         </div>
     </div>
