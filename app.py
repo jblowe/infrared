@@ -56,13 +56,9 @@ def index(data=None):
                       'result_fields': [p[1] for p in FIELD_DEFINITIONS['LIST']],
                       'facet_fields': [p[1] for p in FIELD_DEFINITIONS['FACETS']]
                       }
-    data['selected_field'] = ''
-    data['query_string'] = ''
-    data['results'] = utils.query(parameters)
-    data['terms'] = []
-    controls = parameters['controls']
+    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], [], {})
     data['content'] = data['results']['results']
-    return utils.check_template('index', data, controls, request.forms)
+    return utils.check_template('index', data, {}, request.forms)
 
 
 @route('/about')
@@ -105,15 +101,8 @@ def facet():
                   'terms': terms,
                   'controls': controls
                   }
-    data = {}
-    data['results'] = utils.query(parameters)
-    data['selected_field'] = ''
-    data['result_fields'] = FIELD_DEFINITIONS[current_view]
-    data['terms'] = terms
-    data['controls'] = controls
-    data['query_string'] = urlencode(terms) + '&' + urlencode(controls)
-    data['base_string'] = urlencode(terms)
-    data['image_field'] = parmz.IMAGE_FIELD
+
+    data = utils.set_parameters(parameters, FIELD_DEFINITIONS[current_view], terms, controls)
     data['content'] = data['results']['results']
     return utils.check_template('index', data, controls, request)
 
@@ -128,15 +117,8 @@ def single(term):
                   'terms': term,
                   'controls': controls
                   }
-    data = {}
-    data['results'] = utils.query(parameters)
-    data['selected_field'] = ''
-    data['result_fields'] = FIELD_DEFINITIONS['FULL']
-    data['terms'] = term
-    data['controls'] = controls
-    data['query_string'] = urlencode(term | controls)
-    data['base_string'] = urlencode(term)
-    data['image_field'] = parmz.IMAGE_FIELD
+
+    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], terms, controls)
     data['single'] = data['results']['results'][0]
     return utils.check_template('index', data, controls, request)
 

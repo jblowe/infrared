@@ -65,5 +65,17 @@ def query(parameters):
     #             r[f] = ', '.join(r[f])
     return results
 
+def set_parameters(parameters, result_fields, terms, controls):
+    return {
+        'results': query(parameters),
+        'selected_field': '',
+        'result_fields': result_fields,
+        'terms': terms,
+        'controls': controls,
+        'query_string': urlencode(terms) + '&' + urlencode(controls),
+        'base_string': urlencode(terms),
+        'image_field': parmz.IMAGE_FIELD}
+
+
 
 VERSION = get_version()
