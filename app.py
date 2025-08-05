@@ -158,4 +158,3 @@ if __name__ == '__main__':
 
     run(host=args.host, port=args.port, debug=args.debug)
 
-# run(host='0.0.0.0', port=parmz.PORT)
