@@ -1,32 +1,33 @@
-
 /* site theme (customize here) */
 
 /* Primary buttons - warm copper tones */
 .btn-primary {
-  background-color: #A51931;
-  border-color: #b34700;
+    background-color: #A51931;
+    border-color: #b34700;
 }
+
 .btn-primary:hover {
-  background-color: #cc4a00;
-  border-color: #993800;
+    background-color: #cc4a00;
+    border-color: #993800;
 }
 
 
 .bg-info {
-  background-color: lightgray !important;
-  color: #1c2b29 !important;
+    background-color: lightgray !important;
+    color: #1c2b29 !important;
 }
 
-/* Limit icon color override to FontAwesome icons inside .nav-link */
-.nav-link .fas {
-  color: #cc5c2e;
-}
 
 /* Override Bootstrap .text-primary utility class */
 .text-primary {
-  color: #cc5c2e !important;
+    color: #cc5c2e !important;
 }
 
 .special {
-  color: white !important;
+    color: white !important;
+}
+
+/* Limit icon color override to FontAwesome icons inside .nav-item */
+.nav-item .fas {
+  color: #cc5c2e;
 }
