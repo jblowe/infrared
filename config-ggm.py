@@ -11,6 +11,7 @@ parmz.BANNER = 'Gregory G. Maskarinec: Bāhās & Bahīs of Nepal'
 parmz.LOGO = 'vajra.jpg'
 parmz.BANNER_COLOR = '#EC5800'
 parmz.SECONDARY_COLOR = '#002868'
+parmz.NAVBAR = 'navbar-light'
 parmz.SOLR_CORE = 'ggm'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 10

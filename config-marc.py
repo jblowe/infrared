@@ -11,6 +11,7 @@ parmz.BANNER = 'Blacklight MARC'
 parmz.LOGO = 'icon.svg'
 parmz.BANNER_COLOR = 'black'
 parmz.SECONDARY_COLOR = '#002868'
+parmz.NAVBAR = 'navbar-dark'
 parmz.SOLR_CORE = 'blacklight-core'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 40
@@ -23,7 +24,14 @@ parmz.PORT = 3002
 
 FIELD_DEFINITIONS = {}
 parmz.SEARCH = [
-
+    ('Format', 'format'),
+    ('Author', 'author_ssm'),
+    ('Publication Year', 'pub_date_ssim'),
+    ('Topic', 'subject_ssim'),
+    ('Language', 'language_ssim'),
+    ('Call Number', 'lc_1letter_ssim'),
+    ('Region', 'subject_geo_ssim'),
+    ('Era', 'subject_era_ssim'),
 ]
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 
@@ -42,12 +50,8 @@ for f in parmz.FACETS:
     parmz.FACET_LABELS[f[1]] = f[0]
 
 parmz.LIST = [
-
-    ('Publish Date', 'example_query_facet_field'),
-    ('Title', 'title_tsim'),
-    ('Title', 'title_vern_ssim'),
-    ('Author', 'author_tsim'),
-    ('Author', 'author_vern_ssim'),
+    ('Pub Date', 'pub_date_ssim'),
+    ('Author', 'author_ssm'),
     ('Format', 'format'),
     ('Language', 'language_ssim'),
     ('Published', 'published_ssim'),
@@ -58,15 +62,16 @@ FIELD_DEFINITIONS['LIST'] = parmz.LIST
 FIELD_DEFINITIONS['TABLE'] = parmz.LIST
 
 parmz.FULL = [
-    ('Title', 'title_tsim'),
-    ('Title', 'title_vern_ssim'),
     ('Subtitle', 'subtitle_tsim'),
-    ('Subtitle', 'subtitle_vern_ssim'),
-    ('Author', 'author_tsim'),
-    ('Author', 'author_vern_ssim'),
+    ('Author', 'author_ssm'),
+    ('Addnl Author', 'author_addl_tsim'),
+    ('Author (vern)', 'author_vern_ssim'),
+    ('Publication Year', 'pub_date_ssim'),
     ('Format', 'format'),
     ('URL', 'url_fulltext_ssim'),
     ('More Information', 'url_suppl_ssim'),
+    ('Subjects', 'subject_tsim'),
+    ('Addnl Subjects', 'subject_addl_tsim'),
     ('Language', 'language_ssim'),
     ('Published', 'published_ssim'),
     ('Published', 'published_vern_ssim'),

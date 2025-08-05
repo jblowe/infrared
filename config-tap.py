@@ -11,6 +11,7 @@ parmz.BANNER = 'Thailand Archaeometallurgy Project'
 parmz.LOGO = 'tap-logo-small.svg'
 parmz.BANNER_COLOR = '#A51931'
 parmz.SECONDARY_COLOR = '#002868'
+parmz.NAVBAR = 'navbar-light'
 parmz.SOLR_CORE = 'tap'
 parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 40
