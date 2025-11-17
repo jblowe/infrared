@@ -18,7 +18,8 @@ parmz.FACET_LIMIT = 10
 parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
 parmz.IMAGE_FIELD = 'path_ss'
-parmz.IMAGE_DIRECTORY = 'ggm-images'
+# url prefix for images
+parmz.IMAGE_PREFIX = '/ggm-images'
 parmz.TITLE_FIELD = 'title_s'
 parmz.PORT = 3010
 

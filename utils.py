@@ -67,7 +67,7 @@ def query(parameters):
     return results
 
 
-def set_parameters(parameters, result_fields, terms, controls):
+def do_solr_query(parameters, result_fields, terms, controls):
     return {
         'results': query(parameters),
         'selected_field': '',
@@ -76,6 +76,7 @@ def set_parameters(parameters, result_fields, terms, controls):
         'controls': controls,
         'query_string': '&'.join([urlencode(terms), urlencode(controls)]),
         'base_string': urlencode(terms),
+        'image_prefix': parmz.IMAGE_PREFIX,
         'image_field': parmz.IMAGE_FIELD}
 
 

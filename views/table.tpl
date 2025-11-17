@@ -2,9 +2,7 @@
     <thead class="bg-info">
         <th>Row</th>
         % for x in data['result_fields']:
-        <th style="max-width: 300px;" data-field="{{ x[1] }}"
-            data-sortable="true"
-        >
+        <th style="max-width: 300px;" data-field="{{ x[1] }}" data-sortable="true">
             {{ x[0] }}
         </th>
         % end
@@ -30,11 +28,11 @@
         % if data['image_field'] in r:
           <td>
             <div class="image-hover-preview flip-left">
-              <a target="_blank" href="{{r[data['image_field']][0]}}">
+              <a target="_blank" href="{{data['image_prefix']}}/{{data['image_prefix']}}/{{r[data['image_field']][0]}}">
                 <span class="fas fa-image fa-2x"></span>
               </a>
               <div class="preview-popup">
-                <img src="{{r[data['image_field']][0]}}" style="width: 100%;">
+                <img src="{{data['image_prefix']}}/{{data['image_prefix']}}/{{r[data['image_field']][0]}}" style="width: 100%;">
               </div>
               </div>
             </td>

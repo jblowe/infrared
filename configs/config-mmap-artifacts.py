@@ -17,8 +17,8 @@ parmz.SOLR_SERVER = 'http://localhost:8983'
 parmz.FACET_LIMIT = 100
 parmz.FACET_MINCOUNT = 2
 parmz.ROW_LIMITS = [10, 20, 30]
-parmz.IMAGE_FIELD = 'IMAGENAME_s'
-parmz.IMAGE_PREFIX = '/mmap-images'
+parmz.IMAGE_FIELD = 'images_ss'
+parmz.IMAGE_PREFIX = '/mmap-qdrive'
 parmz.TITLE_FIELD = 'mmap_artifact_id_s'
 parmz.PORT = 3011
 

@@ -6,13 +6,15 @@
         <div class="card">
         <!-- div class="card" -->
             % if data['image_field'] in r:
-                <a href="{{ r[data['image_field']][0] }}" target="image">
-                  <img src="{{ r[data['image_field']][0] }}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
+                % image_prefix = data['image_prefix']
+                <a href="{{image_prefix}}/{{ r[data['image_field']][0] }}" target="image">
+                  <img src="{{image_prefix}}/{{ r[data['image_field']][0] }}" class="card-img-top" alt="{{ r[TITLE_FIELD] }}">
                 </a>
                 <div>
                 % for image in r[data['image_field']][1:]:
-                  <a href="{{image}}" target="image">
-                    <img src="{{image}}" style="max-width: 90px; padding: 2px" alt="{{ r[TITLE_FIELD] }}">
+                  % image_prefix = data['image_prefix']
+                  <a href="{{image_prefix}}/{{image}}" target="image">
+                    <img src="{{image_prefix}}/{{image}}" style="max-width: 90px; padding: 2px" alt="{{ r[TITLE_FIELD] }}">
                   </a>
                 % end
                 </div>

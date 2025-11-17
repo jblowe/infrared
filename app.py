@@ -40,9 +40,9 @@ def send_font(filename):
     return static_file(filename, root=dirname + os.sep + os.path.join('static', 'webfonts'))
 
 
-@route('/' + parmz.IMAGE_DIRECTORY + '/<filename:re:.*>')
+@route(parmz.IMAGE_PREFIX + '/<filename:re:.*>')
 def send_image(filename):
-    return static_file(filename, root=dirname + os.sep + os.path.join(parmz.IMAGE_DIRECTORY))
+    return static_file(filename, root=dirname + os.path.join(parmz.IMAGE_PREFIX))
 
 
 @route('/')
@@ -55,7 +55,7 @@ def index(data=None):
                       'result_fields': [p[1] for p in FIELD_DEFINITIONS['LIST']],
                       'facet_fields': [p[1] for p in FIELD_DEFINITIONS['FACETS']]
                       }
-    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], [], controls)
+    data = utils.do_solr_query(parameters, FIELD_DEFINITIONS['FULL'], [], controls)
     data['home'] = 'here'
     data['content'] = data['results']['results']
     return utils.check_template('index', data, controls, request.forms)
@@ -66,6 +66,9 @@ def about():
     data = {'about': 'here'}
     return index(data)
 
+@route('/suggest')
+def suggest():
+    return utils.solr_autosuggest(solr_field, solr_term, limit)
 
 @route('/facet/')
 @route('/search/', method=['GET', 'POST'])
@@ -104,7 +107,7 @@ def facet():
                   'controls': controls
                   }
 
-    data = utils.set_parameters(parameters, FIELD_DEFINITIONS[current_view], terms, controls)
+    data = utils.do_solr_query(parameters, FIELD_DEFINITIONS[current_view], terms, controls)
     data['content'] = data['results']['results']
     return utils.check_template('index', data, controls, request)
 
@@ -121,7 +124,7 @@ def single(term):
                   'controls': controls
                   }
 
-    data = utils.set_parameters(parameters, FIELD_DEFINITIONS['FULL'], term, controls)
+    data = utils.do_solr_query(parameters, FIELD_DEFINITIONS['FULL'], term, controls)
     if data['results']['numfound'] == 0:
         data['errors'] = ['record not found, sorry!']
     else:
