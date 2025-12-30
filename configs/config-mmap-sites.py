@@ -32,8 +32,6 @@ parmz.SEARCH = [
 FIELD_DEFINITIONS['SEARCH'] = parmz.SEARCH
 
 parmz.FACETS = [
-    ('siteid', 'siteid_s'),
-    ('site num', 'site_num_s'),
     ('site name', 'site_name_s'),
     ('short site name', 'site_short_s'),
     ('site date', 'site_date_s'),
@@ -52,8 +50,6 @@ parmz.FACETS = [
     ('exc pri', 'exc_pri_s'),
     ('point y', 'point_y_s'),
     ('point x', 'point_x_s'),
-    ('utm x', 'utm_x_s'),
-    ('utm y', 'utm_y_s'),
     ('site characteristics', 'site_characteristics_s'),
     ('site comm', 'site_comm_s'),
     ('site conditions', 'site_conditions_s'),
@@ -160,15 +156,15 @@ FIELD_DEFINITIONS['LIST'] = parmz.LIST
 
 parmz.TABLE = [
     ('id', 'id'),
-    ('siteid', 'siteid_s'),
-    ('site num', 'site_num_s'),
     ('site name', 'site_name_s'),
     ('short site name', 'site_short_s'),
+    ('nrprimrv', 'nrprimrv_s'),
+    ('nrsecrv', 'nrsecrv_s'),
     ('vill name', 'vill_name_s'),
     ('village id', 'village_id_s'),
     ('point y', 'point_y_s'),
     ('point x', 'point_x_s'),
-    ('artcomm', 'artcomm_s')
+    ('oth art', 'oth_art_s'),
 ]
 FIELD_DEFINITIONS['TABLE'] = parmz.TABLE
 
