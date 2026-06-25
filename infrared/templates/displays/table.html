@@ -1,0 +1,22 @@
+{% from "components/macros.html" import record_link with context %}
+{% set entries = collection.view('table') %}
+<div class="table-responsive">
+  <table class="table table-sm table-striped align-middle">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        {% for entry in entries %}<th scope="col">{{ entry.label }}</th>{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for document in response.documents %}
+        <tr>
+          <td>{{ record_link(document) }}</td>
+          {% for entry in entries %}<td>{{ document.get(entry.solr) | solrval }}</td>{% endfor %}
+        </tr>
+      {% else %}
+        <tr><td colspan="{{ entries | length + 1 }}" class="text-muted">No results.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

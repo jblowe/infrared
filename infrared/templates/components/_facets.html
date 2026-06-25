@@ -1,0 +1,24 @@
+<div class="facets">
+  {% for facet in response.facets %}
+    <div class="card mb-2">
+      <div class="card-header py-1 fw-semibold">{{ facet.label }}</div>
+      <ul class="list-group list-group-flush">
+        {% for value, count in facet.values %}
+          <li class="list-group-item py-1 d-flex justify-content-between align-items-center">
+            {% if sreq.is_active(facet.field, value) %}
+              <span class="facet-value active">{{ value }}</span>
+              <a class="text-decoration-none text-muted"
+                 href="{{ url_for('catalog.search') }}?{{ sreq.without_term(facet.field, value) }}">&times;</a>
+            {% else %}
+              <a class="facet-value text-decoration-none"
+                 href="{{ url_for('catalog.search') }}?{{ sreq.with_term(facet.field, value) }}">{{ value }}</a>
+              <span class="badge bg-light text-dark">{{ count }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p class="text-muted small">No facets.</p>
+  {% endfor %}
+</div>

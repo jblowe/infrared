@@ -1,0 +1,21 @@
+{% set pg = response.pagination %}
+<div class="d-flex flex-wrap justify-content-between align-items-center my-2 gap-2">
+  <div class="text-muted small">
+    {{ pg.total }} result{{ '' if pg.total == 1 else 's' }}
+    {% if pg.total %}&middot; page {{ pg.page }} of {{ pg.pages }}{% endif %}
+  </div>
+
+  <div class="btn-group btn-group-sm" role="group" aria-label="Display mode">
+    {% for mode in display_modes %}
+      <a class="btn btn-outline-secondary {{ 'active' if mode == sreq.view }}"
+         href="{{ url_for('catalog.search') }}?{{ sreq.query_string(view=mode) }}">{{ mode }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="btn-group btn-group-sm" role="group" aria-label="Pages">
+    <a class="btn btn-outline-primary {{ 'disabled' if not pg.has_prev }}"
+       href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page - 1) }}">&larr; Prev</a>
+    <a class="btn btn-outline-primary {{ 'disabled' if not pg.has_next }}"
+       href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page + 1) }}">Next &rarr;</a>
+  </div>
+</div>

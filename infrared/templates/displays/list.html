@@ -1,0 +1,12 @@
+{% from "components/macros.html" import record_link, thumbs, field_rows with context %}
+{% for document in response.documents %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <h5 class="card-title h6">{{ record_link(document) }}</h5>
+      {{ thumbs(document) }}
+      {{ field_rows(document, collection.view('list')) }}
+    </div>
+  </div>
+{% else %}
+  <p class="text-muted">No results.</p>
+{% endfor %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ site.title }} — search{% endblock %}
+{% block body %}
+  {% include "components/_searchbar.html" %}
+
+  {% if not response.ok %}
+    <div class="alert alert-danger">
+      Search error: {{ response.errors | join('; ') }}
+    </div>
+  {% endif %}
+
+  {% include "components/_breadcrumbs.html" %}
+
+  <div class="row">
+    <aside class="col-12 col-md-3 col-lg-2">
+      {% include "components/_facets.html" %}
+    </aside>
+    <section class="col-12 col-md-9 col-lg-10">
+      {% include "components/_pagination.html" %}
+      {% set mode = sreq.view if sreq.view in display_modes else display_modes[0] %}
+      {% include "displays/" ~ mode ~ ".html" %}
+      {% if response.documents %}{% include "components/_pagination.html" %}{% endif %}
+    </section>
+  </div>
+{% endblock %}

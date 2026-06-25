@@ -113,26 +113,30 @@ infrared/
 
 ### 4.1 Domain model (the classes that retire the dicts)
 
-- **`Field`** — `key`, `solr_field`, `label`, and flags: `facetable`, `sortable`,
-  `type` (string/int/image/date…). One source of truth for a field; views and
-  facets reference fields by key instead of duplicating `(label, field)` tuples.
-- **`View`** — a named display mode (`list`, `table`, `gallery`, `full`) =
-  ordered list of `Field`s + a template name. Replaces the `LIST`/`TABLE`/… keys
-  of `FIELD_DEFINITIONS` and the near-duplicate `LIST`/`FULL` lists.
-- **`Collection`** — the whole per-core profile: branding (title, banner, colours,
-  logo), Solr coordinates (`server`, `core`), image config, the `Field` registry,
-  the `View`s, the facet set, paging defaults. This **is** the parsed TOML.
-- **`SearchRequest`** — parses `flask.request` into `terms` + `controls`
-  (`page`, `per_page`, `view`); knows how to rebuild its own query string for
-  links/breadcrumbs. Replaces the `parameters` + `controls` dicts and the manual
-  `parse_qsl` juggling in `app.py:facet()`.
-- **`SolrRepository`** — wraps **pysolr**; `search(request, view) ->
-  SearchResponse`, `get(id) -> Document`, `suggest(field, term, limit)`.
-  Query terms are passed as parameters, not f-string-interpolated (fixes the
-  injection-fragile `{q[0]}:"{q[1]}"`).
-- **`SearchResponse`** — typed result object: `documents`, `facets`, `total`,
-  `pagination`, `errors`, `messages` (and `document` for single-record).
-  This is what templates receive — **the replacement for `data`.**
+> **Design note (decided during build):** there is **no field registry**. The
+> existing config structure is fine — a view simply lists the Solr fields it
+> uses, in order, each with its own label. Labels are **per-view** (the same
+> Solr field may be labelled differently in different views), duplication across
+> views is allowed, and order of appearance = UI order. `_ss`/`_txt` variants
+> are treated as plain separate Solr fields (no shadowing logic). See §5.2.
+
+- **`ViewEntry`** — `{solr, label}`. The atom of a view.
+- **`Site` / `Solr` / `Display`** — the branding, Solr-coordinate, and
+  display-default sections of a profile (pydantic submodels).
+- **`Collection`** — the whole per-core profile: `site`, `solr`, `display`, and
+  `views` (a dict of view-name → ordered `list[ViewEntry]`). This **is** the
+  parsed TOML. Helpers: `view(name)`, `facets`, `facet_labels`, `labels`.
+- **`SearchRequest`** — parses query params into `terms` + controls
+  (`page`, `per_page`, `view`); rebuilds query strings for links via
+  `query_string()` / `with_term()` / `without_term()` / `is_active()`. Replaces
+  the `parameters` + `controls` dicts and the manual `parse_qsl` juggling.
+- **`SolrRepository`** — wraps **pysolr**; `search(request) -> SearchResponse`,
+  `get(id) -> dict | None`. Term values are **escaped** (`solr_escape`), not
+  f-string-interpolated (fixes the injection-fragile `{q[0]}:"{q[1]}"`); facet
+  selections become `fq` filters, the main query stays `*:*`.
+- **`SearchResponse` / `Facet` / `Pagination`** — typed result object:
+  `documents`, `total`, `facets`, `pagination`, `errors`, `ok`. This is what
+  templates receive — **the replacement for `data`.**
 
 ### 4.2 Routes (old → new), as a `catalog` blueprint
 
@@ -167,60 +171,59 @@ infrared/
   copying `config.py`. This preserves the "no code change to switch cores"
   property while removing the file-copy ritual.
 
-### 5.2 TOML shape (worked from the current mmap config)
+### 5.2 TOML shape (as built — see `configs/ggm.toml` for a real one)
 
 ```toml
-[collection]
-title = "MMAP"
-banner = "Middle Mekong Archaeology Project"
-banner_color = "#f9d88d"
-secondary_color = "#002868"
-navbar = "navbar-light"
-logo = "mmap-logo-pot-and-river.png"
+[site]
+title = "GGM"
+banner = "Gregory G. Maskarinec: Bāhās & Bahīs of Nepal"
+banner_color = "#EC5800"
+navbar = "navbar-dark"
+logo = "vajra.jpg"
 
 [solr]
 server = "http://localhost:8983"
-core   = "mmap-sites"
-facet_limit = 100
+core   = "ggm"
+facet_limit = 10
 facet_mincount = 2
 
 [display]
 row_limits   = [10, 20, 30]
-title_field  = "site_name_s"
-image_field  = "General_view_THUMBNAILS_ss"
-image_prefix = "/mmap-images"
+title_field  = "title_s"
+image_field  = "path_ss"
+image_prefix = "/ggm-images"
+layouts      = ["search", "facets", "list", "table", "full"]
 
-# Field registry: one entry per field, referenced by key elsewhere.
-[fields.site_name]   = { solr = "site_name_s",  label = "Site name", facet = true, sort = true }
-[fields.site_date]   = { solr = "site_date_s",  label = "Site date", facet = true }
-[fields.thumbnails]  = { solr = "General_view_THUMBNAILS_ss", label = "Images", type = "image" }
-# ...
-
+# Views are ordered lists of {solr, label}. Labels are per-view; duplication
+# across views is fine; order = UI order. No registry, no _ss/_txt shadowing.
 [views]
-search  = ["siteid", "site_name", "site_date"]      # search handler fields
-list    = ["siteid", "site_name", "site_date", ...] # ordered field keys
-table   = ["site_name", "site_short", "nrprimrv"]
-gallery = ["site_name"]
-full    = ["...everything..."]
-facets  = ["site_name", "site_date", "gis_code", ...]
+facets = [
+  { solr = "city_s", label = "City" },
+  { solr = "year_s", label = "Year" },
+  { solr = "text",   label = "Keyword" },
+]
+list = [
+  { solr = "city_s",  label = "City" },
+  { solr = "title_s", label = "Title" },
+]
+search = [
+  { solr = "city_txt", label = "City" },
+]
 ```
 
-This kills the duplication: `list`/`full`/`facets` are now just lists of field
-*keys*; labels and Solr names live once in `[fields]`.
+The converter (`scripts/convert_configs.py`) produces these verbatim from the
+legacy `config-*.py`, tagging suspect entries (the old autosuggest `_s`→`_txt`
+artifacts) with `# FIXME` comments — no silent rewrites.
 
 ### 5.3 Validation & user feedback (your stated priority)
 
-- Parse with **`tomllib`** (Python 3.11 stdlib — matches the project env). Syntax
-  errors raise `TOMLDecodeError` with line/column → surfaced verbatim.
-- Validate structure with **pydantic v2** dataclasses (`Field`, `View`,
-  `Collection`). Pydantic gives precise, field-path error messages
-  ("`views.list[3]` references unknown field key `foo`"), which is exactly the
-  "good feedback on bad TOML" you asked for.
-- A `infrared check-config <core>` CLI command validates a profile without
-  starting the server — the moral equivalent of `python config.py` testing
-  validity today, but with real diagnostics.
-
-*(Confirmed: pydantic v2.)*
+- Parse with **`tomllib`** (Python 3.11 stdlib). Syntax errors raise
+  `TOMLDecodeError` with line/column → surfaced verbatim by `ConfigError`.
+- Validate structure with **pydantic v2** models (`ViewEntry`, `Site`, `Solr`,
+  `Display`, `Collection`). `extra="forbid"` + per-field error paths give precise
+  "bad TOML" feedback.
+- `infrared check-config <core>` validates a profile without starting the
+  server.
 
 ---
 
@@ -255,27 +258,61 @@ Branding and `image_*` injected once as Jinja globals from the `Collection`.
 
 ## 7. Phasing (each phase independently reviewable on `flask-rewrite`)
 
-1. **Scaffold** — package layout, `create_app`, `pyproject.toml`, `wsgi.py`,
-   empty blueprints; app boots and serves a hello page under `INFRARED_CORE`.
-2. **Config model** — `Field`/`View`/`Collection`, TOML loader + validation,
-   `check-config` CLI. Convert **all** `configs/config-*.py` to TOML.
-   (Unit-tested against the old `config-*.py` values for parity.)
-3. **Search core** — `SolrRepository` (pysolr), `SearchRequest`,
-   `SearchResponse`; verify query parity against the live Solr cores.
-4. **Routes + templates** — catalog blueprint + the Jinja set; reach feature
-   parity with the Bottle UI (facets, all display modes, single record, suggest).
-5. **Deployment** — update `app.wsgi`/vhost confs for env-var core selection;
-   smoke-test under mod_wsgi.
-6. **Delete Bottle** — remove `app.py`, `utils.py`, `solr_query.py`, `top.py`,
-   `config.py`, `views/*.tpl`; finalise `pyproject.toml`. Merge to `main`.
+1. ✅ **Scaffold** — package layout, `create_app`, `pyproject.toml`, `wsgi.py`,
+   blueprints; app boots under `INFRARED_CORE`.
+2. ✅ **Config model** — `ViewEntry`/`Site`/`Solr`/`Display`/`Collection`, TOML
+   loader + validation, `check-config` CLI. **All** `config-*.py` converted to
+   TOML; per-core parity tests.
+3. ✅ **Search core** — `SolrRepository` (pysolr), `SearchRequest`,
+   `SearchResponse`/`Facet`/`Pagination`; verified against live Solr cores.
+4. ✅ **Routes + templates** — `catalog` blueprint (`/`, `/search`,
+   `/record/<id>`) + the Jinja set; facets, breadcrumbs, pagination, all four
+   display modes, single record. (`/suggest` blueprint is a stub — see §9.)
+5. ⬜ **Deployment** — verify `app.wsgi`/vhost confs under mod_wsgi.
+6. ⬜ **Delete Bottle** — remove `app.py`, `utils.py`, `solr_query.py`,
+   `top.py`, `config.py`, root `views/*.tpl`, `configs/config-*.py`,
+   `requirements.txt`; finalise. Merge `flask-rewrite` → `main`.
 
 ---
 
 ## 8. Resolved decisions (2026-06-24)
 
-1. **Dirty tree** — cleaned up by the user; remaining untracked files are
-   ignored. Rewrite starts from current `main`.
+1. **Dirty tree** — cleaned up by the user; untracked files ignored.
 2. **Validation** — **pydantic v2**.
-3. **Solr client** — move to **pysolr** (behind `SolrRepository`).
-4. **`/remove`** — **removed** entirely; facet removal becomes a link.
-5. **Configs** — convert **all** `configs/config-*.py` to TOML.
+3. **Solr client** — **pysolr** (behind `SolrRepository`).
+4. **`/remove`** — **removed**; facet removal is a link.
+5. **Configs** — convert **all** `config-*.py` to TOML.
+6. **Config model** — **no registry**; views are ordered `{solr, label}`;
+   labels per-view; duplication allowed; `_ss`/`_txt` are plain separate fields.
+7. **Conversion** — **verbatim**; suspect entries flagged as `# FIXME`, never
+   silently rewritten.
+
+---
+
+## 9. Progress & handoff notes (resume here)
+
+**Done:** Phases 1–4. On branch `flask-rewrite`; the legacy Bottle files still
+exist untouched (deleted in Phase 6). The `bottle-final` tag marks the
+pre-rewrite state. Tests: `python -m pytest` → all green (config parity, search
+unit tests, Solr-gated integration, route smoke).
+
+**Try it:** `INFRARED_CORE=ggm python wsgi.py --port 4321` → http://localhost:4321
+(cores: ggm, marc, mmap, mmap-sites, mmap-artifacts, tap). Requires the conda
+`main` env (Flask, pydantic v2, pysolr) and Solr at :8983.
+
+**Next: Phase 5**, then Phase 6.
+
+**Open items / findings for the user (not yet actioned):**
+- **SEARCH `_txt` fields are unpopulated** — e.g. `title_txt` has 0 docs in the
+  `ggm` core, so the search-box dropdown fields return nothing (the working
+  catch-all is `text`). Decide whether to repoint each profile's `search` view
+  at `text` / the `_s` fields. Config/data, left as-is.
+- **`# FIXME` entries** in `configs/mmap.toml` and `configs/mmap-artifacts.toml`
+  (old autosuggest `_s`→`_txt` cruft, e.g. `sherd_txtample?_txt`; real field is
+  `sherd_sample_s`). Clean by hand when convenient; parity tests track them.
+- **`/suggest`** is a stub blueprint. The legacy autosuggest was non-functional
+  (NameError). Implement properly or drop in a later pass.
+- **Bootstrap is via CDN** in `base.html`; localise the assets in Phase 5/6 if
+  offline/production use needs it.
+- **`requirements.txt`** still lists Bottle deps; superseded by `pyproject.toml`,
+  removed in Phase 6.

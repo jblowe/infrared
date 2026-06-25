@@ -1,0 +1,17 @@
+<form class="row g-2 align-items-center mb-3" method="get" action="{{ url_for('catalog.search') }}">
+  <div class="col-auto">
+    <select class="form-select" name="search_field" aria-label="Search field">
+      {% for entry in collection.view('search') %}
+        <option value="{{ entry.solr }}">{{ entry.label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col">
+    <input class="form-control" type="text" name="search_value" placeholder="Search…">
+  </div>
+  <div class="col-auto">
+    <input type="hidden" name="view" value="{{ sreq.view }}">
+    <button class="btn btn-primary" type="submit">Search</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('catalog.search') }}">Reset</a>
+  </div>
+</form>

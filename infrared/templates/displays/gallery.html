@@ -1,0 +1,15 @@
+{% from "components/macros.html" import record_link, thumbs with context %}
+<div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2">
+  {% for document in response.documents %}
+    <div class="col">
+      <div class="card h-100 gallery-card text-center">
+        <div class="card-body p-2">
+          {{ thumbs(document) }}
+          <div class="small mt-1">{{ record_link(document) }}</div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p class="text-muted">No results.</p>
+  {% endfor %}
+</div>

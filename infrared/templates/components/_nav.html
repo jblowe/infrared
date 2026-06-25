@@ -1,0 +1,10 @@
+<nav class="navbar {{ site.navbar if site else 'navbar-light' }} px-3"
+     style="{% if site and site.banner_color %}background-color: {{ site.banner_color }};{% endif %}">
+  <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('catalog.search') }}">
+    {% if site and site.logo %}
+      <img src="{{ url_for('static', filename='images/' ~ site.logo) }}" alt="" height="32"
+           onerror="this.style.display='none'">
+    {% endif %}
+    <span>{{ site.banner if site else "Infrared" }}</span>
+  </a>
+</nav>

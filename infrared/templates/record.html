@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import thumbs, field_rows with context %}
+{% set tf = collection.display.title_field %}
+{% block title %}{{ (document.get(tf) | solrval) or document.get('id') }}{% endblock %}
+{% block body %}
+  <p><a href="{{ url_for('catalog.search') }}">&larr; back to search</a></p>
+  <h4 class="h5">{{ (document.get(tf) | solrval) or document.get('id') }}</h4>
+  {{ thumbs(document) }}
+  <div class="card mt-2"><div class="card-body">
+    {{ field_rows(document, collection.view('full')) }}
+  </div></div>
+{% endblock %}

@@ -83,3 +83,12 @@ class Collection(BaseModel):
     def facet_labels(self) -> dict[str, str]:
         """solr field -> label, for rendering facet headings."""
         return {e.solr: e.label for e in self.views.get("facets", [])}
+
+    @property
+    def labels(self) -> dict[str, str]:
+        """solr field -> label across all views (facets/search win), for breadcrumbs."""
+        out: dict[str, str] = {}
+        for name in VIEW_NAMES:
+            for entry in self.views.get(name, []):
+                out.setdefault(entry.solr, entry.label)
+        return out

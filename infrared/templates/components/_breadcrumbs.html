@@ -1,0 +1,14 @@
+{% if sreq.terms %}
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <span class="text-muted small">Filters:</span>
+    {% for field, value in sreq.terms %}
+      <span class="badge bg-secondary d-inline-flex align-items-center gap-1">
+        {{ collection.labels.get(field, field) }}: {{ value }}
+        <a class="text-white text-decoration-none"
+           href="{{ url_for('catalog.search') }}?{{ sreq.without_term(field, value) }}"
+           aria-label="Remove filter">&times;</a>
+      </span>
+    {% endfor %}
+    <a class="small" href="{{ url_for('catalog.search') }}">clear all</a>
+  </div>
+{% endif %}
