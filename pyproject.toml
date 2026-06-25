@@ -1,0 +1,28 @@
+[project]
+name = "infrared"
+version = "0.1.0"
+description = "Infrared — a configurable Solr discovery UI (Flask)"
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.0",
+    "pydantic>=2",
+    "pysolr>=3.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+]
+
+[project.scripts]
+infrared = "infrared.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["infrared*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

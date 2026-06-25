@@ -1,0 +1,197 @@
+# Converted verbatim from config-mmap-artifacts.py — review any FIXME lines.
+
+[site]
+title = "MMAP"
+banner = "Middle Mekong Archaeology Project"
+citation = "mmap project"
+logo = "mmap-logo-pot-and-river.png"
+banner_color = "#f9d88d"
+secondary_color = "#002868"
+navbar = "navbar-light"
+
+[solr]
+server = "http://localhost:8983"
+core = "mmap-public"
+facet_limit = 100
+facet_mincount = 2
+
+[display]
+row_limits = [10, 20, 30]
+title_field = "mmap_artifact_id_s"
+image_field = "images_ss"
+image_prefix = "/mmap-qdrive"
+layouts = ["search", "facets", "list", "table", "gallery", "full"]
+
+[views]
+search = [
+  { solr = "mmap_artifact_id_txt", label = "Artifact ID" },
+  { solr = "site_name_txt", label = "Site Name" },
+  { solr = "date_discovered_txt", label = "Date Discovered" },
+  { solr = "bag_id_txt", label = "Bag ID" },
+  { solr = "artifact_condition_txt", label = "Artifact Condition" },
+  { solr = "artifact_class_txt", label = "Artifact Class" },
+  { solr = "maximum_dimension_txt", label = "Maximum Dimension" },
+  { solr = "weight_txt", label = "Weight" },
+  { solr = "count_txt", label = "Count" },
+  { solr = "burial_no_txt", label = "Burial No" },
+  { solr = "period_txt", label = "Period" },
+  { solr = "material_txt", label = "Material" },
+  { solr = "comments_txt", label = "Comments" },
+  { solr = "bur_phase_txt", label = "Bur Phase" },
+  { solr = "level_txt", label = "Level" },
+  { solr = "depcontext_txt", label = "Depcontext" },
+  { solr = "square_txt", label = "Square" },
+  { solr = "quad_txt", label = "Quad" },
+  { solr = "layer_txt", label = "Layer" },
+  { solr = "feano_txt", label = "Feano" },
+  { solr = "featype_txt", label = "Featype" },
+  { solr = "burassoc_txt", label = "Burassoc" },
+  { solr = "blocation_txt", label = "Blocation" },
+  { solr = "bodypart_txt", label = "Bodypart" },
+  # FIXME: '?' in field name; interior '_txt' (old autosuggest cruft?)
+  { solr = "sherd_txtample?_txt", label = "Sherdample? S" },
+  # FIXME: interior '_txt' (old autosuggest cruft?)
+  { solr = "sherd_txtamp_location_txt", label = "Sherdamp Location S" },
+  # FIXME: interior '_txt' (old autosuggest cruft?)
+  { solr = "thin_txtection_txt", label = "Thinection S" },
+  { solr = "ts_location_txt", label = "Ts Location" },
+  { solr = "ts_no_txt", label = "Ts No" },
+  { solr = "met_sample_txt", label = "Met sample S" },
+  { solr = "met_samp_loc_txt", label = "Met samp Loc S" },
+  { solr = "sample_comment_txt", label = "Sample Comment" },
+  { solr = "artloc_txt", label = "Artloc" },
+  { solr = "conserved_txt", label = "Conserved" },
+  { solr = "glass_sample_txt", label = "Glass sample S" },
+  { solr = "gl_samp_txt", label = "Gl samp S" },
+  { solr = "gl_tech_txt", label = "Gl Tech" },
+  { solr = "gl_analy_date_txt", label = "Gl Analy Date" },
+  { solr = "entered_by_txt", label = "Entered By" },
+  { solr = "initial_date_txt", label = "Initial Date" },
+  { solr = "date_last_modified_txt", label = "Date Last Modified" },
+]
+facets = [
+  { solr = "site_name_s", label = "Site Name" },
+  { solr = "date_discovered_s", label = "Date Discovered" },
+  { solr = "bag_id_s", label = "Bag ID" },
+  { solr = "artifact_class_s", label = "Artifact Class" },
+  { solr = "period_s", label = "Period" },
+  { solr = "material_s", label = "Material" },
+  { solr = "bur_phase_s", label = "Bur Phase" },
+  { solr = "level_s", label = "Level" },
+  { solr = "square_s", label = "Square" },
+  { solr = "quad_s", label = "Quad" },
+  { solr = "layer_s", label = "Layer" },
+  { solr = "feano_s", label = "Feano" },
+  { solr = "featype_s", label = "Featype" },
+  { solr = "flag_for_check_s", label = "Flag For Check" },
+]
+list = [
+  { solr = "mmap_artifact_id_s", label = "Artifact ID" },
+  { solr = "site_name_s", label = "Site Name" },
+  { solr = "date_discovered_s", label = "Date Discovered" },
+  { solr = "bag_id_s", label = "Bag ID" },
+  { solr = "artifact_condition_s", label = "Artifact Condition" },
+  { solr = "artifact_class_s", label = "Artifact Class" },
+  { solr = "maximum_dimension_s", label = "Maximum Dimension" },
+  { solr = "weight_s", label = "Weight" },
+  { solr = "count_s", label = "Count" },
+  { solr = "burial_no_s", label = "Burial No" },
+  { solr = "period_s", label = "Period" },
+  { solr = "material_s", label = "Material" },
+  { solr = "comments_s", label = "Comments" },
+  { solr = "bur_phase_s", label = "Bur Phase" },
+  { solr = "level_s", label = "Level" },
+  { solr = "depcontext_s", label = "Depcontext" },
+  { solr = "square_s", label = "Square" },
+  { solr = "quad_s", label = "Quad" },
+  { solr = "layer_s", label = "Layer" },
+  { solr = "feano_s", label = "Feano" },
+  { solr = "featype_s", label = "Featype" },
+  { solr = "burassoc_s", label = "Burassoc" },
+  { solr = "blocation_s", label = "Blocation" },
+  { solr = "bodypart_s", label = "Bodypart" },
+  # FIXME: '?' in field name
+  { solr = "sherd_sample?_s", label = "Sherdample? S" },
+  { solr = "sherd_samp_location_s", label = "Sherdamp Location S" },
+  { solr = "thin_section_s", label = "Thinection S" },
+  { solr = "ts_location_s", label = "Ts Location" },
+  { solr = "ts_no_s", label = "Ts No" },
+  { solr = "met_sample_s", label = "Met sample S" },
+  { solr = "met_samp_loc_s", label = "Met samp Loc S" },
+  { solr = "sample_comment_s", label = "Sample Comment" },
+  { solr = "artloc_s", label = "Artloc" },
+  { solr = "conserved_s", label = "Conserved" },
+  { solr = "glass_sample_s", label = "Glass sample S" },
+  { solr = "gl_samp_s", label = "Glamp S" },
+  { solr = "gl_tech_s", label = "Gl Tech" },
+  { solr = "gl_analy_date_s", label = "Gl Analy Date" },
+  { solr = "entered_by_s", label = "Entered By" },
+  { solr = "initial_date_s", label = "Initial Date" },
+  { solr = "date_last_modified_s", label = "Date Last Modified" },
+  { solr = "flag_for_check_s", label = "Flag For Check" },
+]
+table = [
+  { solr = "mmap_artifact_id_s", label = "Artifact ID" },
+  { solr = "site_name_s", label = "Site Name" },
+  { solr = "artifact_class_s", label = "Artifact Class" },
+  { solr = "maximum_dimension_s", label = "Max. Dim" },
+  { solr = "weight_s", label = "Weight" },
+  { solr = "count_s", label = "Count" },
+  { solr = "burial_no_s", label = "Burial No" },
+  { solr = "period_s", label = "Period" },
+  { solr = "material_s", label = "Material" },
+  { solr = "level_s", label = "Level" },
+  { solr = "square_s", label = "Square" },
+  { solr = "quad_s", label = "Quad" },
+  { solr = "layer_s", label = "Layer" },
+]
+gallery = [
+  { solr = "mmap_artifact_id_s", label = "Artifact ID" },
+  { solr = "site_name_s", label = "Site Name" },
+  { solr = "artifact_class_s", label = "Artifact Class" },
+]
+full = [
+  { solr = "mmap_artifact_id_s", label = "Artifact ID" },
+  { solr = "site_name_s", label = "Site Name" },
+  { solr = "date_discovered_s", label = "Date Discovered" },
+  { solr = "bag_id_s", label = "Bag ID" },
+  { solr = "artifact_condition_s", label = "Artifact Condition" },
+  { solr = "artifact_class_s", label = "Artifact Class" },
+  { solr = "maximum_dimension_s", label = "Maximum Dimension" },
+  { solr = "weight_s", label = "Weight" },
+  { solr = "count_s", label = "Count" },
+  { solr = "burial_no_s", label = "Burial No" },
+  { solr = "period_s", label = "Period" },
+  { solr = "material_s", label = "Material" },
+  { solr = "comments_s", label = "Comments" },
+  { solr = "bur_phase_s", label = "Bur Phase" },
+  { solr = "level_s", label = "Level" },
+  { solr = "depcontext_s", label = "Depcontext" },
+  { solr = "square_s", label = "Square" },
+  { solr = "quad_s", label = "Quad" },
+  { solr = "layer_s", label = "Layer" },
+  { solr = "feano_s", label = "Feano" },
+  { solr = "featype_s", label = "Featype" },
+  { solr = "burassoc_s", label = "Burassoc" },
+  { solr = "blocation_s", label = "Blocation" },
+  { solr = "bodypart_s", label = "Bodypart" },
+  # FIXME: '?' in field name
+  { solr = "sherd_sample?_s", label = "Sherdample? S" },
+  { solr = "sherd_samp_location_s", label = "Sherdamp Location S" },
+  { solr = "thin_section_s", label = "Thinection S" },
+  { solr = "ts_location_s", label = "Ts Location" },
+  { solr = "ts_no_s", label = "Ts No" },
+  { solr = "met_sample_s", label = "Met sample S" },
+  { solr = "met_samp_loc_s", label = "Met samp Loc S" },
+  { solr = "sample_comment_s", label = "Sample Comment" },
+  { solr = "artloc_s", label = "Artloc" },
+  { solr = "conserved_s", label = "Conserved" },
+  { solr = "glass_sample_s", label = "Glass sample S" },
+  { solr = "gl_samp_s", label = "Glamp S" },
+  { solr = "gl_tech_s", label = "Gl Tech" },
+  { solr = "gl_analy_date_s", label = "Gl Analy Date" },
+  { solr = "entered_by_s", label = "Entered By" },
+  { solr = "initial_date_s", label = "Initial Date" },
+  { solr = "date_last_modified_s", label = "Date Last Modified" },
+  { solr = "flag_for_check_s", label = "Flag For Check" },
+]

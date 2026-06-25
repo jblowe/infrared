@@ -1,44 +1,87 @@
 Infrared
 ========
 
-#### System information:
+A configurable [Solr](https://solr.apache.org/) discovery UI — a lightweight,
+Blacklight-style search interface (header, breadcrumbs, facets, multiple result
+display modes), themable via Bootstrap.
 
-* Inspired by (and much pilfered from): https://github.com/arsho/bottle-bootstrap
-* [Python 3.6 or higher](https://www.python.org/downloads/)
-* [Bootstrap 5](https://getbootstrap.com/docs/3.3/getting-started/)
-* [bottle 0.13-dev](https://bottlepy.org/docs/dev/tutorial.html#installation)
+**One app, many cores.** The active Solr core is chosen at run time by the
+`INFRARED_CORE` environment variable; each core has a profile in `configs/`.
+Switching cores requires no code change.
 
-**A few details**
+> **Status:** mid-rewrite from Bottle to Flask. The configuration layer
+> (TOML profiles, validation) and app scaffold are in place; the search UI is
+> being rebuilt. See `FLASK_REWRITE_PLAN.md` for the roadmap.
 
-* Requires Python module ``regex``
+Requirements
+------------
 
-To install:
+* Python 3.11 or higher
+* [Flask](https://flask.palletsprojects.com/), [pydantic v2](https://docs.pydantic.dev/)
+  (and `pysolr`, once the search layer lands)
 
- ```
- cd infrared
- ```
+Install
+-------
 
-then:
-
- ```
- pip3 install -r requirements.txt
- ```
-
-* To run, in the same directory type:
-
- ```
- python3 app.py
- ```
-
-If it starts, it will say something like:
+From the repository root:
 
 ```
-Bottle v0.13-dev server starting up (using WSGIRefServer())...
-Listening on http://localhost:8080/
-Hit Ctrl-C to quit.
+pip install -e .
 ```
 
-Then visit http://localhost:8080
+(or `pip install flask 'pydantic>=2'` for a minimal setup).
 
-To stop the server, that is, when you are done using the local web interface, press the ```control`` and ```c``` keys
-simultaneiously.
+Configure a core
+----------------
+
+Each Solr core is described by a TOML profile in `configs/`, e.g.
+`configs/ggm.toml`. List the available cores by validating one:
+
+```
+python -m infrared.cli check-config
+```
+
+A profile defines the site branding, Solr coordinates, display defaults, and a
+set of **views** (ordered `{solr, label}` lists). Validate a profile — TOML
+syntax and schema errors are reported with location and field path:
+
+```
+python -m infrared.cli check-config ggm
+```
+
+Run (development)
+-----------------
+
+Select a core and start the dev server:
+
+```
+INFRARED_CORE=ggm python wsgi.py --port 3002
+```
+
+It will print something like:
+
+```
+ * Serving Flask app 'infrared'
+ * Running on http://localhost:3002
+```
+
+Then visit http://localhost:3002. Stop the server with `Ctrl-C`. To serve a
+different core, change `INFRARED_CORE` and restart.
+
+Deploy (Apache + mod_wsgi)
+--------------------------
+
+`app.wsgi` is the WSGI entry point; it sets `INFRARED_CORE` and imports the
+Flask app. A per-core deployment differs only in that one value (set it in
+`app.wsgi` or in the vhost/daemon environment) — no code is copied to switch
+cores. See `configs/*.conf` for example vhosts.
+
+Tests
+-----
+
+```
+python -m pytest
+```
+
+Includes parity tests that confirm each `configs/<core>.toml` reproduces its
+legacy `configs/config-<core>.py` exactly.

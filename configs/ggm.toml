@@ -1,0 +1,67 @@
+# Converted verbatim from config-ggm.py — review any FIXME lines.
+
+[site]
+title = "Title"
+banner = "Gregory G. Maskarinec: Bāhās & Bahīs of Nepal"
+citation = "Lowe, et al. 2024"
+logo = "vajra.jpg"
+banner_color = "#EC5800"
+secondary_color = "#002868"
+navbar = "navbar-dark"
+
+[solr]
+server = "http://localhost:8983"
+core = "ggm"
+facet_limit = 10
+facet_mincount = 2
+
+[display]
+row_limits = [10, 20, 30]
+title_field = "title_s"
+image_field = "path_ss"
+image_prefix = "/ggm-images"
+layouts = ["search", "facets", "list", "table", "full"]
+
+[views]
+search = [
+  { solr = "city_txt", label = "City" },
+  { solr = "year_txt", label = "Year" },
+  { solr = "lockenumber_txt", label = "Locke Number" },
+  { solr = "location_txt", label = "Location" },
+  { solr = "title_txt", label = "Title" },
+]
+facets = [
+  { solr = "city_s", label = "City" },
+  { solr = "year_s", label = "Year" },
+  { solr = "day_of_month_s", label = "Day" },
+  { solr = "lockenumber_s", label = "Locke Number" },
+  { solr = "location_s", label = "Location" },
+  { solr = "top_s", label = "Top Level" },
+  { solr = "text", label = "Keyword" },
+]
+list = [
+  { solr = "city_s", label = "City" },
+  { solr = "year_s", label = "Year" },
+  { solr = "day_of_month_s", label = "Day" },
+  { solr = "lockenumber_s", label = "Locke Number" },
+  { solr = "location_s", label = "Location" },
+  { solr = "title_s", label = "Title" },
+]
+table = [
+  { solr = "city_s", label = "City" },
+  { solr = "year_s", label = "Year" },
+  { solr = "lockenumber_s", label = "Locke Number" },
+  { solr = "location_s", label = "Location" },
+  { solr = "title_s", label = "Title" },
+]
+gallery = [
+  { solr = "title_s", label = "Title" },
+]
+full = [
+  { solr = "city_s", label = "City" },
+  { solr = "year_s", label = "Year" },
+  { solr = "day_of_month_s", label = "Day" },
+  { solr = "lockenumber_s", label = "Locke Number" },
+  { solr = "location_s", label = "Location" },
+  { solr = "title_s", label = "Title" },
+]

@@ -4,6 +4,9 @@
 # app specific stuff
 __pycache__/
 *.log
+*.py[cod]
+*.egg-info/
+.pytest_cache/
 
 #
 !Build/
