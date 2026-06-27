@@ -4,6 +4,18 @@
 # app specific stuff
 __pycache__/
 *.log
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# local image-repo symlinks (per-deployment; created by hand on each host)
+/ggm-images
+/images
+/mmap-images
+/mmap-qdrive
+
+# local agent/editor state (preview config, local permissions — host-specific)
+.claude/
 
 #
 !Build/

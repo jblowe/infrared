@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ site.title }} — search{% endblock %}
+{% block body %}
+  {% include "components/_searchbar.html" %}
+
+  {% if not response.ok %}
+    <div class="alert alert-danger">
+      Search error: {{ response.errors | join('; ') }}
+    </div>
+  {% endif %}
+
+  <div class="row">
+    {% include "components/_breadcrumbs.html" %}
+  </div>
+
+  <div class="row">
+    <div id="leftpane" class="col-sm-2">
+      {% include "components/_facets.html" %}
+    </div>
+    <div id="content" class="col-sm-10">
+      {% if show_about %}
+        <div id="about">{{ about_html }}</div>
+      {% elif response.documents %}
+        {% include "components/_pagination.html" %}
+        {% set mode = sreq.view if sreq.view in display_modes else display_modes[0] %}
+        {% include "displays/" ~ mode ~ ".html" %}
+      {% else %}
+        <h2 class="h4 mt-3">No results found for your search</h2>
+        <p class="text-muted">Try fewer keywords, then refine using the facets on the left.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

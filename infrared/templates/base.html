@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ site.title if site else 'Infrared' }}">
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <title>{% block title %}{{ site.title if site else "Infrared" }}{% endblock %}</title>
+
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-sortable.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-table.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/infrared.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site-theme.css') }}">
+
+  {# Per-core theme: colors come from the active collection's config, so each
+     core themes itself. contrast_color keeps button text legible. #}
+  {% if site %}
+  {% set accent = site.secondary_color or site.banner_color %}
+  <style>
+    .btn-primary, .btn-primary:focus {
+      background-color: {{ site.banner_color }}; border-color: {{ site.banner_color }};
+      color: {{ site.banner_color | contrast_color }};
+    }
+    .btn-primary:hover, .btn-primary:active {
+      background-color: {{ site.banner_color }}; border-color: {{ site.banner_color }};
+      color: {{ site.banner_color | contrast_color }}; filter: brightness(0.92);
+    }
+    {% if accent %}
+    .text-primary { color: {{ accent }} !important; }
+    .nav-item .fas { color: {{ accent }}; }
+    {% endif %}
+  </style>
+  {% endif %}
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap-sortable.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap-table.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/infrared.js') }}"></script>
+</head>
+<body>
+  {% include "components/_nav.html" %}
+  <main class="container-fluid my-3 px-4">
+    {% block body %}{% endblock %}
+  </main>
+  {% include "components/_footer.html" %}
+</body>
+</html>

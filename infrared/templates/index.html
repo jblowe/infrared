@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Infrared — {{ core }}{% endblock %}
+{% block body %}
+  <h1>Infrared (Flask)</h1>
+  {% if site %}<p>Collection: <strong>{{ site.title }}</strong> — {{ site.banner }}</p>{% endif %}
+  <p>Active core: <strong>{{ core }}</strong></p>
+  <p>Scaffold is live. Search UI arrives in a later phase.</p>
+{% endblock %}

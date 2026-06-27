@@ -1,0 +1,130 @@
+# Converted verbatim from config-tap.py — review any FIXME lines.
+
+[site]
+title = "TAP"
+banner = "Thailand Archaeometallurgy Project"
+citation = "Lowe, et al. 2025"
+logo = "tap-logo-small.svg"
+banner_color = "#A51931"
+secondary_color = "#002868"
+navbar = "navbar-dark"
+
+[solr]
+server = "http://localhost:8983"
+core = "tap"
+facet_limit = 40
+facet_mincount = 1
+
+[display]
+per_page = [100, 500, 1000]
+title_field = "TITLE_ss"
+image_field = "THUMBNAIL_ss"
+image_prefix = "/images"
+layouts = ["search", "facets", "list", "table", "gallery", "full"]
+
+[views]
+search = [
+  { solr = "DTYPE_ss", label = "Record types" },
+  { solr = "SITE_txt", label = "Site" },
+  { solr = "OP_txt", label = "Op" },
+  { solr = "LOT_txt", label = "Lot" },
+  { solr = "LEVEL_txt", label = "Level" },
+  { solr = "AREA_txt", label = "Area" },
+  { solr = "T_txt", label = "T no" },
+  { solr = "YEAR_txt", label = "Year" },
+  { solr = "TITLE_txt", label = "Title" },
+  { solr = "KEY_txt", label = "Key" },
+  { solr = "ENTRY_DATE_txt", label = "Entry date" },
+  { solr = "REGISTRAR_txt", label = "Registrar" },
+  { solr = "EXCAVATOR_txt", label = "Excavator" },
+  { solr = "EXCAVATION_DATE_txt", label = "Excavation date" },
+  { solr = "COUNT_txt", label = "Count" },
+  { solr = "WEIGHT_txt", label = "Weight" },
+  { solr = "TRAY_txt", label = "Penn Inventory" },
+  { solr = "text", label = "Keyword" },
+]
+facets = [
+  { solr = "DTYPE_ss", label = "Record types" },
+  { solr = "SITE_ss", label = "Site" },
+  { solr = "YEAR_ss", label = "Year" },
+  { solr = "OP_ss", label = "Op" },
+  { solr = "LOT_ss", label = "Lot" },
+  { solr = "LEVEL_ss", label = "Level" },
+  { solr = "AREA_ss", label = "Area" },
+  { solr = "T_ss", label = "T no" },
+  { solr = "BURIAL_ss", label = "Burial" },
+  { solr = "TITLE_ss", label = "Title" },
+  { solr = "DOC_ss", label = "Document kind" },
+  { solr = "KEY_ss", label = "Key" },
+  { solr = "ENTRY_DATE_ss", label = "Entry date" },
+  { solr = "REGISTRAR_ss", label = "Registrar" },
+  { solr = "EXCAVATOR_ss", label = "Excavator" },
+  { solr = "EXCAVATION_DATE_ss", label = "Excavation date" },
+  { solr = "COUNT_ss", label = "Count" },
+  { solr = "WEIGHT_ss", label = "Weight" },
+  { solr = "TRAY_ss", label = "Penn Inventory" },
+  { solr = "text", label = "Keyword" },
+]
+list = [
+  { solr = "DTYPE_ss", label = "Record types" },
+  { solr = "T_ss", label = "T no" },
+  { solr = "SITE_ss", label = "Site" },
+  { solr = "YEAR_ss", label = "Year" },
+  { solr = "OP_ss", label = "Op" },
+  { solr = "LOT_ss", label = "Lot" },
+  { solr = "BURIAL_ss", label = "Burial" },
+  { solr = "KEY_ss", label = "Key" },
+]
+table = [
+  { solr = "T_ss", label = "T no" },
+  { solr = "SITE_ss", label = "Site" },
+  { solr = "YEAR_ss", label = "Year" },
+  { solr = "OP_ss", label = "Op" },
+  { solr = "AREA_ss", label = "Area" },
+  { solr = "LOT_ss", label = "Lot" },
+  { solr = "LEVEL_ss", label = "Level" },
+  { solr = "BURIAL_ss", label = "Burial" },
+  { solr = "FEA_ss", label = "Feature" },
+  { solr = "TITLE_ss", label = "Title" },
+]
+gallery = [
+  { solr = "TITLE_ss", label = "Title" },
+]
+full = [
+  { solr = "DTYPE_ss", label = "Record types" },
+  { solr = "SITE_ss", label = "Site" },
+  { solr = "OP_ss", label = "Op" },
+  { solr = "SQ_ss", label = "Sq" },
+  { solr = "LOT_ss", label = "Lot" },
+  { solr = "LEVEL_ss", label = "Level" },
+  { solr = "AREA_ss", label = "Area" },
+  { solr = "T_ss", label = "T no" },
+  { solr = "BURIAL_ss", label = "Burial" },
+  { solr = "YEAR_ss", label = "Year" },
+  { solr = "SEASON_ss", label = "Season" },
+  { solr = "ENTRY_DATE_ss", label = "Entry date" },
+  { solr = "REGISTRAR_ss", label = "Registrar" },
+  { solr = "EXCAVATOR_ss", label = "Excavator" },
+  { solr = "EXCAVATION_DATE_ss", label = "Excavation date" },
+  { solr = "COUNT_ss", label = "Count" },
+  { solr = "WEIGHT_ss", label = "Weight" },
+  { solr = "TRAY_ss", label = "Penn Inventory" },
+  { solr = "ROLL_ss", label = "Roll" },
+  { solr = "EXP_ss", label = "Exp" },
+  { solr = "MATERIAL_ss", label = "Material" },
+  { solr = "NOTES_ss", label = "Notes" },
+  { solr = "STRATUM_ss", label = "Stratum" },
+  { solr = "CLASS_ss", label = "Class" },
+  { solr = "COUNT_ss", label = "Count" },
+  { solr = "DIRECTORY_ss", label = "Directory" },
+  { solr = "ENTRY_DATE_ss", label = "Entry" },
+  { solr = "ETC_ss", label = "Etc" },
+  { solr = "FEA_ss", label = "Feature" },
+  { solr = "KEYTERMS_ss", label = "Keyterms" },
+  { solr = "REG_ss", label = "Reg no" },
+  { solr = "OBJ_ss", label = "Object no" },
+  { solr = "UNKNOWN_ss", label = "Unknown" },
+  { solr = "WEIGHT_ss", label = "Weight" },
+  { solr = "TITLE_ss", label = "Title" },
+  { solr = "DOC_ss", label = "Document kind" },
+]

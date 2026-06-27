@@ -1,0 +1,26 @@
+<!-- About page for the MMAP core (about/mmap.html). Plain HTML — edit freely.
+     Converted from the original Rails about/mmap.html.erb. -->
+<h3 class="section-heading" style="margin-top: 15px; font-size: 1.2em;">Explore the MMAP database!</h3>
+<p style="text-align: justify; font-size: 85%; line-height: 1.3em;">
+  This website provides a means to "slice-and-dice" some of the myriad data elements
+  of the MMAP project.
+</p>
+<p style="font-size: 0.8em"><b>This is a work in progress! Caveat utilizator!</b></p>
+<p>This search engine allows you to frolic in the fields of the MMAP data.</p>
+<ul>
+  <li>Artifacts</li>
+</ul>
+<p>... and combinations of the above</p>
+
+<h3 class="section-heading" style="margin-top: 15px; font-size: 1.2em;">How it works</h3>
+<p>
+  What we have done is combined records from the various tables together using a common key,
+  to wit, the Artifact number.
+</p>
+<p>
+  A bit of pipeline plumbing does the merging and the results are fed into Solr.
+  Solr presents the data using a basic keyword search box (at the top) and, more marvelously,
+  arranging many of the fields in "facets" at the left. The user can use these in combination to
+  generate a search result containing the desired information.
+</p>
+<hr/>

@@ -1,0 +1,44 @@
+{% macro row_link(document, n) %}
+  <a href="{{ url_for('catalog.record', doc_id=document.get('id')) }}">{{ n }}</a>
+{% endmacro %}
+
+{% macro record_title(document) %}
+  {% set tf = collection.display.title_field %}
+  {% set title = document.get(tf) | solrval if tf else '' %}
+  {{ title or document.get('id') }}
+{% endmacro %}
+
+{# Gray header bar: row number (links to the full record) + plain title. #}
+{% macro record_bar(document, n) %}
+  <h5 class="bg-info record-bar">
+    <a class="row-num" href="{{ url_for('catalog.record', doc_id=document.get('id')) }}">{{ n }}</a>
+    {{ record_title(document) }}
+  </h5>
+{% endmacro %}
+
+{% macro thumbs(document) %}
+  {% set field = collection.display.image_field %}
+  {% if field and document.get(field) %}
+    <div class="thumb d-flex flex-wrap gap-2">
+      {% for name in document.get(field) | as_list %}
+        <a href="{{ collection.display.image_prefix }}/{{ name }}" target="image">
+          <img src="{{ collection.display.image_prefix }}/{{ name }}" alt=""
+               onerror="this.style.display='none'">
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro field_rows(document, entries) %}
+  {% set image_field = collection.display.image_field %}
+  {% set title_field = collection.display.title_field %}
+  <dl class="fields mb-0">
+    {% for entry in entries if entry.solr not in (image_field, title_field) %}
+      {% set value = document.get(entry.solr) %}
+      {% if value not in (None, '', []) %}
+        <dt>{{ entry.label }}</dt><dd>{{ value | solrval }}</dd>
+      {% endif %}
+    {% endfor %}
+  </dl>
+{% endmacro %}

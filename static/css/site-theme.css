@@ -1,33 +1,10 @@
-/* site theme (customize here) */
+/* Core-agnostic theme rules.
+   Per-core colors (.btn-primary, .text-primary, nav icons) are injected from
+   the active collection's config in base.html — see Site.banner_color /
+   secondary_color. Put only color-independent theme tweaks here. */
 
-/* Primary buttons - warm copper tones */
-.btn-primary {
-    background-color: #A51931;
-    border-color: #b34700;
-}
-
-.btn-primary:hover {
-    background-color: #cc4a00;
-    border-color: #993800;
-}
-
-
+/* Gray header bar used by the record/list/full displays. */
 .bg-info {
     background-color: lightgray !important;
     color: #1c2b29 !important;
-}
-
-
-/* Override Bootstrap .text-primary utility class */
-.text-primary {
-    color: #cc5c2e !important;
-}
-
-.special {
-    color: white !important;
-}
-
-/* Limit icon color override to FontAwesome icons inside .nav-item */
-.nav-item .fas {
-  color: #cc5c2e;
 }
