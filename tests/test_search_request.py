@@ -38,3 +38,32 @@ def test_query_string_roundtrips_terms_and_overrides():
     assert qs["city_s"] == ["Patan"]
     assert qs["page"] == ["2"]
     assert qs["view"] == ["list"]
+
+
+def test_with_term_adds_filter_and_resets_page():
+    req = SearchRequest(terms=[("city_s", "Patan")], page=4, per_page=20, view="table")
+    qs = parse_qs(req.with_term("year_s", "2010"))
+    assert qs["city_s"] == ["Patan"]
+    assert qs["year_s"] == ["2010"]
+    assert qs["page"] == ["1"]  # adding a facet returns to the first page
+    assert qs["view"] == ["table"]  # display mode is preserved
+
+
+def test_with_term_is_idempotent():
+    req = SearchRequest(terms=[("city_s", "Patan")])
+    once = parse_qs(req.with_term("city_s", "Patan"))
+    assert once["city_s"] == ["Patan"]  # not duplicated
+
+
+def test_without_term_removes_only_that_filter():
+    req = SearchRequest(terms=[("city_s", "Patan"), ("year_s", "2010")], page=2)
+    qs = parse_qs(req.without_term("city_s", "Patan"))
+    assert "city_s" not in qs
+    assert qs["year_s"] == ["2010"]
+    assert qs["page"] == ["1"]
+
+
+def test_is_active():
+    req = SearchRequest(terms=[("city_s", "Patan")])
+    assert req.is_active("city_s", "Patan")
+    assert not req.is_active("city_s", "Kathmandu")

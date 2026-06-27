@@ -1,10 +1,28 @@
-<nav class="navbar {{ site.navbar if site else 'navbar-light' }} px-3"
+<!-- Static navbar -->
+<nav class="navbar navbar-expand-sm {{ site.navbar if site else 'navbar-light' }}"
      style="{% if site and site.banner_color %}background-color: {{ site.banner_color }};{% endif %}">
-  <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('catalog.search') }}">
-    {% if site and site.logo %}
-      <img src="{{ url_for('static', filename='images/' ~ site.logo) }}" alt="" height="32"
-           onerror="this.style.display='none'">
+  <div class="container-fluid">
+    <div class="navbar-nav align-items-center">
+      <a class="navbar-brand ps-3" href="{{ url_for('catalog.search') }}">
+        {% if site and site.logo %}
+          <img style="max-height: 40px;" src="{{ url_for('static', filename='images/' ~ site.logo) }}"
+               alt="" onerror="this.style.display='none'">
+        {% endif %}
+      </a>
+      <a class="navbar-brand ps-3" href="{{ url_for('catalog.search') }}">{{ site.banner if site else "Infrared" }}</a>
+    </div>
+    <div class="navbar-nav">
+      <a class="nav-link" href="{{ url_for('catalog.search') }}" title="Home">
+        <span class="fas fa-home navbar-brand"></span>
+      </a>
+      <a class="nav-link" href="{{ url_for('catalog.about') }}" title="About">
+        <span class="fas fa-info-circle navbar-brand"></span>
+      </a>
+    </div>
+    {% if show_sidebar_toggle %}
+      <div class="navbar-nav ms-auto">
+        <a class="nav-item nav-link" href="#" id="toggle_sidebar">toggle sidebar</a>
+      </div>
     {% endif %}
-    <span>{{ site.banner if site else "Infrared" }}</span>
-  </a>
+  </div>
 </nav>

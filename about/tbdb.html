@@ -1,0 +1,46 @@
+<!-- About page for the TBDB core (about/tbdb.html). Plain HTML — edit freely.
+     Converted from the original Rails about/tbdb.html.erb.
+     Images live in static/images/ (e.g. static/images/tbdb-medium.png). -->
+<style>
+  #about img { margin: auto; display: block; padding: 4px; max-width: 100%; height: auto; }
+</style>
+<div class="p-5 mb-4 bg-light rounded-3">
+  <p class="text-center"><img class="center" src="/static/images/tbdb-medium.png" alt="STEDT"></p>
+  <h5>Welcome!</h5>
+  <p>You are looking at a new user interface ("UI") for an information resource derived from the database and software
+    developed at the <i>Sino-Tibetan Etymological Dictionary and Thesaurus</i> project
+    ("<a href="https://stedt.berkeley.edu/">STEDT</a>"). This UI
+    presents lexical and etymological data extracted from the original
+    database in an interesting and easy-to-navigate way.
+  </p>
+  <p>(STEDT was a long-term linguistics research project at the <a href="http://www.berkeley.edu/">University of
+    California at Berkeley</a>. The result was the publication in 2016 of an
+    etymological dictionary of Proto-Sino-Tibetan (PST), the ancestor language of the large Sino-Tibetan language
+    family.
+    The project was started in 1987 and enjoyed the support of the
+    <a href="http://www.nsf.gov/">National Science Foundation</a> and the
+    <a href="http://www.neh.gov/">National Endowment for the Humanities</a>. Please visit the STEDT site for
+    complete acknowledgements or consult
+    the <a href="https://stedt.berkeley.edu/node/124.html">Dictionary Thesaurus itself</a>.)
+  </p>
+  <h5>A few pointers</h5>
+  <p>The search engine points to a collection of the 530,480 lexical entries in
+    the original database. You can slice-and-dice this data according to the content of the fields
+    in the lexical entries (e.g. gloss, form, language name, language subgroup, etc.) using the search bar
+    at the top or the facets on the left side.
+  </p>
+  <p>The search bar at the top allows you to search by one or more <b>keywords</b>.
+    The default <i>Any field</i> field at the left will search for your keywords anywhere in a record; selecting a
+    particular field in this dropdown will restrict the search.
+    The <b>facets</b> at the left are dropdowns which enumerate the values
+    in the faceted field and allow you to do an <i>exact search</i> for the shown value.
+  </p>
+  <p>So for example you can search for 'tibetan barley' using the Any Field in the search bar,
+    you'll get all the records where these two keywords appear in the record. You can see by looking
+    at the facets that 'barley' is used in several collocations in the Gloss field and that 'tibetan'
+    retrieves a number of different Tibetan dialects.
+    <img src="/static/images/tbdb-v1.png" alt="example search">
+    If you want to search for just the Gloss 'tibetan barley', you can put the term in quotes and specify
+    only the Gloss field should be searched.
+  </p>
+</div>

@@ -1,14 +1,23 @@
-{% if sreq.terms %}
-  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-    <span class="text-muted small">Filters:</span>
-    {% for field, value in sreq.terms %}
-      <span class="badge bg-secondary d-inline-flex align-items-center gap-1">
-        {{ collection.labels.get(field, field) }}: {{ value }}
-        <a class="text-white text-decoration-none"
-           href="{{ url_for('catalog.search') }}?{{ sreq.without_term(field, value) }}"
-           aria-label="Remove filter">&times;</a>
-      </span>
-    {% endfor %}
-    <a class="small" href="{{ url_for('catalog.search') }}">clear all</a>
+<div class="row p-2">
+  <div id="startover" class="col-sm-2">
+    {# Clears all filters but lands on the full (*:*) result list, keeping the
+       current display mode — the home/brand links go to the About page. #}
+    <a href="{{ url_for('catalog.search') }}?view={{ sreq.view }}" class="btn btn-primary">Start over</a>
   </div>
-{% endif %}
+  <div id="breadcrumbs" class="col-sm-10">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        {% for field, value in sreq.terms %}
+          <li class="breadcrumb-item">
+            <a class="btn btn-outline-secondary btn-sm"
+               href="{{ url_for('catalog.search') }}?{{ sreq.without_term(field, value) }}">
+              {{ collection.labels.get(field, field) }} &gt; {{ value }}
+              <span class="remove-icon ms-1" aria-hidden="true">&times;</span>
+              <span class="visually-hidden">Remove constraint {{ collection.labels.get(field, field) }} {{ value }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </nav>
+  </div>
+</div>

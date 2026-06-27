@@ -66,28 +66,27 @@
     display: inline-block;
 }
 
+/* The popup is fixed-positioned and placed by infrared.js so it is never
+   clipped by the table's overflow box and always stays within the viewport
+   (its bottom is clamped to the bottom of the page for low rows). */
 .preview-popup {
     display: none;
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 30px;
+    position: fixed;
+    z-index: 1050;
     width: 400px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
     padding: 4px;
     background: white;
     border: 1px solid #ccc;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
 }
 
-.image-hover-preview:hover .preview-popup {
+.preview-popup img {
     display: block;
-}
-
-/* Flip popup to the left if the container is aligned right */
-.image-hover-preview.flip-left .preview-popup {
-    left: auto;
-    right: 30px;
+    width: 100%;
+    height: auto;
 }
 
 
@@ -115,3 +114,20 @@ a {
 a:hover {
   /* color: #d88f4f; */
 }
+
+/* Flask rewrite additions */
+.gallery-card img, .thumb img { max-height: 120px; object-fit: contain; }
+dl.fields dt { font-weight: 600; }
+dl.fields { display: grid; grid-template-columns: max-content 1fr; gap: .15rem 1rem; }
+
+/* Collapsible facet headers */
+.facet-toggle { cursor: pointer; }
+.facet-toggle .caret::before { content: "\25BE"; display: inline-block; transition: transform .15s; }
+.facet-toggle.collapsed .caret::before { transform: rotate(-90deg); }
+
+/* Row-number link in the gray record bar */
+.record-bar { padding: .25rem .5rem; }
+.record-bar .row-num { font-weight: 600; margin-right: .4rem; }
+
+/* Pagination line */
+.paginate-section .page-links { font-size: 0.95rem; }

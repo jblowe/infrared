@@ -1,21 +1,42 @@
-{% from "components/macros.html" import record_link with context %}
+{% from "components/macros.html" import row_link with context %}
 {% set entries = collection.view('table') %}
+{% set img = collection.display.image_field %}
+{% set prefix = collection.display.image_prefix %}
 <div class="table-responsive">
-  <table class="table table-sm table-striped align-middle">
-    <thead>
+  <table class="table table-striped sortable">
+    <thead class="bg-info">
       <tr>
-        <th scope="col"></th>
-        {% for entry in entries %}<th scope="col">{{ entry.label }}</th>{% endfor %}
+        <th data-defaultsort="disabled">Row</th>
+        {% for entry in entries %}
+          <th style="max-width: 300px;" data-field="{{ entry.solr }}" data-sortable="true">{{ entry.label }}</th>
+        {% endfor %}
+        <th data-defaultsort="disabled"><span class="fas fa-image fa-2x"></span></th>
       </tr>
     </thead>
     <tbody>
       {% for document in response.documents %}
+        {% set n = response.pagination.start + loop.index %}
         <tr>
-          <td>{{ record_link(document) }}</td>
+          <td>{{ row_link(document, n) }}</td>
           {% for entry in entries %}<td>{{ document.get(entry.solr) | solrval }}</td>{% endfor %}
+          {% if img and document.get(img) %}
+            {% set first = (document.get(img) | as_list)[0] %}
+            <td>
+              <div class="image-hover-preview flip-left">
+                <a target="_blank" href="{{ prefix }}/{{ first }}">
+                  <span class="fas fa-image fa-2x"></span>
+                </a>
+                <div class="preview-popup">
+                  <img src="{{ prefix }}/{{ first }}" style="width: 100%;">
+                </div>
+              </div>
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
         </tr>
       {% else %}
-        <tr><td colspan="{{ entries | length + 1 }}" class="text-muted">No results.</td></tr>
+        <tr><td colspan="{{ entries | length + 2 }}" class="text-muted">No results.</td></tr>
       {% endfor %}
     </tbody>
   </table>

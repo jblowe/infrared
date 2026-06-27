@@ -1,3 +1,12 @@
-bottle
-regex
-lxml
+# Runtime dependencies for Infrared (Flask).
+#
+# The canonical source is pyproject.toml; this file mirrors its runtime deps so
+# `pip install -r requirements.txt` works for people who expect it. Equivalent:
+#   pip install -e .
+#
+# Note: Solr is NOT a Python package — it is a separate service the app talks to
+# over HTTP (default http://localhost:8983). Install/run it separately.
+
+flask>=3.0
+pydantic>=2
+pysolr>=3.9

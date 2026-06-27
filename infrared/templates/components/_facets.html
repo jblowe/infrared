@@ -1,22 +1,35 @@
 <div class="facets">
   {% for facet in response.facets %}
+    {% set cid = "facet-" ~ loop.index %}
+    {# Open this facet if one of its values is part of the active query. #}
+    {% set open = namespace(v=false) %}
+    {% for value, count in facet.values %}
+      {% if sreq.is_active(facet.field, value) %}{% set open.v = true %}{% endif %}
+    {% endfor %}
     <div class="card mb-2">
-      <div class="card-header py-1 fw-semibold">{{ facet.label }}</div>
-      <ul class="list-group list-group-flush">
-        {% for value, count in facet.values %}
-          <li class="list-group-item py-1 d-flex justify-content-between align-items-center">
-            {% if sreq.is_active(facet.field, value) %}
-              <span class="facet-value active">{{ value }}</span>
-              <a class="text-decoration-none text-muted"
-                 href="{{ url_for('catalog.search') }}?{{ sreq.without_term(facet.field, value) }}">&times;</a>
-            {% else %}
-              <a class="facet-value text-decoration-none"
-                 href="{{ url_for('catalog.search') }}?{{ sreq.with_term(facet.field, value) }}">{{ value }}</a>
-              <span class="badge bg-light text-dark">{{ count }}</span>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
+      <div class="card-header py-1 fw-semibold facet-toggle d-flex justify-content-between align-items-center{{ '' if open.v else ' collapsed' }}"
+           role="button" data-bs-toggle="collapse" data-bs-target="#{{ cid }}"
+           aria-expanded="{{ 'true' if open.v else 'false' }}" aria-controls="{{ cid }}">
+        <span>{{ facet.label }}</span>
+        <span class="caret small text-muted"></span>
+      </div>
+      <div id="{{ cid }}" class="collapse{{ ' show' if open.v else '' }}">
+        <ul class="list-group list-group-flush">
+          {% for value, count in facet.values %}
+            <li class="list-group-item py-1 d-flex justify-content-between align-items-center">
+              {% if sreq.is_active(facet.field, value) %}
+                <span class="facet-value active">{{ value }}</span>
+                <a class="text-decoration-none text-muted"
+                   href="{{ url_for('catalog.search') }}?{{ sreq.without_term(facet.field, value) }}">&times;</a>
+              {% else %}
+                <a class="facet-value text-decoration-none"
+                   href="{{ url_for('catalog.search') }}?{{ sreq.with_term(facet.field, value) }}">{{ value }}</a>
+                <span class="badge bg-light text-dark">{{ "{:,}".format(count) }}</span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   {% else %}
     <p class="text-muted small">No facets.</p>

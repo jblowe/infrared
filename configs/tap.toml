@@ -16,7 +16,7 @@ facet_limit = 40
 facet_mincount = 1
 
 [display]
-row_limits = [10, 20, 30]
+per_page = [100, 500, 1000]
 title_field = "TITLE_ss"
 image_field = "THUMBNAIL_ss"
 image_prefix = "/images"

@@ -1,11 +1,19 @@
-{% from "components/macros.html" import record_link, thumbs with context %}
+{% from "components/macros.html" import row_link, record_title, thumbs with context %}
+{% set img = collection.display.image_field %}
 <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2">
   {% for document in response.documents %}
+    {% set n = response.pagination.start + loop.index %}
     <div class="col">
       <div class="card h-100 gallery-card text-center">
         <div class="card-body p-2">
-          {{ thumbs(document) }}
-          <div class="small mt-1">{{ record_link(document) }}</div>
+          {% if img and document.get(img) %}
+            {{ thumbs(document) }}
+          {% else %}
+            <img src="{{ url_for('static', filename='images/unavailable.png') }}" alt="no image">
+          {% endif %}
+          <div class="small mt-1">
+            <span class="row-num">{{ row_link(document, n) }}</span> {{ record_title(document) }}
+          </div>
         </div>
       </div>
     </div>

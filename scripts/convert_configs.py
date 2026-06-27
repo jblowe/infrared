@@ -71,8 +71,8 @@ def emit(parmz, field_defs, core: str) -> tuple[str, int]:
     out.append("")
 
     out.append("[display]")
-    row_limits = g("ROW_LIMITS", [10, 20, 30])
-    out.append(f"row_limits = [{', '.join(str(int(x)) for x in row_limits)}]")
+    per_page = g("ROW_LIMITS", [100, 500, 1000])
+    out.append(f"per_page = [{', '.join(str(int(x)) for x in per_page)}]")
     out.append(f"title_field = {tstr(g('TITLE_FIELD', ''))}")
     if g("IMAGE_FIELD"):
         out.append(f"image_field = {tstr(g('IMAGE_FIELD'))}")

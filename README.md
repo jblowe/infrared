@@ -42,12 +42,27 @@ python -m infrared.cli check-config
 ```
 
 A profile defines the site branding, Solr coordinates, display defaults, and a
-set of **views** (ordered `{solr, label}` lists). Validate a profile — TOML
-syntax and schema errors are reported with location and field path:
+set of **views** (ordered `{solr, label}` lists). Display defaults include
+`per_page` — the page-size options offered in the results "per page" dropdown,
+e.g. `per_page = [100, 500, 1000]` (the first value is the default). Validate a
+profile — TOML syntax and schema errors are reported with location and field
+path:
 
 ```
 python -m infrared.cli check-config ggm
 ```
+
+About page
+----------
+
+Each core gets its own About page — the start page and the **About** nav link
+show it in the result pane. It's a plain HTML fragment in `about/`:
+
+* `about/<core>.html` — per-core page (e.g. `about/tap.html`), edit freely.
+* `about/default.html` — fallback for any core without its own file.
+
+No templating is involved; just write HTML. (**Start over** clears filters and
+goes to the full result list rather than the About page.)
 
 Run (development)
 -----------------
@@ -71,10 +86,20 @@ different core, change `INFRARED_CORE` and restart.
 Deploy (Apache + mod_wsgi)
 --------------------------
 
-`app.wsgi` is the WSGI entry point; it sets `INFRARED_CORE` and imports the
-Flask app. A per-core deployment differs only in that one value (set it in
-`app.wsgi` or in the vhost/daemon environment) — no code is copied to switch
-cores. See `configs/*.conf` for example vhosts.
+`app.wsgi` is the WSGI entry point; it builds the Flask app for the active core,
+chosen (in priority order) from:
+
+1. `SetEnv INFRARED_CORE <core>` in the vhost,
+2. the `INFRARED_CORE` OS environment variable, or
+3. the deployment directory name with a trailing `-infrared` stripped
+   (a clone in `/home/ubuntu/tap-infrared` defaults to the `tap` core).
+
+So a per-core deployment needs no code edit — name the clone `<core>-infrared`,
+or add one `SetEnv` line to the vhost. `infrared.conf` is a ready-to-copy vhost
+template; `configs/tap-infrared.conf` and `configs/mmap-infrared.conf` are
+concrete examples. Smoke-test the WSGI app without Apache with
+`mod_wsgi-express start-server app.wsgi` (set `INFRARED_CORE` first), or with
+`INFRARED_CORE=<core> mod_wsgi-express start-server app.wsgi --port 8088`.
 
 Tests
 -----

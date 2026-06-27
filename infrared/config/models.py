@@ -45,7 +45,7 @@ class Solr(BaseModel):
 class Display(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    row_limits: list[int] = [10, 20, 30]
+    per_page: list[int] = [100, 500, 1000]
     title_field: str
     image_field: str | None = None
     image_prefix: str = ""

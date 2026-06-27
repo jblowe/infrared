@@ -1,0 +1,62 @@
+<!-- About page for the TAP core (about/tap.html). Plain HTML — edit freely.
+     Converted from the original Rails about/tap.html.erb.
+     Images live in static/images/ (e.g. static/images/MFarchitecture.svg). -->
+<style>
+  #about img { max-width: 100%; height: auto; }
+</style>
+
+<h3 class="section-heading" style="margin-top: 15px; font-size: 1.2em;">The TAP Finder</h3>
+<p>
+  This website provides a means to "slice-and-dice" some of the myriad data elements
+  of the TAP project.
+</p>
+<p>
+  The diagram below illustrates how 6 distinct but related data sets are combined to create a single
+  interface that presents images (photos, scans, etc.) and metadata in an easy-to-use manner. The interface consists of
+  a basic keyword search box (at the top) and, more marvelously,
+  arranging many of the fields in clickable "facets" at the left. The user can use these in combination
+  to generate a search result containing the desired information.
+</p>
+<p><img src="/static/images/MFarchitecture.svg" alt="Data flow and components of the TAP Finder"></p>
+<p><i>Figure 1. Data flow and components of the TAP Finder</i></p>
+<p>This search engine allows you to search for 6 types of TAP data:</p>
+<ul>
+  <li>Master bag log records (from Excel Spreadsheet)</li>
+  <li>Photolog records (from Excel Spreadsheets)</li>
+  <li>Bags (from Excel Spreadsheets)</li>
+  <li>Images (from Box and Prof. Pigott's various hard drives and USB sticks)</li>
+  <li>Inventory records (from Prof. Voelkers's Penn Museum inventory)</li>
+  <li>Files in the shared Box folder</li>
+</ul>
+<p>... and combinations of the above</p>
+
+<h3 class="section-heading" style="margin-top: 15px; font-size: 1.2em;">How it works</h3>
+<p style="font-size: 0.8em"><b>This is a work in progress! Caveat utilizator!</b></p>
+<p>
+  What we have done is combined the various records together where possible using a common key.
+  There are two keys in use:
+</p>
+<dl>
+  <dt>T# key</dt>
+  <dd>
+    When a record (i.e. a spreadsheet row or image filename) contains a T#, all the data
+    associated with the T# can be listed together. So for numbered artifacts, all the images,
+    bag log info, photolog info, etc. can be consolidated.
+  </dd>
+  <dt>Image key</dt>
+  <dd>
+    The filenames of the images do not usually carry much information. Typically, the filename
+    of an "official" image includes the Season, the Roll # and the Exposure number, but occasionally additional
+    information is included in the filename e.g. <i>Tap 94 Rol 168 #31 opc T#30691.tif</i>. Using this
+    information, we can match the images to the corresponding photolog fields, which provides a
+    more complete description of the images.
+  </dd>
+</dl>
+
+<h3 class="section-heading" style="margin-top: 15px; font-size: 1.2em;">The search engine</h3>
+<p>
+  Once the data is combined into a coherent whole, it can be served to users via a web browser.
+  The merged records are loaded into Solr — a blazingly fast, open source search engine — which
+  provides the keyword search and faceted browsing you see here.
+</p>
+<hr/>

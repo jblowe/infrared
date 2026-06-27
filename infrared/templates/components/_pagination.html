@@ -1,21 +1,47 @@
 {% set pg = response.pagination %}
-<div class="d-flex flex-wrap justify-content-between align-items-center my-2 gap-2">
-  <div class="text-muted small">
-    {{ pg.total }} result{{ '' if pg.total == 1 else 's' }}
-    {% if pg.total %}&middot; page {{ pg.page }} of {{ pg.pages }}{% endif %}
+{% set icons = {'table': 'fa-table', 'list': 'fa-list', 'gallery': 'fa-th', 'full': 'fa-file'} %}
+{% set start = pg.start + 1 %}
+{% set end = pg.start + (response.documents | length) %}
+<div class="row align-items-center my-1">
+  <div id="widgets" class="col-sm-8">
+    <section class="paginate-section">
+      <div class="page-links">
+        {% if pg.has_prev %}
+          <a rel="prev" href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page - 1) }}">&laquo; Previous | </a>
+        {% endif %}
+        <span class="page-entries">
+          {% if pg.total %}
+            <strong>{{ "{:,}".format(start) }}</strong> - <strong>{{ "{:,}".format(end) }}</strong>
+            of <strong>{{ "{:,}".format(pg.total) }}</strong>
+          {% else %}
+            0 results
+          {% endif %}
+        </span>
+        {% if pg.has_next %}
+          <a rel="next" href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page + 1) }}"> | Next &raquo;</a>
+        {% endif %}
+        <small class="text-muted ms-2">Page {{ pg.page }}</small>
+        {% if collection.display.per_page %}
+          <select class="form-select form-select-sm d-inline-block w-auto ms-3" aria-label="Records per page"
+                  onchange="if (this.value) location.href = this.value;">
+            {% for n in collection.display.per_page %}
+              <option value="{{ url_for('catalog.search') }}?{{ sreq.query_string(per_page=n, page=1) }}"
+                      {{ 'selected' if n == sreq.per_page else '' }}>{{ "{:,}".format(n) }} / page</option>
+            {% endfor %}
+          </select>
+        {% endif %}
+      </div>
+    </section>
   </div>
-
-  <div class="btn-group btn-group-sm" role="group" aria-label="Display mode">
-    {% for mode in display_modes %}
-      <a class="btn btn-outline-secondary {{ 'active' if mode == sreq.view }}"
-         href="{{ url_for('catalog.search') }}?{{ sreq.query_string(view=mode) }}">{{ mode }}</a>
-    {% endfor %}
-  </div>
-
-  <div class="btn-group btn-group-sm" role="group" aria-label="Pages">
-    <a class="btn btn-outline-primary {{ 'disabled' if not pg.has_prev }}"
-       href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page - 1) }}">&larr; Prev</a>
-    <a class="btn btn-outline-primary {{ 'disabled' if not pg.has_next }}"
-       href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page + 1) }}">Next &rarr;</a>
+  <div id="displays" class="col-sm-4">
+    <nav class="nav nav-pills justify-content-end">
+      {% for mode in display_modes %}
+        <a title="{{ mode | capitalize }}"
+           class="nav-link nav-item {{ 'active' if mode == sreq.view else '' }}"
+           href="{{ url_for('catalog.search') }}?{{ sreq.query_string(view=mode) }}">
+          <span class="fas {{ icons.get(mode, 'fa-list') }} fa-2x"></span>
+        </a>
+      {% endfor %}
+    </nav>
   </div>
 </div>

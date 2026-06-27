@@ -1,12 +1,20 @@
-{% from "components/macros.html" import record_link, thumbs, field_rows with context %}
-{% for document in response.documents %}
-  <div class="card mb-2">
-    <div class="card-body">
-      <h5 class="card-title h6">{{ record_link(document) }}</h5>
-      {{ thumbs(document) }}
-      {{ field_rows(document, collection.view('list')) }}
-    </div>
+{% from "components/macros.html" import record_bar, thumbs, field_rows with context %}
+{% set img = collection.display.image_field %}
+<div id="documents" class="card">
+  <div class="card-body">
+    {% for document in response.documents %}
+      {% set n = response.pagination.start + loop.index %}
+      <div class="row">
+        <header>{{ record_bar(document, n) }}</header>
+        {% if img and document.get(img) %}
+          <div class="col-sm-7">{{ field_rows(document, collection.view('list')) }}</div>
+          <div class="col-sm-5">{{ thumbs(document) }}</div>
+        {% else %}
+          <div class="col-sm-12">{{ field_rows(document, collection.view('list')) }}</div>
+        {% endif %}
+      </div>
+    {% else %}
+      <p class="text-muted">No results.</p>
+    {% endfor %}
   </div>
-{% else %}
-  <p class="text-muted">No results.</p>
-{% endfor %}
+</div>

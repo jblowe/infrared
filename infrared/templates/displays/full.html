@@ -1,12 +1,15 @@
-{% from "components/macros.html" import record_link, thumbs, field_rows with context %}
-{% for document in response.documents %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title h6">{{ record_link(document) }}</h5>
-      {{ thumbs(document) }}
-      {{ field_rows(document, collection.view('full')) }}
-    </div>
+{% from "components/macros.html" import record_bar, thumbs, field_rows with context %}
+<div id="documents" class="card">
+  <div class="card-body">
+    {% for document in response.documents %}
+      {% set n = response.pagination.start + loop.index %}
+      <div class="row mb-3">
+        <header>{{ record_bar(document, n) }}</header>
+        {{ field_rows(document, collection.view('full')) }}
+        {{ thumbs(document) }}
+      </div>
+    {% else %}
+      <p class="text-muted">No results.</p>
+    {% endfor %}
   </div>
-{% else %}
-  <p class="text-muted">No results.</p>
-{% endfor %}
+</div>

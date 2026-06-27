@@ -11,9 +11,20 @@ from pathlib import Path
 
 from flask import Flask, send_from_directory
 
-from .templating import as_list, solrval
+from .templating import as_list, contrast_color, solrval
 
 __all__ = ["create_app"]
+
+
+def _footer_info(repo_root: Path) -> str:
+    """Version + start time for the footer (replaces utils.add_time_and_version)."""
+    from datetime import datetime
+
+    version_file = repo_root / "VERSION"
+    version = version_file.read_text().strip() if version_file.exists() else ""
+    started = datetime.now().strftime("%Y-%m-%d %H:%M")
+    parts = [p for p in (f"v{version}" if version else "", f"started {started}") if p]
+    return " · ".join(parts)
 
 
 def create_app(core: str | None = None) -> Flask:
@@ -24,10 +35,24 @@ def create_app(core: str | None = None) -> Flask:
     """
     core = core or os.environ.get("INFRARED_CORE", "")
 
-    app = Flask(__name__)
+    repo_root = Path(__file__).resolve().parents[1]
+
+    # Serve the bundled assets (Bootstrap, jQuery, FontAwesome, etc.) locally so
+    # the app works with no internet connection. Assets live in the repo-level
+    # static/ tree (css/, js/, images/, webfonts/); FontAwesome's all.min.css
+    # references ../webfonts, which resolves under /static/webfonts/.
+    app = Flask(
+        __name__,
+        static_folder=str(repo_root / "static"),
+        static_url_path="/static",
+    )
     app.config["INFRARED_CORE"] = core
+    app.config["REPO_ROOT"] = str(repo_root)
     app.jinja_env.filters["solrval"] = solrval
     app.jinja_env.filters["as_list"] = as_list
+    app.jinja_env.filters["contrast_color"] = contrast_color
+
+    footer_info = _footer_info(repo_root)
 
     from .config.loader import load_collection
 
@@ -46,6 +71,8 @@ def create_app(core: str | None = None) -> Flask:
         return {
             "collection": collection,
             "site": collection.site if collection else None,
+            "footer_info": footer_info,
+            "show_sidebar_toggle": False,  # search page overrides this to True
         }
 
     # Serve per-core images locally in development (Apache handles this in prod).
