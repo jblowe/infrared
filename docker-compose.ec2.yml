@@ -15,12 +15,14 @@ services:
     restart: unless-stopped
     environment:
       # Box-local host→core map (git-ignored; copy from configs/sites.toml).
-      # It's copied into the image at build, so build on the box after editing.
       INFRARED_SITES: /app/configs/sites.ec2.toml
       # Host Solr via the docker0 gateway. Requires host Solr to listen on the
       # bridge (0.0.0.0:8983), not just 127.0.0.1; or use host.docker.internal
       # with extra_hosts: ["host.docker.internal:host-gateway"].
       INFRARED_SOLR_SERVER: http://172.17.0.1:8983
+    volumes:
+      # Edit any TOML and `restart web` to apply — no image rebuild needed.
+      - ./configs:/app/configs:ro
 
   caddy:
     image: caddy:2
