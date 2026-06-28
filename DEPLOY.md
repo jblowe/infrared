@@ -85,6 +85,25 @@ target `/healthz` (any host → default core answers).
 4. Put its images under `/data/images/<core>`.
 5. Add the hostname to DNS + the ALB; `docker compose up -d` (rebuild if app code changed).
 
+## Updating & restarting
+
+From the repo on the host:
+
+- **Code or config change**: `git pull && docker compose build web && docker compose up -d`
+- **Caddyfile change**: validate, then restart just Caddy:
+  ```bash
+  docker run --rm -v "$PWD/Caddyfile:/etc/caddy/Caddyfile:ro" caddy:2 \
+    caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+  docker compose restart caddy
+  ```
+- **Restart one service**: `docker compose restart web` (or `caddy` / `solr`)
+- **Status / logs**: `docker compose ps` · `docker compose logs -f`
+- **Stop**: `docker compose down`
+- **After a host reboot**: nothing to do — services use `restart: unless-stopped`.
+
+(On the EC2 box use `-f docker-compose.ec2.yml` on every command, and config-only
+changes just need `restart web` since `configs/` is mounted there — see EC2.md.)
+
 ## Backups
 
 - **Data**: EBS snapshots of the data volume (covers Solr + images).
