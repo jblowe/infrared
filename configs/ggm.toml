@@ -21,6 +21,11 @@ title_field = "title_s"
 image_field = "path_ss"
 image_prefix = "/ggm-images"
 layouts = ["search", "facets", "list", "table", "full"]
+# Blacklight add_sort_field options.
+sort = [
+  { solr = "title_s asc", label = "Title" },
+  { solr = "year_s asc, lockenumber_s asc", label = "Year, Locke number" },
+]
 
 [views]
 search = [

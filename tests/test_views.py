@@ -171,6 +171,46 @@ def test_theme_colors_are_per_core():
     assert "#A51931" not in ggm  # tap's color must not leak into another core
 
 
+def test_shipped_sites_file_is_valid():
+    # The shipped configs/sites.toml must parse and map only to real cores.
+    from infrared.config.loader import available_cores, config_dir, load_sites
+
+    sites, default = load_sites(config_dir() / "sites.toml")
+    cores = set(available_cores())
+    assert default in cores
+    assert sites  # non-empty
+    for host, core in sites.items():
+        assert core in cores, f"{host} → {core} has no configs/{core}.toml"
+
+
+def test_multitenant_routes_by_host():
+    app = create_app(sites={"ggm.test": "ggm", "tap.test": "tap"}, default_core="ggm")
+    app.testing = True
+    c = app.test_client()
+
+    ggm = c.get("/", headers={"Host": "ggm.test"}).get_data(as_text=True)
+    assert "Maskarinec" in ggm  # ggm banner
+
+    tap = c.get("/", headers={"Host": "tap.test"}).get_data(as_text=True)
+    assert "Thailand Archaeometallurgy Project" in tap  # tap banner
+    assert "Maskarinec" not in tap  # no cross-tenant leakage
+
+
+def test_multitenant_unknown_host_uses_default_core():
+    app = create_app(sites={"tap.test": "tap"}, default_core="ggm")
+    app.testing = True
+    html = app.test_client().get("/", headers={"Host": "nope.test"}).get_data(as_text=True)
+    assert "Maskarinec" in html  # fell back to default core (ggm)
+
+
+def test_multitenant_healthz_reports_host_core():
+    app = create_app(sites={"ggm.test": "ggm", "tap.test": "tap"}, default_core="ggm")
+    app.testing = True
+    c = app.test_client()
+    assert c.get("/healthz", headers={"Host": "tap.test"}).get_json()["core"] == "tap"
+    assert c.get("/healthz", headers={"Host": "ggm.test"}).get_json()["core"] == "ggm"
+
+
 def test_per_page_config_parsed():
     from infrared.config.loader import load_collection
 

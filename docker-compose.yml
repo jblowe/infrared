@@ -1,0 +1,42 @@
+# Infrared — containerized, multi-tenant deployment.
+#
+#   Internet → AWS WAF + ALB (TLS terminates there) → :80 on this host
+#            → caddy (host routing) → web (one Flask app, core per Host)
+#                                   → solr (multi-core)
+#            → caddy also serves /srv/images (the 90 GB repos) and the static
+#              projects.johnblowe.com site directly.
+#
+# Host paths assumed to live on a dedicated EBS volume (snapshot these):
+#   /data/solr      Solr data/cores
+#   /data/images    image repos, one subdir per core (e.g. /data/images/ggm)
+#   /srv/projects   static sites served at projects.johnblowe.com
+
+services:
+  solr:
+    image: solr:9
+    restart: unless-stopped
+    volumes:
+      - /data/solr:/var/solr            # persistent cores (populate before first run)
+    # No published ports: only `web` talks to it, over the compose network.
+
+  web:
+    build: .
+    restart: unless-stopped
+    environment:
+      INFRARED_SITES: /app/configs/sites.toml      # multi-tenant: host → core
+      INFRARED_SOLR_SERVER: http://solr:8983       # overrides each TOML's server
+    depends_on:
+      - solr
+    # No published ports: caddy reverse-proxies to web:8000.
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"                          # ALB forwards plain HTTP here (WAF+TLS upstream)
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /data/images:/srv/images:ro      # image repos, served as static files
+      - /srv/projects:/srv/projects:ro   # static project sites
+    depends_on:
+      - web

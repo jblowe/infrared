@@ -21,6 +21,10 @@ title_field = "site_name_s"
 image_field = "General_view_THUMBNAILS_ss"
 image_prefix = "/mmap-images"
 layouts = ["search", "facets", "list", "table", "gallery", "full"]
+# Sort by site name (verified sortable in the mmap-sites core).
+sort = [
+  { solr = "site_name_s asc", label = "Site" },
+]
 
 [views]
 search = [

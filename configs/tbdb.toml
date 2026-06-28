@@ -1,0 +1,96 @@
+# TBDB — Tibeto-Burman Database (STEDT-derived lexical data).
+#
+# Fields, labels, facets, per-page and display fields mirror the original
+# Blacklight catalog_controller.rb (blacklight-tbdb). Schema matches the live
+# `stedt` Solr core; to test locally set core = "stedt" below.
+
+[site]
+title = "TBDB"
+banner = "Tibeto-Burman Database"
+citation = "STEDT, University of California, Berkeley"
+banner_color = "#3b6ea5"
+secondary_color = "#002868"
+navbar = "navbar-dark"
+
+[solr]
+server = "http://localhost:8983"
+core = "tbdb"
+facet_limit = 20
+facet_mincount = 1
+
+[display]
+# Blacklight: config.per_page = [80, 160, 240, 1000]
+per_page = [80, 160, 240, 1000]
+title_field = "form_s"
+# Lexical data — no image fields, so no gallery view.
+layouts = ["search", "facets", "list", "table", "full"]
+# Blacklight add_sort_field options.
+sort = [
+  { solr = "groupnode_s asc", label = "Group" },
+  { solr = "language_s asc",  label = "Language" },
+  { solr = "gloss_s asc",     label = "Gloss" },
+  { solr = "citation_s asc",  label = "Citation" },
+  { solr = "semkey_s asc",    label = "Semantic Key" },
+]
+
+[views]
+# Blacklight add_search_field (qf/pf on the _txt fields) + the "text" catch-all.
+search = [
+  { solr = "gloss_txt",    label = "Gloss" },
+  { solr = "form_txt",     label = "Form" },
+  { solr = "analysis_txt", label = "Analysis" },
+  { solr = "language_txt", label = "Language" },
+  { solr = "subgroup_txt", label = "Subgroup" },
+  { solr = "srcabbr_txt",  label = "Source Abbreviation" },
+  { solr = "citation_txt", label = "Citation" },
+  { solr = "text",         label = "Any field" },
+]
+# Blacklight add_facet_field (commented-out ones omitted).
+facets = [
+  { solr = "subgroup_s",  label = "Subgroup" },
+  { solr = "language_s",  label = "Language" },
+  { solr = "gloss_s",     label = "Gloss" },
+  { solr = "gfn_s",       label = "Grammatical function" },
+  { solr = "semkey_s",    label = "Semantic key" },
+  { solr = "analysis_s",  label = "Analysis" },
+  { solr = "groupnode_s", label = "Group key" },
+  { solr = "citation_s",  label = "Source Citation" },
+]
+# Blacklight add_index_field (results list). form_s is the title (gray bar).
+list = [
+  { solr = "language_s",  label = "Language" },
+  { solr = "form_s",      label = "Form" },
+  { solr = "gloss_s",     label = "Gloss" },
+  { solr = "gfn_s",       label = "Grammatical function" },
+  { solr = "groupnode_s", label = "Group key" },
+  { solr = "subgroup_s",  label = "Subgroup" },
+  { solr = "citation_s",  label = "Source Citation" },
+  { solr = "srcid_s",     label = "Source ID" },
+  { solr = "semkey_s",    label = "Semantic key" },
+  { solr = "analysis_s",  label = "Analysis" },
+]
+# Compact sortable columns for the table view.
+table = [
+  { solr = "form_s",      label = "Form" },
+  { solr = "gloss_s",     label = "Gloss" },
+  { solr = "gfn_s",       label = "Grammatical function" },
+  { solr = "language_s",  label = "Language" },
+  { solr = "subgroup_s",  label = "Subgroup" },
+  { solr = "groupnode_s", label = "Group key" },
+  { solr = "semkey_s",    label = "Semantic key" },
+  { solr = "citation_s",  label = "Source Citation" },
+]
+# Blacklight add_show_field (full record).
+full = [
+  { solr = "subgroup_s",  label = "Subgroup" },
+  { solr = "language_s",  label = "Language" },
+  { solr = "form_s",      label = "Form" },
+  { solr = "gloss_s",     label = "Gloss" },
+  { solr = "gfn_s",       label = "Grammatical function" },
+  { solr = "semkey_s",    label = "Semantic key" },
+  { solr = "analysis_s",  label = "Analysis" },
+  { solr = "groupnode_s", label = "Group key" },
+  { solr = "srcabbr_s",   label = "Source Abbreviation" },
+  { solr = "citation_s",  label = "Source Citation" },
+  { solr = "srcid_s",     label = "Source ID" },
+]

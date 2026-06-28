@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from flask import Blueprint, abort, current_app, render_template, request
+from flask import Blueprint, abort, current_app, g, render_template, request
 from markupsafe import Markup
 
 from ..search.request import SearchRequest
@@ -14,7 +14,8 @@ DISPLAY_MODES = ("list", "table", "gallery", "full")
 
 
 def _collection():
-    return current_app.config.get("COLLECTION")
+    """Collection for the current request (resolved by Host in before_request)."""
+    return g.get("collection")
 
 
 def _about_html() -> Markup:
@@ -23,7 +24,7 @@ def _about_html() -> Markup:
     Plain static HTML fragments (no templating) — easy to hand-edit per core,
     living next to configs/<core>.toml. Returns empty if neither file exists.
     """
-    core = current_app.config.get("INFRARED_CORE") or ""
+    core = g.get("core") or ""
     about_dir = Path(current_app.config["REPO_ROOT"]) / "about"
     for name in (f"{core}.html", "default.html"):
         path = about_dir / name
@@ -33,9 +34,9 @@ def _about_html() -> Markup:
 
 
 def _repository():
-    repo = current_app.config.get("REPOSITORY")
+    repo = g.get("repository")
     if repo is None:
-        abort(503, "no collection configured (set INFRARED_CORE)")
+        abort(503, "no collection configured for this host (set INFRARED_CORE or INFRARED_SITES)")
     return repo
 
 
@@ -76,9 +77,7 @@ def _render_search(collection, *, show_about: bool):
 def search():
     collection = _collection()
     if collection is None:
-        return render_template(
-            "index.html", core=current_app.config.get("INFRARED_CORE") or "(none)"
-        )
+        return render_template("index.html", core=g.get("core") or "(none)")
     # The start page (no query yet) shows About in the content pane.
     return _render_search(collection, show_about=not request.args)
 
@@ -103,7 +102,4 @@ def record(doc_id):
 
 @bp.get("/healthz")
 def healthz():
-    return {
-        "status": "ok",
-        "core": current_app.config.get("INFRARED_CORE") or None,
-    }
+    return {"status": "ok", "core": g.get("core") or None}

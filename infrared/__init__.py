@@ -1,15 +1,23 @@
 """Infrared — a configurable Solr discovery UI (Flask).
 
-The active Solr core is chosen at deploy time via the ``INFRARED_CORE``
-environment variable (e.g. ``INFRARED_CORE=mmap`` selects ``configs/mmap.toml``).
-One app serves any core; switching cores requires no code change.
+Two serving modes, chosen at startup:
+
+* **Single-tenant** — one core for the whole process, via ``INFRARED_CORE``
+  (e.g. ``INFRARED_CORE=mmap``) or ``create_app(core="mmap")``. This is the
+  mod_wsgi / one-app-per-vhost model.
+* **Multi-tenant** — one process serves many cores, picked per request from the
+  ``Host`` header. Enable it with ``INFRARED_SITES`` pointing at a sites TOML
+  (host→core map, see ``configs/sites.toml``) or ``create_app(sites={...})``.
+  This is the containerized model: one app behind a reverse proxy.
+
+Either way, switching/adding cores requires no code change.
 """
 from __future__ import annotations
 
 import os
 from pathlib import Path
 
-from flask import Flask, send_from_directory
+from flask import Flask, g, request, send_from_directory
 
 from .templating import as_list, contrast_color, solrval
 
@@ -27,26 +35,30 @@ def _footer_info(repo_root: Path) -> str:
     return " · ".join(parts)
 
 
-def create_app(core: str | None = None) -> Flask:
+def create_app(
+    core: str | None = None,
+    *,
+    sites: dict[str, str] | None = None,
+    default_core: str | None = None,
+) -> Flask:
     """Application factory.
 
-    :param core: name of the collection profile to load. Falls back to the
-        ``INFRARED_CORE`` environment variable. Tests pass it explicitly.
+    :param core: single-tenant core name. Falls back to ``INFRARED_CORE``.
+    :param sites: multi-tenant host→core map. Falls back to the ``INFRARED_SITES``
+        file when *core* is unset.
+    :param default_core: core used when a request Host matches no site.
     """
     core = core or os.environ.get("INFRARED_CORE", "")
-
     repo_root = Path(__file__).resolve().parents[1]
 
     # Serve the bundled assets (Bootstrap, jQuery, FontAwesome, etc.) locally so
-    # the app works with no internet connection. Assets live in the repo-level
-    # static/ tree (css/, js/, images/, webfonts/); FontAwesome's all.min.css
+    # the app works with no internet connection. FontAwesome's all.min.css
     # references ../webfonts, which resolves under /static/webfonts/.
     app = Flask(
         __name__,
         static_folder=str(repo_root / "static"),
         static_url_path="/static",
     )
-    app.config["INFRARED_CORE"] = core
     app.config["REPO_ROOT"] = str(repo_root)
     app.jinja_env.filters["solrval"] = solrval
     app.jinja_env.filters["as_list"] = as_list
@@ -54,35 +66,69 @@ def create_app(core: str | None = None) -> Flask:
 
     footer_info = _footer_info(repo_root)
 
-    from .config.loader import load_collection
+    from .config.loader import load_collection, load_sites
 
-    collection = load_collection(core) if core else None
-    app.config["COLLECTION"] = collection
+    # --- resolve tenancy: a single core, or a host->core map ----------------
+    sites_map: dict[str, str] = {}
+    if core:
+        default_core = core
+    else:
+        if sites is not None:
+            sites_map = {str(h).lower(): str(c) for h, c in sites.items()}
+        elif os.environ.get("INFRARED_SITES"):
+            sites_map, file_default = load_sites(os.environ["INFRARED_SITES"])
+            default_core = default_core or file_default
+        default_core = default_core or os.environ.get("INFRARED_DEFAULT_CORE") or None
 
-    repository = None
-    if collection is not None:
-        from .search.repository import SolrRepository
+    needed = {core} if core else set(sites_map.values())
+    if default_core:
+        needed.add(default_core)
 
-        repository = SolrRepository(collection)
-    app.config["REPOSITORY"] = repository
+    from .search.repository import SolrRepository
+
+    collections = {c: load_collection(c) for c in sorted(needed)}
+    repositories = {c: SolrRepository(col) for c, col in collections.items()}
+
+    app.config["COLLECTIONS"] = collections
+    app.config["REPOSITORIES"] = repositories
+    app.config["SITES"] = sites_map
+    app.config["DEFAULT_CORE"] = default_core
+    app.config["INFRARED_CORE"] = core or default_core or ""
+
+    @app.before_request
+    def _resolve_tenant():
+        host = (request.host or "").split(":")[0].lower()
+        resolved = sites_map.get(host) or default_core
+        g.core = resolved
+        g.collection = collections.get(resolved) if resolved else None
+        g.repository = repositories.get(resolved) if resolved else None
 
     @app.context_processor
     def _inject_collection():
+        col = g.get("collection")
         return {
-            "collection": collection,
-            "site": collection.site if collection else None,
+            "collection": col,
+            "site": col.site if col else None,
             "footer_info": footer_info,
             "show_sidebar_toggle": False,  # search page overrides this to True
         }
 
-    # Serve per-core images locally in development (Apache handles this in prod).
-    if collection is not None and collection.display.image_prefix:
-        prefix = "/" + collection.display.image_prefix.strip("/")
-        image_dir = Path(__file__).resolve().parents[1] / prefix.strip("/")
-
-        @app.route(f"{prefix}/<path:filename>")
-        def collection_images(filename):
-            return send_from_directory(image_dir, filename)
+    # Dev convenience: serve per-core images locally (Caddy/Apache do this in
+    # production). One route per distinct image_prefix; the on-disk directory is
+    # named by the prefix, so it is host-independent.
+    prefixes = {
+        "/" + c.display.image_prefix.strip("/")
+        for c in collections.values()
+        if c.display.image_prefix
+    }
+    for prefix in prefixes:
+        image_dir = repo_root / prefix.strip("/")
+        endpoint = "images_" + prefix.strip("/").replace("/", "_").replace("-", "_")
+        app.add_url_rule(
+            f"{prefix}/<path:filename>",
+            endpoint=endpoint,
+            view_func=lambda filename, _dir=image_dir: send_from_directory(_dir, filename),
+        )
 
     from .views.catalog import bp as catalog_bp
     from .views.suggest import bp as suggest_bp
