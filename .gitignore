@@ -17,6 +17,11 @@ __pycache__/
 # local agent/editor state (preview config, local permissions — host-specific)
 .claude/
 
+# host-specific deploy details kept out of git (the repo stays a clean install)
+/Caddyfile.ec2
+/configs/sites.ec2.toml
+/EC2.md
+
 #
 !Build/
 .last_cover_stats

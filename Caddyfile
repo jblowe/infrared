@@ -1,20 +1,19 @@
-# Infrared reverse proxy — sits behind AWS WAF + ALB.
+# Infrared reverse proxy (generic / clean-install form).
 #
-# TLS and WAF are handled at the ALB, which forwards plain HTTP to :80 here, so
-# this config is HTTP-only and trusts the load balancer for client IPs. Each
-# hostname routes to the one multi-tenant app (web:8000); per-core image repos
-# and the static projects site are served directly from mounted volumes.
+# Caddy routes by Host to the multi-tenant app and serves each core's images as
+# static files. TLS + WAF terminate upstream at the ALB, so this is HTTP-only.
+#
+# The real EC2 box keeps its own copy (real hostnames + image dirs) as a
+# git-ignored Caddyfile.ec2 mounted by docker-compose.ec2.yml — see EC2.md.
+
 {
-	# No on-box certificates: TLS terminates at the ALB.
 	auto_https off
 	servers {
 		trusted_proxies static private_ranges
 	}
 }
 
-# Reusable per-core block:  import infrared <url-image-prefix> <image-subdir>
-# - serves /<prefix>/* from /srv/images/<subdir> (fast static, off the app)
-# - proxies everything else to the multi-tenant Flask app
+# Per-core block:  import infrared <url-image-prefix> <subdir-under-/srv/images>
 (infrared) {
 	handle_path {args[0]}/* {
 		root * /srv/images/{args[1]}
@@ -23,13 +22,6 @@
 	reverse_proxy web:8000
 }
 
-# Static, non-Infrared sites (formerly the projects.johnblowe.com vhost).
-http://projects.johnblowe.com {
-	root * /srv/projects
-	file_server browse
-}
-
-# Infrared cores. The 2nd arg is the on-disk subdir under /data/images.
 http://ggm.johnblowe.com {
 	import infrared /ggm-images ggm
 }
@@ -39,21 +31,20 @@ http://marc.johnblowe.com {
 http://mmap.johnblowe.com {
 	import infrared /mmap-images mmap
 }
-http://mmap-artifacts.johnblowe.com {
-	import infrared /mmap-qdrive mmap-artifacts
-}
 http://mmap-sites.johnblowe.com {
 	import infrared /mmap-images mmap-sites
+}
+http://mmap-artifacts.johnblowe.com {
+	import infrared /mmap-qdrive mmap-artifacts
 }
 http://tap.johnblowe.com {
 	import infrared /images tap
 }
-# tbdb is lexical data (no images), so it just proxies to the app.
 http://tbdb.johnblowe.com {
 	reverse_proxy web:8000
 }
 
-# Fallback for unmatched hosts (e.g. ALB health checks by IP) → default core.
+# Unmatched hosts (e.g. ALB health checks by IP) → default core.
 :80 {
 	reverse_proxy web:8000
 }

@@ -1,20 +1,21 @@
 # Host → core map for MULTI-TENANT serving (one app process serves every site).
 #
-# Enable it by pointing the app at this file:  INFRARED_SITES=configs/sites.toml
-# (the container sets this; see docker-compose.yml). Each value must have a
-# matching configs/<core>.toml. Edit the hostnames to match your DNS / ALB rules.
+# Enabled via INFRARED_SITES=configs/sites.toml (the containers set this). Each
+# value needs a matching configs/<core>.toml. Single-tenant deployments ignore
+# this file and use INFRARED_CORE instead.
 #
-# Single-tenant deployments (one app per vhost) ignore this file and use
-# INFRARED_CORE instead.
+# This is the generic clean-install map (primary hostnames). A specific host
+# (e.g. the EC2 box, where tap.johnblowe.com stays Blacklight and the new
+# infrared tap lives at tap-infrared.johnblowe.com) keeps its own variant.
 
-# Core used when a request's Host matches nothing below (e.g. ALB health checks).
+# Core used when a request's Host matches nothing below (e.g. health checks).
 default = "ggm"
 
 [sites]
 "ggm.johnblowe.com"            = "ggm"
 "marc.johnblowe.com"           = "marc"
 "mmap.johnblowe.com"           = "mmap"
-"mmap-artifacts.johnblowe.com" = "mmap-artifacts"
 "mmap-sites.johnblowe.com"     = "mmap-sites"
+"mmap-artifacts.johnblowe.com" = "mmap-artifacts"
 "tap.johnblowe.com"            = "tap"
 "tbdb.johnblowe.com"           = "tbdb"

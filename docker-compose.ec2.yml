@@ -1,0 +1,34 @@
+# Infrared on the EC2 box. See EC2.md (kept out of git — has the box specifics).
+#
+#   docker compose -f docker-compose.ec2.yml up -d
+#
+# Differs from docker-compose.yml:
+#   - Caddy on loopback 127.0.0.1:8081 (behind Apache via ProxyPass, like rootcanal)
+#   - images served from /mnt/images
+#   - uses the existing HOST Solr (no solr container) — Docker Solr comes later
+#   - mounts Caddyfile.ec2, the box's own (git-ignored) Caddyfile with its real
+#     hostnames + image subdirs:  cp Caddyfile Caddyfile.ec2  then edit.
+
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    environment:
+      # Box-local host→core map (git-ignored; copy from configs/sites.toml).
+      # It's copied into the image at build, so build on the box after editing.
+      INFRARED_SITES: /app/configs/sites.ec2.toml
+      # Host Solr via the docker0 gateway. Requires host Solr to listen on the
+      # bridge (0.0.0.0:8983), not just 127.0.0.1; or use host.docker.internal
+      # with extra_hosts: ["host.docker.internal:host-gateway"].
+      INFRARED_SOLR_SERVER: http://172.17.0.1:8983
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:80"            # Apache ProxyPass → here
+    volumes:
+      - ./Caddyfile.ec2:/etc/caddy/Caddyfile:ro   # git-ignored; copy from Caddyfile
+      - /mnt/images:/srv/images:ro                # ggm-images, tap_images, LaosPhotos, …
+    depends_on:
+      - web

@@ -1,13 +1,16 @@
 # Deploying Infrared (containerized, multi-tenant)
 
-This is the **container** deployment: one small always-on host runs Docker
-Compose with three services — a reverse proxy (Caddy), one multi-tenant Flask
-app, and one multi-core Solr — behind your existing AWS **WAF + ALB**. It
-replaces the per-vhost Apache + mod_wsgi setup, folds in the static
-`projects.johnblowe.com` site, and serves the image repos as static files.
+This is the generic **container** stack: one small host runs Docker Compose with
+three services — a reverse proxy (Caddy), one multi-tenant Flask app, and one
+multi-core Solr — behind an AWS **WAF + ALB** that terminates TLS. Caddy routes
+by `Host` to the app and serves the per-core image repos as static files.
 
-> The single-tenant model (one app per vhost via `INFRARED_CORE`, `app.wsgi`)
-> still works and is documented in the README. This file covers the container regime.
+> - The **actual** deployment runs on a shared multi-app EC2 box where Apache
+>   stays the front door and Infrared sits behind it — see **`EC2.md`** and
+>   **`docker-compose.ec2.yml`**. This file is the clean/generic reference using
+>   `docker-compose.yml`.
+> - The single-tenant model (one app per vhost via `INFRARED_CORE`, `app.wsgi`)
+>   still works and is documented in the README.
 
 ## Architecture
 
@@ -15,9 +18,8 @@ replaces the per-vhost Apache + mod_wsgi setup, folds in the static
 Internet → AWS WAF + ALB  (TLS + WAF here; ACM cert)
          → :80 on the EC2/Lightsail host
          → caddy   ── routes by Host ──┐
-              ├─ projects.johnblowe.com → static files (/srv/projects)
               ├─ <core>.johnblowe.com  → reverse_proxy web:8000
-              └─ /<image-prefix>/*     → static files (/srv/images/<core>)
+              └─ /<image-prefix>/*     → static files (/srv/images/<subdir>)
          → web   (one Flask app; core chosen per request from the Host header)
          → solr  (multi-core; internal only)
 ```
@@ -33,8 +35,7 @@ Why this shape:
 
 ```
 /data/solr            Solr data + cores
-/data/images/<core>   image repos, one subdir per core (ggm, tap, marc, …)
-/srv/projects         static sites for projects.johnblowe.com
+/data/images/<subdir> image repos, one subdir per core (matches the Caddyfile)
 ```
 
 Keeping data on its **own EBS volume** means you can detach/reattach it to a
@@ -54,7 +55,7 @@ container, `INFRARED_SOLR_SERVER=http://solr:8983` overrides it (no per-file edi
 ## First-time setup
 
 1. **Provision** a small instance (t4g.small / Lightsail 2–4 GB), install Docker + Compose.
-2. **Attach** the data EBS volume and mount it; create `/data/solr`, `/data/images/<core>`, `/srv/projects`.
+2. **Attach** the data EBS volume and mount it; create `/data/solr` and `/data/images/<subdir>`.
 3. **Load Solr cores** into `/data/solr` (copy your existing core dirs, or create + index).
 4. **Copy image repos** into `/data/images/<core>` (these are the dirs the old
    symlinks pointed at, reorganized one subdir per core).
@@ -86,7 +87,7 @@ target `/healthz` (any host → default core answers).
 
 ## Backups
 
-- **Data**: EBS snapshots of the data volume (covers Solr + images + projects).
+- **Data**: EBS snapshots of the data volume (covers Solr + images).
 - **Solr** (optional finer-grained): the Solr backup API or `solr` snapshot → S3.
 - **Config/code**: this git repo.
 

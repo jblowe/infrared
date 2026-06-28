@@ -188,7 +188,7 @@ facet_limit = 10
 facet_mincount = 2
 
 [display]
-row_limits   = [10, 20, 30]
+per_page     = [100, 500, 1000]
 title_field  = "title_s"
 image_field  = "path_ss"
 image_prefix = "/ggm-images"
@@ -268,10 +268,14 @@ Branding and `image_*` injected once as Jinja globals from the `Collection`.
 4. ✅ **Routes + templates** — `catalog` blueprint (`/`, `/search`,
    `/record/<id>`) + the Jinja set; facets, breadcrumbs, pagination, all four
    display modes, single record. (`/suggest` blueprint is a stub — see §9.)
-5. ⬜ **Deployment** — verify `app.wsgi`/vhost confs under mod_wsgi.
-6. ⬜ **Delete Bottle** — remove `app.py`, `utils.py`, `solr_query.py`,
-   `top.py`, `config.py`, root `views/*.tpl`, `configs/config-*.py`,
-   `requirements.txt`; finalise. Merge `flask-rewrite` → `main`.
+5. ✅ **Deployment** — `app.wsgi` selects the core from vhost `SetEnv` →
+   OS env → deployment dir name; vhost confs updated for Flask + mod_wsgi;
+   verified live under `mod_wsgi-express` (mod_wsgi 5.0.2 / Python 3.11).
+6. ✅ **Delete Bottle** — removed `app.py`, `utils.py`, `solr_query.py`,
+   `top.py`, `config.py`, root `views/*.tpl` (19), `configs/config-*.py` (6),
+   `requirements.txt`, `start.sh`, the empty `app/` dir, and the now-moot
+   `tests/test_config_parity.py`. Tests green (44). Merge `flask-rewrite` →
+   `main` is the remaining step (commit + push owned by the user).
 
 ---
 
@@ -291,16 +295,33 @@ Branding and `image_*` injected once as Jinja globals from the `Collection`.
 
 ## 9. Progress & handoff notes (resume here)
 
-**Done:** Phases 1–4. On branch `flask-rewrite`; the legacy Bottle files still
+**Done:** Phases 1–5. On branch `flask-rewrite`; the legacy Bottle files still
 exist untouched (deleted in Phase 6). The `bottle-final` tag marks the
 pre-rewrite state. Tests: `python -m pytest` → all green (config parity, search
 unit tests, Solr-gated integration, route smoke).
 
-**Try it:** `INFRARED_CORE=ggm python wsgi.py --port 4321` → http://localhost:4321
-(cores: ggm, marc, mmap, mmap-sites, mmap-artifacts, tap). Requires the conda
-`main` env (Flask, pydantic v2, pysolr) and Solr at :8983.
+**UI parity pass (post-Phase 4):** restored from the Bottle app — fully
+**self-contained assets** (local Bootstrap/jQuery/FontAwesome/bootstrap-sortable/
+-table, no CDN; Flask `static_folder` → repo `static/`), nav (logo, home, about,
+toggle sidebar) + `/about`, Start Over button + breadcrumb trail (no "clear
+all"), original pagination line + FontAwesome display switcher (top only),
+row-number → full-record links with the gray record bar, sortable table with the
+hover image-popup column, and collapsible facets (collapsed by default).
+**Per-core theming** is now driven by the config (`Site.banner_color` /
+`secondary_color`, with a `contrast_color` filter for legible button text) and
+injected in `base.html`; `site-theme.css` holds only color-agnostic rules. New
+tests in `tests/test_views.py` (+ request link-builder tests) cover all of this.
 
-**Next: Phase 5**, then Phase 6.
+**Try it (dev):** `INFRARED_CORE=ggm python wsgi.py --port 4321` →
+http://localhost:4321 (cores: ggm, marc, mmap, mmap-sites, mmap-artifacts, tap).
+Requires the conda `main` env (Flask, pydantic v2, pysolr) and Solr at :8983.
+
+**Try it (mod_wsgi):** `INFRARED_CORE=ggm mod_wsgi-express start-server app.wsgi
+--port 8088` → http://localhost:8088. `app.wsgi` picks the core from vhost
+`SetEnv` → OS env → `<core>-infrared` dir name; see `infrared.conf` (template)
+and `configs/{tap,mmap}-infrared.conf`.
+
+**Next: Phase 6** — delete Bottle, merge to `main`.
 
 **Open items / findings for the user (not yet actioned):**
 - **SEARCH `_txt` fields are unpopulated** — e.g. `title_txt` has 0 docs in the
