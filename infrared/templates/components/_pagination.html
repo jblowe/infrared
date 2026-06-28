@@ -21,8 +21,19 @@
           <a rel="next" href="{{ url_for('catalog.search') }}?{{ sreq.query_string(page=pg.page + 1) }}"> | Next &raquo;</a>
         {% endif %}
         <small class="text-muted ms-2">Page {{ pg.page }}</small>
+        {% if collection.display.sort %}
+          <select class="form-select form-select-sm d-inline-block w-auto ms-3" aria-label="Sort by"
+                  onchange="if (this.value) location.href = this.value;">
+            <option value="{{ url_for('catalog.search') }}?{{ sreq.query_string(sort='', page=1) }}"
+                    {{ 'selected' if not sreq.sort else '' }}>Sort: Relevance</option>
+            {% for s in collection.display.sort %}
+              <option value="{{ url_for('catalog.search') }}?{{ sreq.query_string(sort=s.solr, page=1) }}"
+                      {{ 'selected' if s.solr == sreq.sort else '' }}>Sort: {{ s.label }}</option>
+            {% endfor %}
+          </select>
+        {% endif %}
         {% if collection.display.per_page %}
-          <select class="form-select form-select-sm d-inline-block w-auto ms-3" aria-label="Records per page"
+          <select class="form-select form-select-sm d-inline-block w-auto ms-2" aria-label="Records per page"
                   onchange="if (this.value) location.href = this.value;">
             {% for n in collection.display.per_page %}
               <option value="{{ url_for('catalog.search') }}?{{ sreq.query_string(per_page=n, page=1) }}"

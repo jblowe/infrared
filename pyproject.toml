@@ -13,6 +13,9 @@ dependencies = [
 dev = [
     "pytest>=8",
 ]
+deploy = [
+    "gunicorn>=21",
+]
 
 [project.scripts]
 infrared = "infrared.cli:main"

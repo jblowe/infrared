@@ -21,6 +21,13 @@ title_field = "TITLE_ss"
 image_field = "THUMBNAIL_ss"
 image_prefix = "/images"
 layouts = ["search", "facets", "list", "table", "gallery", "full"]
+# Blacklight add_sort_field options (compound Solr sort clauses).
+sort = [
+  { solr = "SITE_s asc, YEAR_s asc, ROLL_s asc, EXP_s asc", label = "Site, Season, R, E" },
+  { solr = "T_i asc, SITE_s asc, YEAR_s asc, ROLL_s asc, EXP_s asc", label = "T number" },
+  { solr = "KEY_s asc, T_s asc, SITE_s asc", label = "Key, then T#" },
+  { solr = "FILENAME_s asc, T_s asc, SITE_s asc, YEAR_s asc, ROLL_s asc, EXP_s asc", label = "Images, then T#" },
+]
 
 [views]
 search = [

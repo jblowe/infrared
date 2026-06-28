@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from urllib.parse import urlencode
 
 # query-param names that are controls rather than field constraints
-CONTROL_KEYS = ("page", "per_page", "view")
+CONTROL_KEYS = ("page", "per_page", "view", "sort")
 
 
 def _int(value, default: int) -> int:
@@ -26,12 +26,13 @@ class SearchRequest:
     page: int = 1
     per_page: int = 20
     view: str = "list"
+    sort: str = ""  # a Solr sort clause, validated against the collection's options
 
     @classmethod
     def from_params(cls, pairs, *, default_view: str = "list", default_per_page: int = 20):
         """Build from an iterable of (key, value) pairs (order preserved)."""
         terms: list[tuple[str, str]] = []
-        page, per_page, view = 1, default_per_page, default_view
+        page, per_page, view, sort = 1, default_per_page, default_view, ""
         search_field = search_value = None
 
         for key, value in pairs:
@@ -41,6 +42,8 @@ class SearchRequest:
                 per_page = _int(value, default_per_page)
             elif key == "view":
                 view = value or default_view
+            elif key == "sort":
+                sort = value or ""
             elif key == "search_field":
                 search_field = value
             elif key == "search_value":
@@ -53,7 +56,7 @@ class SearchRequest:
         if search_field:
             terms.append((search_field, search_value or "*"))
 
-        return cls(terms=terms, page=max(page, 1), per_page=per_page, view=view)
+        return cls(terms=terms, page=max(page, 1), per_page=per_page, view=view, sort=sort)
 
     @classmethod
     def from_request(cls, req, **kwargs):
@@ -65,9 +68,16 @@ class SearchRequest:
         return (self.page - 1) * self.per_page
 
     def _qs(self, terms, **controls) -> str:
-        merged = {"view": self.view, "per_page": self.per_page, "page": self.page}
+        merged = {
+            "view": self.view,
+            "per_page": self.per_page,
+            "page": self.page,
+            "sort": self.sort,
+        }
         merged.update(controls)
-        return urlencode(list(terms) + list(merged.items()))
+        # Drop empty controls (e.g. no sort) so links stay clean.
+        items = [(k, v) for k, v in merged.items() if v != "" and v is not None]
+        return urlencode(list(terms) + items)
 
     def query_string(self, **overrides) -> str:
         """Same terms, optionally changed controls (paging, view toggle)."""

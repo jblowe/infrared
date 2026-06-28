@@ -33,6 +33,32 @@ def available_cores() -> list[str]:
     return sorted(p.stem for p in d.glob("*.toml")) if d.is_dir() else []
 
 
+def load_sites(path: str | Path) -> tuple[dict[str, str], str | None]:
+    """Load a host→core map for multi-tenant serving.
+
+    The file (TOML) maps public hostnames to core names and may name a default
+    core used when the request Host matches nothing::
+
+        default = "ggm"
+        [sites]
+        "ggm.johnblowe.com" = "ggm"
+        "tap.johnblowe.com" = "tap"
+
+    Returns ``(sites, default_core)``. Hostnames are lower-cased.
+    """
+    path = Path(path)
+    if not path.is_file():
+        raise ConfigError(f"no sites file at {path}")
+    try:
+        raw = tomllib.loads(path.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError as exc:
+        raise ConfigError(f"{path.name}: invalid TOML: {exc}") from exc
+
+    sites = {str(h).lower(): str(c) for h, c in (raw.get("sites") or {}).items()}
+    default = raw.get("default")
+    return sites, (str(default) if default else None)
+
+
 def load_collection(core: str) -> Collection:
     if not core:
         raise ConfigError(

@@ -50,6 +50,10 @@ class Display(BaseModel):
     image_field: str | None = None
     image_prefix: str = ""
     layouts: list[str] = []
+    # Sort options for the results toolbar. Each entry's ``solr`` is a Solr sort
+    # clause (e.g. "gloss_s asc"); ``label`` is what the dropdown shows. Empty =
+    # no sort control (results use Solr's default / relevance order).
+    sort: list[ViewEntry] = []
 
 
 class Collection(BaseModel):

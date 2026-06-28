@@ -1,0 +1,22 @@
+.git
+.gitignore
+.claude
+.idea
+.pytest_cache
+__pycache__
+*.pyc
+*.log
+tests
+FLASK_REWRITE_PLAN.md
+
+# local image-repo symlinks (the real data is a mounted volume, not in the image)
+ggm-images
+images
+mmap-images
+mmap-qdrive
+
+# legacy mod_wsgi single-tenant deploy bits (not used in the container regime)
+app.wsgi
+wsgi.instructions
+wsgi.load
+make-release.pl

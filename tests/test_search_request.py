@@ -67,3 +67,20 @@ def test_is_active():
     req = SearchRequest(terms=[("city_s", "Patan")])
     assert req.is_active("city_s", "Patan")
     assert not req.is_active("city_s", "Kathmandu")
+
+
+def test_sort_parsed_and_carried_in_links():
+    req = SearchRequest.from_params([("city_s", "Patan"), ("sort", "year_s asc")])
+    assert req.sort == "year_s asc"
+    qs = parse_qs(req.query_string())
+    assert qs["sort"] == ["year_s asc"]
+    # sort persists when adding a facet
+    assert parse_qs(req.with_term("year_s", "2010"))["sort"] == ["year_s asc"]
+
+
+def test_no_sort_keeps_links_clean():
+    req = SearchRequest(terms=[("city_s", "Patan")])
+    assert "sort=" not in req.query_string()
+    # clearing sort via override drops it from the link
+    req2 = SearchRequest(sort="year_s asc")
+    assert "sort=" not in req2.query_string(sort="")

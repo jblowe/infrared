@@ -21,6 +21,12 @@ title_field = "mmap_artifact_id_s"
 image_field = "images_ss"
 image_prefix = "/mmap-qdrive"
 layouts = ["search", "facets", "list", "table", "gallery", "full"]
+# Blacklight add_sort_field options (same mmap-public core as mmap).
+sort = [
+  { solr = "site_name_s asc", label = "Site" },
+  { solr = "bag_id_s asc", label = "Bag ID" },
+  { solr = "mmap_artifact_id_s asc", label = "Artifact ID" },
+]
 
 [views]
 search = [

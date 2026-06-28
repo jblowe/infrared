@@ -6,6 +6,8 @@ selections are applied as filter queries (``fq``); the main query stays ``*:*``.
 """
 from __future__ import annotations
 
+import os
+
 import pysolr
 
 from ..config.models import Collection
@@ -23,7 +25,10 @@ def solr_escape(value: str) -> str:
 class SolrRepository:
     def __init__(self, collection: Collection, *, timeout: int = 10):
         self.collection = collection
-        url = f"{collection.solr.server}/solr/{collection.solr.core}"
+        # INFRARED_SOLR_SERVER overrides the profile's server so the same TOML
+        # works in dev (localhost) and in containers (e.g. http://solr:8983).
+        server = (os.environ.get("INFRARED_SOLR_SERVER") or collection.solr.server).rstrip("/")
+        url = f"{server}/solr/{collection.solr.core}"
         self.client = pysolr.Solr(url, timeout=timeout)
 
     # --- query construction -------------------------------------------------
@@ -61,6 +66,15 @@ class SolrRepository:
                 )
         return out
 
+    def _sort(self, request: SearchRequest) -> str | None:
+        """The requested sort, but only if it's one the collection allows.
+
+        Validating against the configured options keeps an arbitrary ``sort=``
+        param from being passed through to Solr.
+        """
+        allowed = {e.solr for e in self.collection.display.sort}
+        return request.sort if request.sort in allowed else None
+
     # --- public API ---------------------------------------------------------
 
     def search(self, request: SearchRequest) -> SearchResponse:
@@ -73,6 +87,9 @@ class SolrRepository:
             "facet.limit": self.collection.solr.facet_limit,
             "facet.mincount": self.collection.solr.facet_mincount,
         }
+        sort = self._sort(request)
+        if sort:
+            params["sort"] = sort
         fq = self._filter_queries(request.terms)
         if fq:
             params["fq"] = fq

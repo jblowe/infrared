@@ -64,3 +64,24 @@ def test_live_facet_filter_narrows_results():
     everything = repo.search(SearchRequest(per_page=1))
     filtered = repo.search(SearchRequest(terms=[("city_s", "Patan")], per_page=1))
     assert 0 < filtered.total <= everything.total
+
+
+def test_sort_allowlist_rejects_unconfigured():
+    # tbdb defines a sort list; only those clauses pass through to Solr.
+    repo = SolrRepository(load_collection("tbdb"))
+    assert repo._sort(SearchRequest(sort="gloss_s asc")) == "gloss_s asc"
+    assert repo._sort(SearchRequest(sort="evil_s desc")) is None
+    assert repo._sort(SearchRequest(sort="")) is None
+
+
+@solr
+def test_live_sort_changes_order():
+    # tbdb schema matches the local stedt core; point it there to exercise sort.
+    col = load_collection("tbdb")
+    col.solr.core = "stedt"
+    repo = SolrRepository(col)
+    by_gloss = repo.search(SearchRequest(per_page=1, sort="gloss_s asc"))
+    by_lang = repo.search(SearchRequest(per_page=1, sort="language_s asc"))
+    assert by_gloss.ok and by_lang.ok
+    assert by_gloss.documents and by_lang.documents
+    assert by_gloss.documents[0].get("id") != by_lang.documents[0].get("id")
