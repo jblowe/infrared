@@ -1,8 +1,8 @@
 # TBDB — Tibeto-Burman Database (STEDT-derived lexical data).
 #
 # Fields, labels, facets, per-page and display fields mirror the original
-# Blacklight catalog_controller.rb (blacklight-tbdb). Schema matches the live
-# `stedt` Solr core; to test locally set core = "stedt" below.
+# Blacklight catalog_controller.rb (blacklight-tbdb). tbdb and stedt share data:
+# it reads the `stedt` Solr core.
 
 [site]
 title = "TBDB"
@@ -14,7 +14,7 @@ navbar = "navbar-dark"
 
 [solr]
 server = "http://localhost:8983"
-core = "tbdb"
+core = "stedt"   # tbdb is served from the shared stedt core
 facet_limit = 20
 facet_mincount = 1
 
