@@ -21,6 +21,13 @@ title_field = "title_tsim"
 image_field = "IMAGES_ss"
 image_prefix = "/images"
 layouts = ["search", "facets", "list", "table", "gallery", "full"]
+# Sort options from the Blacklight demo controller (Relevance is the implicit
+# default, offered automatically). Fields are single-valued (_si), so sortable.
+sort = [
+  { solr = "pub_date_si desc, title_si asc", label = "Year (newest)" },
+  { solr = "author_si asc, title_si asc", label = "Author" },
+  { solr = "title_si asc, pub_date_si desc", label = "Title" },
+]
 
 [views]
 search = [
