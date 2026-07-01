@@ -5,8 +5,11 @@ title = "Blacklight MARC"
 banner = "Blacklight MARC"
 citation = "Lowe, et al. 2025"
 logo = "icon.svg"
-banner_color = "black"
+# Standard Bootstrap "link blue" buttons, as on the Blacklight demo. The black
+# masthead is kept via navbar_color (banner_color now only themes the buttons).
+banner_color = "#0d6efd"
 secondary_color = "#002868"
+navbar_color = "black"
 navbar = "navbar-dark"
 
 [solr]

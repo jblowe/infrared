@@ -8,9 +8,14 @@
 title = "TBDB"
 banner = "Tibeto-Burman Database"
 citation = "STEDT, University of California, Berkeley"
-banner_color = "#3b6ea5"
-secondary_color = "#002868"
-navbar = "navbar-dark"
+# Recovered from the original Blacklight tbdb theme: white masthead with black
+# text and the tbdb-logo.png. banner_color (orange, the theme's $bg-dark) still
+# themes the buttons; navbar_color overrides just the navbar background to white.
+logo = "tbdb-logo.png"
+banner_color = "#ffa500"
+secondary_color = "#2e2d29"
+navbar_color = "#ffffff"
+navbar = "navbar-light"
 
 [solr]
 server = "http://localhost:8983"
