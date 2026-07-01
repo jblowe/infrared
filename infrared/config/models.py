@@ -30,6 +30,7 @@ class Site(BaseModel):
     logo: str = ""
     banner_color: str = ""
     secondary_color: str = ""
+    navbar_color: str = ""  # navbar background; falls back to banner_color
     navbar: str = "navbar-light"
 
 

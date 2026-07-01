@@ -1,6 +1,7 @@
 <!-- Static navbar -->
+{% set nav_bg = (site.navbar_color or site.banner_color) if site else "" %}
 <nav class="navbar navbar-expand-sm {{ site.navbar if site else 'navbar-light' }}"
-     style="{% if site and site.banner_color %}background-color: {{ site.banner_color }};{% endif %}">
+     style="{% if nav_bg %}background-color: {{ nav_bg }};{% endif %}">
   <div class="container-fluid">
     <div class="navbar-nav align-items-center">
       <a class="navbar-brand ps-3" href="{{ url_for('catalog.search') }}">
