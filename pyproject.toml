@@ -12,6 +12,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8",
+    "commitizen>=3",
 ]
 deploy = [
     "gunicorn>=21",
@@ -29,3 +30,18 @@ include = ["infrared*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.commitizen]
+# Replaces make-release.pl. Bump + tag + changelog:
+#   cz bump --prerelease rc            # 0.9.0-rc1 -> 0.9.0-rc2 (rc-increment)
+#   cz bump                            # 0.9.0-rcN -> 0.9.0     (promote to release)
+#   cz bump --increment MINOR ...      # set the bump by hand (see note below)
+# The major/minor/patch step is inferred from Conventional Commit messages
+# (feat:/fix:/BREAKING CHANGE) since the last tag; without those, pass
+# --increment explicitly. The rc suffix is always the --prerelease flag.
+name = "cz_conventional_commits"
+version_provider = "scm"      # current version = latest git tag (0.9.0-rc1 today)
+version_scheme = "semver"     # keep the "-rcN" tag style, not PEP 440's "rcN"
+tag_format = "$version"       # tags: 0.9.0-rc2, 0.9.0, … (matches existing history)
+update_changelog_on_bump = true
+version_files = ["VERSION"]   # the app footer reads VERSION — keep it in sync

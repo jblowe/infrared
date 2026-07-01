@@ -21,3 +21,7 @@ __pycache__/
 /Caddyfile.ec2
 /configs/sites.ec2.toml
 /EC2.md
+
+# internal docs — keep out of GitHub for now (our-eyes-only)
+/MARC.md
+/FLASK_REWRITE_PLAN.md
